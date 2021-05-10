@@ -53,8 +53,6 @@ function App() {
                     <Settings setTheme={setTheme} />
                   </Layout>
                 </Route>
-              </Switch>
-              <Switch>
                 <Route path="/">
                   <Layout>
                     <HomePage />
