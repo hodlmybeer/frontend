@@ -2,7 +2,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { Visible } from 'react-grid-system'
 
-import { useTheme, IconHome, LinkBase } from '@aragon/ui'
+import { useTheme, IconChart, IconGraph, LinkBase } from '@aragon/ui'
 import SidebarTitle from './SidebarTitle'
 
 const hash = process.env.REACT_APP_VERSION || '0x00'
@@ -23,10 +23,18 @@ export default function SideBar() {
     >
       <div style={{ paddingTop: '5%' }}>
         <SidebarTitle
-          title="Home"
-          icon={<IconHome />}
+          title="Dashboard"
+          icon={<IconChart />}
           onClick={() => {
-            history.push('/')
+            history.push('/dashboard')
+          }}
+          isSelected={false}
+        />
+        <SidebarTitle
+          title="Pools"
+          icon={<IconGraph />}
+          onClick={() => {
+            history.push('/pools')
           }}
           isSelected={false}
         />

@@ -1,23 +1,52 @@
 import React from 'react'
-
-import { Bar, LinkBase, IconMenu } from '@aragon/ui'
-import { storePreference } from '../../utils/storage'
-import { SHOW_SIDE_BAR } from '../../constants'
+import { useHistory } from 'react-router-dom'
+import { Bar, LinkBase } from '@aragon/ui'
 import ConnectButton from './ConnectButton'
 import Settings from './SettingsButton'
 
-function MyBar({ isSideBarOpen, setSideBarOpen }: { isSideBarOpen: boolean; setSideBarOpen: any }) {
+import logo from '../../imgs/beer.png'
+
+function MyBar() {
+  const history = useHistory()
+
   return (
     <Bar
       primary={
-        <LinkBase
-          onClick={() => {
-            setSideBarOpen(!isSideBarOpen)
-            storePreference(SHOW_SIDE_BAR, String(!isSideBarOpen))
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
-          <IconMenu />
-        </LinkBase>
+          <LinkBase
+            onClick={() => {
+              history.push('/')
+            }}
+          >
+            <img src={logo} alt="logo" height="50" />
+          </LinkBase>
+
+          <LinkBase
+            style={{ paddingLeft: 30, fontSize: 20 }}
+            onClick={() => {
+              history.push('/dashboard')
+            }}
+          >
+            Dashboard
+          </LinkBase>
+
+          <LinkBase
+            style={{ paddingLeft: 30, fontSize: 20 }}
+            onClick={() => {
+              history.push('/pools')
+            }}
+          >
+            Pools
+          </LinkBase>
+        </div>
       }
       secondary={
         <>
