@@ -1,16 +1,10 @@
 import React, { useMemo } from 'react'
-import BigNumber from 'bignumber.js'
 import { Container, Row, Col } from 'react-grid-system'
-import { Header, Timer, Button, Box } from '@aragon/ui'
+import { Header } from '@aragon/ui'
 
-import Comment from '../../components/Comment'
-import SectionTitle from '../../components/SectionHeader'
-import { tokens } from '../../constants'
-import { useConnectedWallet } from '../../contexts/wallet'
+import PoolCard from './PoolCard'
 
 function Pools() {
-  const { networkId } = useConnectedWallet()
-
   const fakePools = [
     {
       address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
@@ -23,6 +17,7 @@ function Pools() {
       feeRecipient: '0xf668606B896389066a39B132741763e1ca6d76a2',
       totalFee: '129341400000000',
       totalReward: '11934140000000000',
+      tokenAmount: '2311934140000000000',
     },
     {
       address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
@@ -35,18 +30,21 @@ function Pools() {
       feeRecipient: '0xf668606B896389066a39B132741763e1ca6d76a2',
       totalFee: '109341400000000',
       totalReward: '14934140000000000',
+      tokenAmount: '882934140000000000',
     },
   ]
 
   const pools = useMemo(() => {
     const boxes = fakePools.map(pool => {
       return (
-        <Col>
-          <Box heading={pool.token}>
-            <div>Penalty: {pool.penalty / 10} %</div>
-            <div>Deposit lock in: {<Timer end={new Date((pool.expiry - pool.lockingWindow) * 1000)} />}</div>
-            {pool.address}
-          </Box>
+        <Col xs={12} sm={6} md={4}>
+          <PoolCard
+            penalty={pool.penalty}
+            lockingWindow={pool.lockingWindow}
+            expiry={pool.expiry}
+            tokenAddress={pool.token}
+            tokenAmount={pool.tokenAmount}
+          />
         </Col>
       )
     })
@@ -55,7 +53,7 @@ function Pools() {
 
   return (
     <Container>
-      <Header primary="Pool" />
+      <Header primary="Pools" />
       <Row>
         <div></div>
         {/* <Col></Col> */}

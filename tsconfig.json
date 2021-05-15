@@ -15,7 +15,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "types": ["@emotion/react/types/css-prop"]
   },
   "include": ["src"]
 }
