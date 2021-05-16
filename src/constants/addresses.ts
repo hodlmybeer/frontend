@@ -46,20 +46,26 @@ export const tokens: Tokens = {
   [SupportedNetworks.Ropsten]: [
     eth,
     {
-      name: 'Opyn USDC',
-      id: '0x8be3a2a5c37b16c6eaa2be6a3fa1cf1e465f8691',
-      symbol: 'USDC',
-      decimals: 6,
-    },
-    {
       name: 'Wrapped Ether',
       id: '0xc778417e063141139fce010982780140aa0cd5ab',
       symbol: 'WETH',
       decimals: 18,
     },
     {
-      name: 'Opyn Wrapped Bitcoin',
-      id: '0x6b8baf03cb00f8f1fa94999b71047fea06f7251a',
+      name: 'Mock UNI',
+      id: '0x042d140Bc1e281eb4477a12B979f297633f20B46',
+      symbol: 'UNI',
+      decimals: 18,
+    },
+    {
+      name: 'Mock USDC',
+      id: '0xdAD5De585BC4AB7C7A3D4e00d95b9BdbC105d277',
+      symbol: 'USDC',
+      decimals: 6,
+    },
+    {
+      name: 'Mock BTC',
+      id: '0xbE10c00C6A0395a27ede213Bc4247887292B76B9',
       symbol: 'WBTC',
       decimals: 8,
     },
