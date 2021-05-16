@@ -19,6 +19,7 @@ function Pools() {
       totalFee: '129341400000000',
       totalReward: '11934140000000000',
       tokenAmount: '2311934140000000000',
+      totalDepositors: 18,
     },
     {
       address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
@@ -33,6 +34,7 @@ function Pools() {
       totalFee: '1093414',
       totalReward: '2934140',
       tokenAmount: '18931400',
+      totalDepositors: 6,
     },
     {
       address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
@@ -47,6 +49,7 @@ function Pools() {
       totalFee: '109341400000000',
       totalReward: '14934140000000000',
       tokenAmount: '891825934140000000000',
+      totalDepositors: 30,
     },
   ]
 
@@ -60,7 +63,9 @@ function Pools() {
             expiry={pool.expiry}
             tokenAddress={pool.token}
             tokenAmount={pool.tokenAmount}
+            totalReward={pool.totalReward}
             startTimestamp={pool.startTimestamp}
+            totalDepositors={pool.totalDepositors}
           />
         </Col>
       )
