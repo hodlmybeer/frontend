@@ -10,6 +10,7 @@ function Pools() {
       address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
       penalty: 50, // 5%
       feePortion: 100,
+      startTimestamp: Date.now() / 1000 - 3 * 86400,
       expiry: Date.now() / 1000 + 60 * 86400,
       lockingWindow: 7 * 86400,
       n: 1,
@@ -23,7 +24,8 @@ function Pools() {
       address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
       penalty: 30, // 3%
       feePortion: 70,
-      expiry: Date.now() / 1000 + 360 * 86400,
+      startTimestamp: Date.now() / 1000 - 20 * 86400,
+      expiry: Date.now() / 1000 + 180 * 86400,
       lockingWindow: 7 * 86400,
       n: 2,
       token: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599', // wbtc
@@ -36,6 +38,7 @@ function Pools() {
       address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
       penalty: 30, // 3%
       feePortion: 70,
+      startTimestamp: Date.now() / 1000 - 160 * 86400,
       expiry: Date.now() / 1000 + 360 * 86400,
       lockingWindow: 7 * 86400,
       n: 2,
@@ -57,6 +60,7 @@ function Pools() {
             expiry={pool.expiry}
             tokenAddress={pool.token}
             tokenAmount={pool.tokenAmount}
+            startTimestamp={pool.startTimestamp}
           />
         </Col>
       )

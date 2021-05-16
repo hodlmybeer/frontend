@@ -9,6 +9,7 @@ import uniBarrel from '../../imgs/barrels/uniBarrel.png'
 import { useConnectedWallet } from '../../contexts/wallet'
 import { tokens } from '../../constants'
 type PoolCardProps = {
+  startTimestamp: number
   expiry: number
   lockingWindow: number
   penalty: number
@@ -16,7 +17,7 @@ type PoolCardProps = {
   tokenAmount: string
 }
 
-function PoolCard({ tokenAddress, tokenAmount, penalty, expiry }: PoolCardProps) {
+function PoolCard({ tokenAddress, tokenAmount, penalty, expiry, startTimestamp }: PoolCardProps) {
   const theme = useTheme()
 
   const { networkId } = useConnectedWallet()
@@ -56,22 +57,18 @@ function PoolCard({ tokenAddress, tokenAmount, penalty, expiry }: PoolCardProps)
         </Entry>
 
         {/* expiry */}
-        <div
-          style={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-end',
-          }}
-        >
+        <Entry>
           <EntryTitle>Unlock In:</EntryTitle>
           <Timer format="Md" end={new Date(expiry * 1000)} />
-        </div>
+        </Entry>
+
+        <br />
+
         <ProgressBar
           css={`
             color: ${theme.accent};
           `}
-          value={0.3}
+          value={(Date.now() / 1000 - startTimestamp) / (expiry - startTimestamp)}
         />
         <br></br>
         <Button wide>Deposit</Button>
