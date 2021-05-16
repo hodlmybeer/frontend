@@ -49,7 +49,7 @@ export default function SideBar() {
           }}
         >
           Commit Hash{' '}
-          <LinkBase external href={`https://github.com/antoncoding/opyn-v2-portal/commit/${hash}`}>
+          <LinkBase external href={`https://github.com/antoncoding/hodl-frontend/commit/${hash}`}>
             {' '}
             {hash}{' '}
           </LinkBase>
