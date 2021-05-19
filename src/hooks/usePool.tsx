@@ -1,8 +1,9 @@
 import { useMemo, useCallback } from 'react'
-import { hToken } from '../types'
 import { useConnectedWallet } from '../contexts/wallet'
 import { useNotify } from './useNotify'
 import BigNumber from 'bignumber.js'
+// eslint-disable-next-line
+import { hToken } from '../types'
 
 const hTokenAbi = require('../constants/abis/hToken.json')
 
