@@ -1,6 +1,4 @@
-import BigNumber from 'bignumber.js'
 import { subgraph as endpoints } from '../constants/endpoints'
-import { blacklistOTokens } from '../constants/addresses'
 import { SupportedNetworks } from '../constants/networks'
 import {} from '../types'
 

@@ -4,17 +4,17 @@ import { Button, IconConnect, Box, IconPower, IdentityBadge } from '@aragon/ui'
 
 import { checkAddressAndAddToStorage } from '../../utils/storage'
 import { useConnectedWallet } from '../../contexts/wallet'
-import { SupportedNetworks } from '../../constants'
+// import { SupportedNetworks } from '../../constants'
 
 function ConnectButton() {
-  const { networkId, connect, disconnect, user } = useConnectedWallet()
+  const { connect, disconnect, user } = useConnectedWallet()
 
-  const color =
-    networkId === SupportedNetworks.Mainnet
-      ? 'rgb(3, 135, 137, 0.7)'
-      : networkId === SupportedNetworks.Ropsten
-      ? '#ff4a8d'
-      : '#8F7FFE'
+  const color = '#ff4a8d'
+  // networkId === SupportedNetworks.Mainnet
+  //   ? 'rgb(3, 135, 137, 0.7)'
+  //   : networkId === SupportedNetworks.Ropsten
+  // ? '#ff4a8d'
+  // : '#8F7FFE'
   const connectWeb3 = async () => {
     const address = await connect()
     if (!address) return

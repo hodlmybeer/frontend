@@ -13,7 +13,7 @@ export const useConnection = () => {
 
   const [web3, setWeb3] = useState<Web3>(new Web3(`https://mainnet.infura.io/v3/${INFURA_KEY}`))
 
-  const storedNetwork = Number(getPreference('gamma-networkId', '1'))
+  const storedNetwork = Number(getPreference('gamma-networkId', '3'))
   const [networkId, setNetworkId] = useState<SupportedNetworks>(storedNetwork)
 
   // function for block native sdk when address is updated
@@ -34,11 +34,7 @@ export const useConnection = () => {
 
   const onboard = useMemo(() => {
     function _handleNetworkChange(_networkId) {
-      if (
-        _networkId === SupportedNetworks.Mainnet ||
-        _networkId === SupportedNetworks.Ropsten ||
-        _networkId === SupportedNetworks.Kovan
-      ) {
+      if (_networkId in SupportedNetworks) {
         setNetworkId(_networkId)
         storePreference('gamma-networkId', networkId.toString())
       }
@@ -87,6 +83,7 @@ export const useConnection = () => {
 export const initOnboard = (addressChangeCallback, walletChangeCallback, networkChangeCallback, networkId) => {
   const networkname = networkId === 1 ? 'mainnet' : networkId === 3 ? 'ropsten' : 'kovan'
   const RPC_URL = `https://${networkname}.infura.io/v3/${INFURA_KEY}`
+  console.log(`RPC_URL`, RPC_URL)
   const onboard = Onboard({
     darkMode: getPreference('theme', 'light') === 'dark',
     dappId: BLOCKNATIVE_KEY, // [String] The API key created by step one above
@@ -104,11 +101,11 @@ export const initOnboard = (addressChangeCallback, walletChangeCallback, network
           walletName: 'walletConnect',
           rpc: {
             // eslint-disable-next-line
-            [SupportedNetworks.Mainnet]: RPC_URL,
+            // [SupportedNetworks.Mainnet]: RPC_URL,
             // eslint-disable-next-line
             [SupportedNetworks.Ropsten]: RPC_URL,
             // eslint-disable-next-line
-            [SupportedNetworks.Kovan]: RPC_URL,
+            // [SupportedNetworks.Kovan]: RPC_URL,
           }, // [Optional]
           preferred: true,
         },

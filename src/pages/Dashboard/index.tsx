@@ -26,6 +26,7 @@ function DashBoard() {
 
   const renderHodlingRow = useCallback(
     row => {
+      console.log(networkId)
       const token = tokens[networkId].find(t => t.id === row.token)
       const endTimeMs = Date.now() + 86400 * 100 * 1000
       const tokenAmount = (

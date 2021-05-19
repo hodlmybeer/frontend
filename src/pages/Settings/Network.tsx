@@ -8,18 +8,18 @@ import { useConnectedWallet } from '../../contexts/wallet'
 import { SupportedNetworks } from '../../constants/networks'
 
 const items = [
-  {
-    title: 'Mainnet',
-    description: `Subgraph endpoint: ${subgraph[SupportedNetworks.Mainnet]}`,
-  },
+  // {
+  //   title: 'Mainnet',
+  //   description: `Subgraph endpoint: ${subgraph[SupportedNetworks.Mainnet]}`,
+  // },
   {
     title: 'Ropsten',
     description: `Subgraph endpoint: ${subgraph[SupportedNetworks.Ropsten]}`,
   },
-  {
-    title: 'Kovan',
-    description: `Subgraph endpoint: ${subgraph[SupportedNetworks.Kovan]}`,
-  },
+  // {
+  //   title: 'Kovan',
+  //   description: `Subgraph endpoint: ${subgraph[SupportedNetworks.Kovan]}`,
+  // },
 ]
 
 const networkIdToIdx = {
