@@ -1,5 +1,5 @@
 import React, { useMemo, ReactChild, useState, useCallback } from 'react'
-import { Modal, TextInput, Button, useTheme, LinkBase, Header, Help, Timer } from '@aragon/ui'
+import { Modal, TextInput, Button, useTheme, LinkBase, Header, Help, Timer, LoadingRing } from '@aragon/ui'
 
 import { useConnectedWallet } from '../../contexts/wallet'
 import { toTokenAmount, fromTokenAmount } from '../../utils/math'
@@ -21,6 +21,9 @@ function DepositModal({
   hToken,
 }: // totalDepositors,
 DepositModalProps) {
+  const [isApproving, setIsApproving] = useState(false)
+  const [isDepositing, setIsDepositing] = useState(false)
+
   const theme = useTheme()
 
   const { user } = useConnectedWallet()
@@ -60,8 +63,22 @@ DepositModalProps) {
   }, [hToken, sharesToGet])
 
   const depositToPool = useCallback(async () => {
-    await deposit(depositAmount)
+    setIsDepositing(true)
+    try {
+      await deposit(depositAmount)
+    } finally {
+      setIsDepositing(false)
+    }
   }, [depositAmount, deposit])
+
+  const handleApprove = useCallback(async () => {
+    setIsApproving(true)
+    try {
+      await approve(depositAmount)
+    } finally {
+      setIsApproving(false)
+    }
+  }, [depositAmount, approve])
 
   return (
     <Modal padding={'7%'} visible={open} onClose={onClose}>
@@ -77,11 +94,11 @@ DepositModalProps) {
         <TokenAmountWithoutIcon symbol="shares" amount={hToken.totalShares} decimals={hToken.decimals} />
       </Entry>
       <Entry>
-        <EntryTitle uppercase={false}>Unlock within</EntryTitle>
+        <EntryTitle uppercase={false}>Unlock in</EntryTitle>
         <Timer format="Md" end={new Date(hToken.expiry * 1000)} />
       </Entry>
       <Entry>
-        <EntryTitle uppercase={false}>Deposit Disabled within</EntryTitle>
+        <EntryTitle uppercase={false}>Deposit Disabled in</EntryTitle>
         <Timer format="Md" end={new Date((hToken.expiry - hToken.lockWindow) * 1000)} />
       </Entry>
 
@@ -139,14 +156,17 @@ DepositModalProps) {
           value={inputAmount}
         ></TextInput>
         {needApproval ? (
-          <Button style={{ minWidth: 150 }} disabled={!hasEnoughBalance} onClick={approve}>
-            {' '}
-            Approve{' '}
+          <Button style={{ minWidth: 150 }} disabled={!hasEnoughBalance || isApproving} onClick={handleApprove}>
+            {isApproving ? <LoadingRing /> : 'Approve'}
           </Button>
         ) : (
-          <Button style={{ minWidth: 150 }} mode="positive" onClick={depositToPool} disabled={!hasEnoughBalance}>
-            {' '}
-            Deposit{' '}
+          <Button
+            style={{ minWidth: 150 }}
+            mode="positive"
+            onClick={depositToPool}
+            disabled={!hasEnoughBalance || isDepositing}
+          >
+            {isDepositing ? <LoadingRing /> : 'Deposit'}
           </Button>
         )}
       </Entry>

@@ -26,7 +26,7 @@ function DashBoard() {
         hodling.shareBalance === '0'
           ? new BigNumber(0)
           : new BigNumber(hodling.shareBalance).div(hodling.token.totalShares)
-      const percentage = `${shareRatio.times(100).toFixed()}%`
+      const percentage = `${shareRatio.times(100).toFixed(2)}%`
 
       const reward = new BigNumber(hodling.token.totalReward).times(shareRatio)
 
@@ -75,7 +75,7 @@ function DashBoard() {
         }}
         emptyState={stateBeer(
           'Not HODLing',
-          'You are not holding anything. Take a look at Pools',
+          'You are not hodling any coins. Take a look at Pools',
           'Loading...',
           "This wont't take too long",
         )}

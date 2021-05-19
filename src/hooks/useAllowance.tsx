@@ -15,7 +15,7 @@ export function useAllowance(token: string, spenderAddess: string) {
   const { notifyCallback } = useNotify()
 
   const approve = useCallback(
-    async (amount?: BigNumber) => {
+    async (amount?: BigNumber, callback?: Function) => {
       if (!web3 || !user) return
       const approveMode = getPreference('approval', 'unlimited')
 
@@ -24,7 +24,13 @@ export function useAllowance(token: string, spenderAddess: string) {
 
       if (spenderAddess === '') throw new Error('Unkown Spender')
 
-      await erc.methods.approve(spenderAddess, approveAmount).send({ from: user }).on('transactionHash', notifyCallback)
+      await erc.methods
+        .approve(spenderAddess, approveAmount)
+        .send({ from: user })
+        .on('transactionHash', hash => {
+          notifyCallback(hash)
+          if (typeof callback === 'function') callback()
+        })
       const newAllowance = await erc.methods.allowance(user, spenderAddess).call()
       setAllowance(new BigNumber(newAllowance.toString()))
     },
