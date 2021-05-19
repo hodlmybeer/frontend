@@ -1,5 +1,7 @@
-import React, { useMemo, ReactChild } from 'react'
-import { Timer, Box, Button, ProgressBar, useTheme } from '@aragon/ui'
+import React, { useMemo, ReactChild, useState } from 'react'
+import { Timer, Box, Button, ProgressBar, useTheme, LinkBase } from '@aragon/ui'
+import DepositModal from './DepositModal'
+
 import defaultBarrel from '../../imgs/barrels/barrel.png'
 import usdcBarrel from '../../imgs/barrels/usdcBarrel.png'
 import wethBarrel from '../../imgs/barrels/wethBarrel.png'
@@ -7,7 +9,7 @@ import wbtcBarrel from '../../imgs/barrels/wbtcBarrel.png'
 import uniBarrel from '../../imgs/barrels/uniBarrel.png'
 
 import { useConnectedWallet } from '../../contexts/wallet'
-import { tokens, PoolState } from '../../constants'
+import { tokens, PoolState, networkIdToAddressUrl } from '../../constants'
 import { toTokenAmount } from '../../utils/math'
 import { hToken } from '../../types'
 import { toPoolName } from '../../utils/htoken'
@@ -21,6 +23,8 @@ function PoolCard({
   hToken,
 }: // totalDepositors,
 PoolCardProps) {
+  const [depositModalOpened, setModalOpened] = useState(false)
+
   const theme = useTheme()
 
   const { networkId } = useConnectedWallet()
@@ -63,8 +67,17 @@ PoolCardProps) {
     }
   }, [state, theme])
 
+  console.log(`progressBarColor`, progressBarColor)
+
   return token ? (
-    <Box heading={poolTitle}>
+    <Box
+      heading={
+        <LinkBase external href={`${networkIdToAddressUrl[networkId]}/${hToken.id}`}>
+          {' '}
+          {poolTitle}{' '}
+        </LinkBase>
+      }
+    >
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <img src={barrelImg} alt={'img'} height={150}></img>
         <br></br>
@@ -73,11 +86,6 @@ PoolCardProps) {
           <EntryTitle>Penalty:</EntryTitle>
           {hToken.penalty / 10}%
         </Entry>
-
-        {/* <Entry>
-          <EntryTitle>Depositors:</EntryTitle>
-          {totalDepositors}
-        </Entry> */}
 
         <Entry>
           <EntryTitle>Total Locked:</EntryTitle>
@@ -96,12 +104,16 @@ PoolCardProps) {
         </Entry>
 
         <ProgressBar
-          color={progressBarColor}
+          color={progressBarColor.toString()}
           value={(Date.now() / 1000 - hToken.createdAt) / (hToken.expiry - hToken.createdAt)}
         />
         <br></br>
-        <Button wide>Deposit</Button>
+        <Button wide onClick={() => setModalOpened(true)}>
+          Deposit
+        </Button>
       </div>
+
+      <DepositModal open={depositModalOpened} onClose={() => setModalOpened(false)} hToken={hToken} />
     </Box>
   ) : null
 }
@@ -139,7 +151,7 @@ function TokenAmountWithoutIcon({ symbol, amount, decimals }: { symbol: string; 
   return (
     <div style={{ display: 'flex' }}>
       <div> {toTokenAmount(amount, decimals).toFormat()} </div>
-      <div style={{ color: theme.contentSecondary }}> {symbol} </div>
+      <div style={{ color: theme.contentSecondary, paddingLeft: 2 }}> {symbol} </div>
     </div>
   )
 }

@@ -4,8 +4,8 @@ export function toTokenAmount(wei: BigNumber | number | string, decimals: number
   return new BigNumber(wei).div(new BigNumber(10).pow(new BigNumber(decimals)))
 }
 
-export function fromTokenAmount(amount: BigNumber, decimals: number) {
-  return amount.times(new BigNumber(10).pow(new BigNumber(decimals)))
+export function fromTokenAmount(amount: BigNumber | number, decimals: number) {
+  return new BigNumber(amount).times(new BigNumber(10).pow(new BigNumber(decimals)))
 }
 
 export function timeSince(timeStamp) {

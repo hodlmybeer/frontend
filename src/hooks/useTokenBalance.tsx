@@ -12,8 +12,16 @@ const erc20Abi = require('../constants/abis/erc20.json')
  * @param refetchIntervalSec refetch interval in seconds
  * @returns {BigNumber} raw balance
  */
-export const useTokenBalance = (token: string, account: string, refetchIntervalSec: number): BigNumber => {
-  const [balance, setBalance] = useState(new BigNumber(0))
+export const useTokenBalance = (
+  token: string,
+  account: string,
+  refetchIntervalSec: number,
+): { balance: BigNumber; symbol: string; decimals: number } => {
+  const [balance, setBalance] = useState<BigNumber>(new BigNumber(0))
+
+  const [decimals, setDecimals] = useState<number>(18)
+  const [symbol, setSymbol] = useState('')
+
   const { web3, networkId } = useConnectedWallet()
   useEffect(() => {
     let isCancelled = false
@@ -21,9 +29,19 @@ export const useTokenBalance = (token: string, account: string, refetchIntervalS
     async function updateBalance() {
       if (!token) return
       if (!account) return
-      const price = await getBalance(web3, token, account)
-      if (!isCancelled) setBalance(price)
+      const balance = await getBalance(web3, token, account)
+      if (!isCancelled) setBalance(balance)
     }
+
+    async function updateTokeDetails() {
+      if (!token) return
+      const { decimals, symbol } = await getTokenDetails(web3, token)
+      if (!isCancelled) {
+        setDecimals(decimals)
+        setSymbol(symbol)
+      }
+    }
+    updateTokeDetails()
     updateBalance()
     const id = setInterval(updateBalance, refetchIntervalSec * 1000)
 
@@ -34,7 +52,15 @@ export const useTokenBalance = (token: string, account: string, refetchIntervalS
     }
   }, [token, refetchIntervalSec, account, networkId, web3])
 
-  return balance
+  return { balance, decimals, symbol }
+}
+
+async function getTokenDetails(web3: Web3, token: string): Promise<{ symbol: string; decimals: number }> {
+  if (token === ZERO_ADDR) return { symbol: 'ETH', decimals: 18 }
+  const erc20 = new web3.eth.Contract(erc20Abi, token)
+  const symbol = await erc20.methods.symbol().call()
+  const decimals = await erc20.methods.decimals().call()
+  return { symbol, decimals }
 }
 
 async function getBalance(web3: Web3, token: string, account: string) {

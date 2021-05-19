@@ -6,7 +6,7 @@ import { MAX_UINT } from '../constants'
 import { useNotify } from './useNotify'
 const abi = require('../constants/abis/erc20.json')
 
-export function useUserAllowance(token: string, spenderAddess: string) {
+export function useAllowance(token: string, spenderAddess: string) {
   const { web3, user } = useConnectedWallet()
 
   const [allowance, setAllowance] = useState(new BigNumber(0))
