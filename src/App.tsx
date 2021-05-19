@@ -11,7 +11,7 @@ import NavBar from './components/NavBar'
 import Settings from './pages/Settings'
 import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
-import Pools from './pages/Pools'
+import Barrels from './pages/Barrels'
 
 import { useConnection } from './hooks/useConnection'
 
@@ -39,9 +39,9 @@ function App() {
                     <Settings setTheme={setTheme} />
                   </Layout>
                 </Route>
-                <Route path="/pools">
+                <Route path="/barrels">
                   <Layout>
-                    <Pools />
+                    <Barrels />
                   </Layout>
                 </Route>
                 <Route path="/dashboard">

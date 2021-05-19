@@ -41,10 +41,10 @@ function MyBar() {
           <LinkBase
             style={{ paddingLeft: 30, fontSize: 20 }}
             onClick={() => {
-              history.push('/pools')
+              history.push('/barrels')
             }}
           >
-            Pools
+            Barrels
           </LinkBase>
         </div>
       }

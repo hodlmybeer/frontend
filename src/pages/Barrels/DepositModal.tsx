@@ -88,11 +88,11 @@ DepositModalProps) {
 
       <div style={{ fontSize: 18 }}> Pool Overview </div>
       <Entry>
-        <EntryTitle uppercase={false}>Total Locked:</EntryTitle>
+        <EntryTitle uppercase={false}>Total Locked</EntryTitle>
         <TokenAmountWithoutIcon symbol={underlyingSymbol} amount={hToken.tokenBalance} decimals={underlyingDecimals} />
       </Entry>
       <Entry>
-        <EntryTitle uppercase={false}>Total Shares:</EntryTitle>
+        <EntryTitle uppercase={false}>Total Shares</EntryTitle>
         <TokenAmountWithoutIcon symbol="shares" amount={hToken.totalShares} decimals={hToken.decimals} />
       </Entry>
       <Entry>
@@ -107,19 +107,27 @@ DepositModalProps) {
       <div style={{ fontSize: 18, paddingTop: 5 }}> Deposit Details </div>
 
       <Entry>
-        <EntryTitle uppercase={false}>Shares to get:</EntryTitle>
+        <EntryTitle uppercase={false}>
+          <div style={{ display: 'flex' }}>
+            Shares to get
+            <Help hint="What are shares">
+              You can use the shares to redeem rewards from the pool if others quit before you do. The earlier you
+              deposit, the more shares you get.
+            </Help>
+          </div>
+        </EntryTitle>
         <TokenAmountWithoutIcon symbol={'shares'} amount={sharesToGet.toString()} decimals={underlyingDecimals} />
       </Entry>
 
       <Entry>
-        <EntryTitle uppercase={false}>Shares percentage:</EntryTitle>
+        <EntryTitle uppercase={false}>Shares percentage</EntryTitle>
         <TokenAmountWithoutIcon symbol={'%'} amount={sharePercentage} decimals={0} />
       </Entry>
 
       <Entry>
         <EntryTitle uppercase={false}>
           <div style={{ display: 'flex' }}>
-            Early withdraw penalty:
+            Early withdraw penalty
             <Help hint="What is penalty">
               {' '}
               If you withdraw your {underlyingSymbol} before expiry, you will get penalized.
@@ -136,7 +144,7 @@ DepositModalProps) {
       <Entry>
         <EntryTitle uppercase={false}>
           <div style={{ display: 'flex' }}>
-            hToken minted:
+            hToken minted
             <Help hint="What is hToken">
               {' '}
               After you lockup your {underlyingSymbol}, you will get {hToken.symbol} in return. This is a{' '}

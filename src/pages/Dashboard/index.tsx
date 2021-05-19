@@ -1,7 +1,18 @@
 import React, { useCallback } from 'react'
 import BigNumber from 'bignumber.js'
 import { Container } from 'react-grid-system'
-import { Header, DataView, TokenAmount, Timer, Button, ContextMenu, ContextMenuItem, IdentityBadge } from '@aragon/ui'
+import { useHistory } from 'react-router-dom'
+import {
+  Header,
+  DataView,
+  TokenAmount,
+  Timer,
+  Button,
+  ContextMenu,
+  ContextMenuItem,
+  IdentityBadge,
+  LinkBase,
+} from '@aragon/ui'
 
 import Detail from './Detail'
 import SectionTitle from '../../components/SectionHeader'
@@ -16,7 +27,7 @@ function DashBoard() {
   const { networkId, user } = useConnectedWallet()
 
   const { hodlings, isLoading } = useAccountHodlings(user)
-
+  const history = useHistory()
   const renderHodlingRow = useCallback(
     (hodling: Hodling) => {
       const token = tokens[networkId].find(t => t.id.toLowerCase() === hodling.token.token)
@@ -75,7 +86,10 @@ function DashBoard() {
         }}
         emptyState={stateBeer(
           'Not HODLing',
-          'You are not hodling any coins. Take a look at Pools',
+          <div>
+            You are not hodling any coins. Take a look at{' '}
+            <LinkBase onClick={() => history.push('barrels/')}>Barrels</LinkBase>
+          </div>,
           'Loading...',
           "This wont't take too long",
         )}

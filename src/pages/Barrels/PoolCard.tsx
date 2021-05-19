@@ -9,7 +9,7 @@ import wbtcBarrel from '../../imgs/barrels/wbtcBarrel.png'
 import uniBarrel from '../../imgs/barrels/uniBarrel.png'
 
 import { useConnectedWallet } from '../../contexts/wallet'
-import { tokens, PoolState, networkIdToAddressUrl } from '../../constants'
+import { tokens, BarrelState, networkIdToAddressUrl } from '../../constants'
 import { hToken } from '../../types'
 import { toPoolName } from '../../utils/htoken'
 
@@ -51,20 +51,20 @@ PoolCardProps) {
     return toPoolName(hToken, networkId)
   }, [hToken, networkId])
 
-  const state: PoolState = useMemo(() => {
+  const state: BarrelState = useMemo(() => {
     const now = Date.now() / 1000
-    if (now > hToken.expiry) return PoolState.Expired
-    else if (now > hToken.expiry - hToken.lockWindow) return PoolState.Locked
-    else return PoolState.Open
+    if (now > hToken.expiry) return BarrelState.Expired
+    else if (now > hToken.expiry - hToken.lockWindow) return BarrelState.Locked
+    else return BarrelState.Open
   }, [hToken.expiry, hToken.lockWindow])
 
   const progressBarColor = useMemo(() => {
     switch (state) {
-      case PoolState.Open:
+      case BarrelState.Open:
         return theme.accent
-      case PoolState.Locked:
+      case BarrelState.Locked:
         return theme.hint
-      case PoolState.Expired:
+      case BarrelState.Expired:
         return theme.warning
     }
   }, [state, theme])
