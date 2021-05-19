@@ -1,4 +1,4 @@
-import React, { useMemo, ReactChild, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Timer, Box, Button, ProgressBar, useTheme, LinkBase } from '@aragon/ui'
 import DepositModal from './DepositModal'
 
@@ -10,9 +10,11 @@ import uniBarrel from '../../imgs/barrels/uniBarrel.png'
 
 import { useConnectedWallet } from '../../contexts/wallet'
 import { tokens, PoolState, networkIdToAddressUrl } from '../../constants'
-import { toTokenAmount } from '../../utils/math'
 import { hToken } from '../../types'
 import { toPoolName } from '../../utils/htoken'
+
+import TokenAmountWithoutIcon from '../../components/TokenAmountWithoutIcon'
+import { Entry, EntryTitle } from '../../components/Entry'
 
 type PoolCardProps = {
   hToken: hToken
@@ -114,44 +116,6 @@ PoolCardProps) {
       <DepositModal open={depositModalOpened} onClose={() => setModalOpened(false)} hToken={hToken} />
     </Box>
   ) : null
-}
-
-/**
- * entry for each row
- */
-function Entry({ children }: { children: ReactChild[] }) {
-  return (
-    <div
-      style={{
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-      }}
-    >
-      {children}
-    </div>
-  )
-}
-
-function EntryTitle({ children }: { children: ReactChild }) {
-  const theme = useTheme()
-  return (
-    <span style={{ textTransform: 'uppercase', color: theme.contentSecondary, fontSize: 14, fontWeight: 400 }}>
-      {children}
-    </span>
-  )
-}
-
-function TokenAmountWithoutIcon({ symbol, amount, decimals }: { symbol: string; amount: string; decimals: number }) {
-  const theme = useTheme()
-
-  return (
-    <div style={{ display: 'flex' }}>
-      <div> {toTokenAmount(amount, decimals).toFormat()} </div>
-      <div style={{ color: theme.contentSecondary, paddingLeft: 2 }}> {symbol} </div>
-    </div>
-  )
 }
 
 export default PoolCard

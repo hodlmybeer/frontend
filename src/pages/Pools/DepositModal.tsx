@@ -1,4 +1,4 @@
-import React, { useMemo, ReactChild, useState, useCallback } from 'react'
+import React, { useMemo, useState, useCallback } from 'react'
 import { Modal, TextInput, Button, useTheme, LinkBase, Header, Help, Timer, LoadingRing } from '@aragon/ui'
 
 import { useConnectedWallet } from '../../contexts/wallet'
@@ -8,6 +8,8 @@ import { useAllowance, useTokenBalance, usePool } from '../../hooks'
 import useAsyncMemo from '../../hooks/useAsyncMemo'
 import BigNumber from 'bignumber.js'
 import Wanrinig from '../../components/Warning'
+import TokenAmountWithoutIcon from '../../components/TokenAmountWithoutIcon'
+import { Entry, EntryTitle } from '../../components/Entry'
 
 type DepositModalProps = {
   hToken: hToken
@@ -190,47 +192,3 @@ DepositModalProps) {
 }
 
 export default DepositModal
-
-function Entry({ children }: { children: ReactChild[] }) {
-  return (
-    <div
-      style={{
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-      }}
-    >
-      {children}
-    </div>
-  )
-}
-
-function EntryTitle({ children, uppercase = true }: { children: ReactChild; uppercase?: boolean }) {
-  const theme = useTheme()
-  return (
-    <span
-      style={{
-        textTransform: uppercase ? 'uppercase' : 'none',
-        color: theme.contentSecondary,
-        fontSize: 14,
-        fontWeight: 400,
-      }}
-    >
-      {children}
-    </span>
-  )
-}
-
-function TokenAmountWithoutIcon({ symbol, amount, decimals }: { symbol: string; amount: string; decimals: number }) {
-  const theme = useTheme()
-  const number = toTokenAmount(amount, decimals)
-  const numebrStr = number.isInteger() ? number.toFixed() : number.toFormat(3)
-
-  return (
-    <div style={{ display: 'flex' }}>
-      <div> {numebrStr} </div>
-      <div style={{ color: theme.contentSecondary, paddingLeft: 2 }}> {symbol} </div>
-    </div>
-  )
-}
