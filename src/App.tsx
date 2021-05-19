@@ -31,7 +31,7 @@ function App() {
       <Main layout={false} theme={theme}>
         <walletContext.Provider value={wallet}>
           <NavBar />
-          <Row style={{ height: '100%' }}>
+          <Row style={{ height: '90%', width: '100%' }}>
             <Col sm={12} md={12} lg={12} xl={12}>
               <Switch>
                 <Route path="/settings">
