@@ -79,7 +79,7 @@ export default function DepositDetail({ hodling }: { hodling: Hodling }) {
                 <Entry>
                   <EntryTitle uppercase={false}> Shares </EntryTitle>
                   <TokenAmountWithoutIcon
-                    symbol={hodling.token.symbol}
+                    symbol={'shares'}
                     decimals={hodling.token.decimals}
                     amount={hodling.shareBalance}
                     onClick={() => setRedeemAmount(toTokenAmount(hodling.shareBalance, hodling.token.decimals))}
