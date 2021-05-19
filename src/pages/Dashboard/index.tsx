@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import BigNumber from 'bignumber.js'
 import { Container } from 'react-grid-system'
 import { useHistory } from 'react-router-dom'
-import { Header, DataView, TokenAmount, Timer, IdentityBadge, LinkBase } from '@aragon/ui'
+import { Header, DataView, TokenAmount, Timer, IdentityBadge, LinkBase, Info } from '@aragon/ui'
 
 import Detail from './Detail'
 import SectionTitle from '../../components/SectionHeader'
@@ -67,24 +67,28 @@ function DashBoard() {
     <Container>
       <Header primary="My Hodlings" />
       <SectionTitle title="Locked hodlings" />
-      <DataView
-        status={isLoading ? 'loading' : 'default'}
-        fields={['Asset', 'Pool', 'Countdown', 'Reward Share', 'Current Reward']}
-        renderEntry={renderHodlingRow}
-        renderEntryExpansion={hodling => {
-          return <Detail hodling={hodling} />
-        }}
-        emptyState={stateBeer(
-          'Not HODLing',
-          <div>
-            You are not hodling any coins. Take a look at{' '}
-            <LinkBase onClick={() => history.push('barrels/')}>Barrels</LinkBase>
-          </div>,
-          'Loading...',
-          "This wont't take too long",
-        )}
-        entries={hodlings}
-      />
+      {user ? (
+        <DataView
+          status={isLoading ? 'loading' : 'default'}
+          fields={['Asset', 'Pool', 'Countdown', 'Reward Share', 'Current Reward']}
+          renderEntry={renderHodlingRow}
+          renderEntryExpansion={hodling => {
+            return <Detail hodling={hodling} />
+          }}
+          emptyState={stateBeer(
+            'Not HODLing',
+            <div>
+              You are not hodling any coins. Take a look at{' '}
+              <LinkBase onClick={() => history.push('barrels/')}>Barrels</LinkBase>
+            </div>,
+            'Loading...',
+            "This wont't take too long",
+          )}
+          entries={hodlings}
+        />
+      ) : (
+        <Info> Please connect wallet first </Info>
+      )}
     </Container>
   )
 }
