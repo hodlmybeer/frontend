@@ -7,7 +7,7 @@ import wbtcBarrel from '../../imgs/barrels/wbtcBarrel.png'
 import uniBarrel from '../../imgs/barrels/uniBarrel.png'
 
 import { useConnectedWallet } from '../../contexts/wallet'
-import { tokens } from '../../constants'
+import { tokens, PoolState } from '../../constants'
 import { toTokenAmount } from '../../utils/math'
 
 type PoolCardProps = {
@@ -27,6 +27,7 @@ function PoolCard({
   totalReward,
   penalty,
   expiry,
+  lockingWindow,
   startTimestamp,
 }: // totalDepositors,
 PoolCardProps) {
@@ -52,6 +53,24 @@ PoolCardProps) {
         : defaultBarrel
       : defaultBarrel
   }, [token])
+
+  const state: PoolState = useMemo(() => {
+    const now = Date.now() / 1000
+    if (now > expiry) return PoolState.Expired
+    else if (now > expiry - lockingWindow) return PoolState.Locked
+    else return PoolState.Open
+  }, [expiry, lockingWindow])
+
+  const progressBarColor = useMemo(() => {
+    switch (state) {
+      case PoolState.Open:
+        return theme.accent
+      case PoolState.Locked:
+        return theme.hint
+      case PoolState.Expired:
+        return theme.warning
+    }
+  }, [state, theme])
 
   return token ? (
     <Box heading="title">
@@ -86,9 +105,7 @@ PoolCardProps) {
         </Entry>
 
         <ProgressBar
-          css={`
-            color: ${theme.accent};
-          `}
+          color={progressBarColor}
           value={(Date.now() / 1000 - startTimestamp) / (expiry - startTimestamp)}
         />
         <br></br>

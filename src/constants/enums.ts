@@ -5,3 +5,9 @@ export enum BreakPoints {
   md,
   lg,
 }
+
+export enum PoolState {
+  Open,
+  Locked,
+  Expired,
+}
