@@ -18,7 +18,7 @@ type PoolCardProps = {
   totalReward: string
   tokenAddress: string
   tokenAmount: string
-  totalDepositors: number
+  // totalDepositors: number
 }
 
 function PoolCard({
@@ -28,13 +28,16 @@ function PoolCard({
   penalty,
   expiry,
   startTimestamp,
-  totalDepositors,
-}: PoolCardProps) {
+}: // totalDepositors,
+PoolCardProps) {
   const theme = useTheme()
 
   const { networkId } = useConnectedWallet()
 
-  const token = useMemo(() => tokens[networkId].find(t => t.id === tokenAddress), [networkId, tokenAddress])
+  const token = useMemo(
+    () => tokens[networkId].find(t => t.id.toLowerCase() === tokenAddress),
+    [networkId, tokenAddress],
+  )
 
   const barrelImg = useMemo(() => {
     return token
@@ -61,10 +64,10 @@ function PoolCard({
           {penalty / 10}%
         </Entry>
 
-        <Entry>
+        {/* <Entry>
           <EntryTitle>Depositors:</EntryTitle>
           {totalDepositors}
-        </Entry>
+        </Entry> */}
 
         <Entry>
           <EntryTitle>Total Locked:</EntryTitle>

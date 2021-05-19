@@ -6,5 +6,5 @@ type graphEndPointType = {
 
 export const subgraph: graphEndPointType = {
   // [SupportedNetworks.Mainnet]: 'https://api.thegraph.com/subgraphs/name/opynfinance/gamma-mainnet'
-  [SupportedNetworks.Ropsten]: 'https://thegraph.com/explorer/subgraph/antoncoding/hodl-ropsten',
+  [SupportedNetworks.Ropsten]: 'https://api.thegraph.com/subgraphs/name/antoncoding/hodl-ropsten',
 }

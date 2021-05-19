@@ -1,16 +1,70 @@
 import { subgraph as endpoints } from '../constants/endpoints'
 import { SupportedNetworks } from '../constants/networks'
-import {} from '../types'
+import { hToken, Account } from '../types'
+
+export async function getHTokens(networkId: SupportedNetworks, errorCallback: Function): Promise<hToken[]> {
+  const query = `
+  {
+    htokens {
+      id
+      token
+      symbol
+      name 
+      decimals
+      expiry
+      createdAt
+      lockWindow
+      penalty
+      fee
+      tokenBalance
+      totalFee
+      totalShares
+      totalReward
+    }
+  }
+  `
+  try {
+    const response = await postQuery(endpoints[networkId], query)
+    console.log(`response.data.htokens`, response.data.htokens)
+    return response.data.htokens
+  } catch (error) {
+    console.log(`error`, error)
+    errorCallback(error.toString())
+    return []
+  }
+}
 
 /**
  * Get account info
  */
-export async function getAccount(
+export async function getAccountHodlings(
   networkId: SupportedNetworks,
   account: string,
   errorCallback: Function,
-): Promise<{} | null> {
+): Promise<Account | null> {
   const query = `
+  {
+  account(id: "${account}") {
+    id
+    hodlings {
+      id
+      shareBalance
+      balance
+      token {
+        id
+        symbol
+        name 
+        decimals
+        expiry
+        createdAt
+        lockWindow
+        penalty
+        totalReward
+        totalShares
+      }
+    }
+  }
+}
   `
   try {
     const response = await postQuery(endpoints[networkId], query)
