@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react'
 import { Container, Row, Col } from 'react-grid-system'
 import { useAllHTokens } from '../../hooks'
-import { Header } from '@aragon/ui'
+import { Header, SyncIndicator } from '@aragon/ui'
 
 import PoolCard from './PoolCard'
 
 function Pools() {
-  const { hTokens } = useAllHTokens()
+  const { hTokens, isLoading } = useAllHTokens()
 
   const pools = useMemo(() => {
     const boxes = hTokens.map(hToken => {
@@ -27,6 +27,7 @@ function Pools() {
         {/* <Col></Col> */}
         {pools}
       </Row>
+      <SyncIndicator visible={isLoading}> Loading Pools </SyncIndicator>
     </Container>
   )
 }

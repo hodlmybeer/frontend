@@ -10,11 +10,12 @@ import { useConnectedWallet } from '../../contexts/wallet'
 import { useAccountHodlings } from '../../hooks'
 import { Hodling } from '../../types'
 import { toPoolName } from '../../utils/htoken'
+import { stateBeer } from '../../constants/dataviewState'
 
 function DashBoard() {
   const { networkId, user } = useConnectedWallet()
 
-  const { hodlings } = useAccountHodlings(user)
+  const { hodlings, isLoading } = useAccountHodlings(user)
 
   const renderHodlingRow = useCallback(
     (hodling: Hodling) => {
@@ -66,12 +67,18 @@ function DashBoard() {
       <Header primary="My Hodlings" />
       <SectionTitle title="Locked hodlings" />
       <DataView
-        status={'default'}
+        status={isLoading ? 'loading' : 'default'}
         fields={['Asset', 'Pool', 'Countdown', 'Reward Share', 'Current Reward']}
         renderEntry={renderHodlingRow}
         renderEntryExpansion={row => {
           return <Detail />
         }}
+        emptyState={stateBeer(
+          'Not HODLing',
+          'You are not holding anything. Take a look at Pools',
+          'Loading...',
+          "This wont't take too long",
+        )}
         renderEntryActions={(row, index) => {
           return (
             <ContextMenu>
