@@ -109,7 +109,7 @@ DepositModalProps) {
       <Entry>
         <EntryTitle uppercase={false}>
           <div style={{ display: 'flex' }}>
-            Shares to get
+            <span style={{ paddingRight: 5 }}>Shares to get</span>
             <Help hint="What are shares">
               You can use the shares to redeem rewards from the pool if others quit before you do. The earlier you
               deposit, the more shares you get.
@@ -127,7 +127,7 @@ DepositModalProps) {
       <Entry>
         <EntryTitle uppercase={false}>
           <div style={{ display: 'flex' }}>
-            Early withdraw penalty
+            <span style={{ paddingRight: 5 }}>Early withdraw penalty</span>
             <Help hint="What is penalty">
               {' '}
               If you withdraw your {underlyingSymbol} before expiry, you will get penalized.
@@ -144,7 +144,7 @@ DepositModalProps) {
       <Entry>
         <EntryTitle uppercase={false}>
           <div style={{ display: 'flex' }}>
-            hToken minted
+            <span style={{ paddingRight: 5 }}> hToken minted </span>
             <Help hint="What is hToken">
               {' '}
               After you lockup your {underlyingSymbol}, you will get {hToken.symbol} in return. This is a{' '}

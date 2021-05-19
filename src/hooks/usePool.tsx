@@ -37,5 +37,21 @@ export function usePool(hToken: hToken) {
     [hTokenContract, notifyCallback, user],
   )
 
-  return { deposit, calculateShares }
+  const redeem = useCallback(
+    async (shares: BigNumber) => {
+      // change to batch Fill when it's live
+      await hTokenContract.methods.redeem(shares).send({ from: user }).on('transactionHash', notifyCallback)
+    },
+    [hTokenContract, notifyCallback, user],
+  )
+
+  const quit = useCallback(
+    async (hTokenAmount: BigNumber) => {
+      // change to batch Fill when it's live
+      await hTokenContract.methods.quit(hTokenAmount).send({ from: user }).on('transactionHash', notifyCallback)
+    },
+    [hTokenContract, notifyCallback, user],
+  )
+
+  return { deposit, calculateShares, redeem, quit }
 }

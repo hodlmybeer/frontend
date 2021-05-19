@@ -2,17 +2,7 @@ import React, { useCallback } from 'react'
 import BigNumber from 'bignumber.js'
 import { Container } from 'react-grid-system'
 import { useHistory } from 'react-router-dom'
-import {
-  Header,
-  DataView,
-  TokenAmount,
-  Timer,
-  Button,
-  ContextMenu,
-  ContextMenuItem,
-  IdentityBadge,
-  LinkBase,
-} from '@aragon/ui'
+import { Header, DataView, TokenAmount, Timer, IdentityBadge, LinkBase } from '@aragon/ui'
 
 import Detail from './Detail'
 import SectionTitle from '../../components/SectionHeader'
@@ -81,8 +71,8 @@ function DashBoard() {
         status={isLoading ? 'loading' : 'default'}
         fields={['Asset', 'Pool', 'Countdown', 'Reward Share', 'Current Reward']}
         renderEntry={renderHodlingRow}
-        renderEntryExpansion={row => {
-          return <Detail />
+        renderEntryExpansion={hodling => {
+          return <Detail hodling={hodling} />
         }}
         emptyState={stateBeer(
           'Not HODLing',
@@ -93,22 +83,6 @@ function DashBoard() {
           'Loading...',
           "This wont't take too long",
         )}
-        renderEntryActions={(row, index) => {
-          return (
-            <ContextMenu>
-              <ContextMenuItem>
-                <Button wide mode="positive" size="small">
-                  Redeem
-                </Button>
-              </ContextMenuItem>
-              <ContextMenuItem>
-                <Button wide mode="negative" size="small">
-                  Quit
-                </Button>
-              </ContextMenuItem>
-            </ContextMenu>
-          )
-        }}
         entries={hodlings}
       />
     </Container>
