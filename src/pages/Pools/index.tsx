@@ -9,19 +9,10 @@ function Pools() {
   const { hTokens } = useAllHTokens()
 
   const pools = useMemo(() => {
-    const boxes = hTokens.map(pool => {
+    const boxes = hTokens.map(hToken => {
       return (
-        <Col xs={12} sm={6} md={4} key={pool.id}>
-          <PoolCard
-            penalty={pool.penalty}
-            lockingWindow={pool.lockWindow}
-            expiry={pool.expiry}
-            tokenAddress={pool.token}
-            tokenAmount={pool.tokenBalance}
-            totalReward={pool.totalReward}
-            startTimestamp={Number(pool.createdAt)}
-            // totalDepositors={pool.totalDepositors}
-          />
+        <Col xs={12} sm={6} md={4} key={hToken.id}>
+          <PoolCard hToken={hToken} />
         </Col>
       )
     })

@@ -83,7 +83,6 @@ export const useConnection = () => {
 export const initOnboard = (addressChangeCallback, walletChangeCallback, networkChangeCallback, networkId) => {
   const networkname = networkId === 1 ? 'mainnet' : networkId === 3 ? 'ropsten' : 'kovan'
   const RPC_URL = `https://${networkname}.infura.io/v3/${INFURA_KEY}`
-  console.log(`RPC_URL`, RPC_URL)
   const onboard = Onboard({
     darkMode: getPreference('theme', 'light') === 'dark',
     dappId: BLOCKNATIVE_KEY, // [String] The API key created by step one above

@@ -9,36 +9,23 @@ import uniBarrel from '../../imgs/barrels/uniBarrel.png'
 import { useConnectedWallet } from '../../contexts/wallet'
 import { tokens, PoolState } from '../../constants'
 import { toTokenAmount } from '../../utils/math'
+import { hToken } from '../../types'
+import { toPoolName } from '../../utils/htoken'
 
 type PoolCardProps = {
-  startTimestamp: number
-  expiry: number
-  lockingWindow: number
-  penalty: number
-  totalReward: string
-  tokenAddress: string
-  tokenAmount: string
+  hToken: hToken
   // totalDepositors: number
 }
 
 function PoolCard({
-  tokenAddress,
-  tokenAmount,
-  totalReward,
-  penalty,
-  expiry,
-  lockingWindow,
-  startTimestamp,
+  hToken,
 }: // totalDepositors,
 PoolCardProps) {
   const theme = useTheme()
 
   const { networkId } = useConnectedWallet()
 
-  const token = useMemo(
-    () => tokens[networkId].find(t => t.id.toLowerCase() === tokenAddress),
-    [networkId, tokenAddress],
-  )
+  const token = useMemo(() => tokens[networkId].find(t => t.id.toLowerCase() === hToken.token), [networkId, hToken])
 
   const barrelImg = useMemo(() => {
     return token
@@ -54,12 +41,16 @@ PoolCardProps) {
       : defaultBarrel
   }, [token])
 
+  const poolTitle = useMemo(() => {
+    return toPoolName(hToken, networkId)
+  }, [hToken, networkId])
+
   const state: PoolState = useMemo(() => {
     const now = Date.now() / 1000
-    if (now > expiry) return PoolState.Expired
-    else if (now > expiry - lockingWindow) return PoolState.Locked
+    if (now > hToken.expiry) return PoolState.Expired
+    else if (now > hToken.expiry - hToken.lockWindow) return PoolState.Locked
     else return PoolState.Open
-  }, [expiry, lockingWindow])
+  }, [hToken.expiry, hToken.lockWindow])
 
   const progressBarColor = useMemo(() => {
     switch (state) {
@@ -73,14 +64,14 @@ PoolCardProps) {
   }, [state, theme])
 
   return token ? (
-    <Box heading="title">
+    <Box heading={poolTitle}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <img src={barrelImg} alt={'img'} height={150}></img>
         <br></br>
 
         <Entry>
           <EntryTitle>Penalty:</EntryTitle>
-          {penalty / 10}%
+          {hToken.penalty / 10}%
         </Entry>
 
         {/* <Entry>
@@ -90,23 +81,23 @@ PoolCardProps) {
 
         <Entry>
           <EntryTitle>Total Locked:</EntryTitle>
-          <TokenAmountWithoutIcon symbol={token.symbol} amount={tokenAmount} decimals={token.decimals} />
+          <TokenAmountWithoutIcon symbol={token.symbol} amount={hToken.tokenBalance} decimals={token.decimals} />
         </Entry>
 
         <Entry>
           <EntryTitle>Total Reward:</EntryTitle>
-          <TokenAmountWithoutIcon symbol={token.symbol} amount={totalReward} decimals={token.decimals} />
+          <TokenAmountWithoutIcon symbol={token.symbol} amount={hToken.totalReward} decimals={token.decimals} />
         </Entry>
 
         {/* expiry */}
         <Entry>
           <EntryTitle>Unlock In:</EntryTitle>
-          <Timer format="Md" end={new Date(expiry * 1000)} />
+          <Timer format="Md" end={new Date(hToken.expiry * 1000)} />
         </Entry>
 
         <ProgressBar
           color={progressBarColor}
-          value={(Date.now() / 1000 - startTimestamp) / (expiry - startTimestamp)}
+          value={(Date.now() / 1000 - hToken.createdAt) / (hToken.expiry - hToken.createdAt)}
         />
         <br></br>
         <Button wide>Deposit</Button>

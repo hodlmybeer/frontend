@@ -3,9 +3,11 @@ import { SupportedNetworks } from '../constants/networks'
 import { hToken, Account } from '../types'
 
 export async function getHTokens(networkId: SupportedNetworks, errorCallback: Function): Promise<hToken[]> {
+  console.log('get tokens called')
+  const now = (Date.now() / 1000).toFixed(0)
   const query = `
   {
-    htokens {
+    htokens (where: { expiry_gt: ${now} }) {
       id
       token
       symbol
@@ -25,7 +27,6 @@ export async function getHTokens(networkId: SupportedNetworks, errorCallback: Fu
   `
   try {
     const response = await postQuery(endpoints[networkId], query)
-    console.log(`response.data.htokens`, response.data.htokens)
     return response.data.htokens
   } catch (error) {
     console.log(`error`, error)

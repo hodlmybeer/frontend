@@ -51,7 +51,9 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "eslint:recommended"
+    ]
   },
   "husky": {
     "hooks": {
