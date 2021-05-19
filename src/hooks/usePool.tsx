@@ -2,6 +2,11 @@ import { useMemo, useCallback } from 'react'
 import { useConnectedWallet } from '../contexts/wallet'
 import { useNotify } from './useNotify'
 import BigNumber from 'bignumber.js'
+
+BigNumber.config({
+  DECIMAL_PLACES: 29,
+})
+
 // eslint-disable-next-line
 import { hToken } from '../types'
 
@@ -32,7 +37,7 @@ export function usePool(hToken: hToken) {
   const deposit = useCallback(
     async (amount: BigNumber) => {
       // change to batch Fill when it's live
-      await hTokenContract.methods.deposit(amount.toString()).send({ from: user }).on('transactionHash', notifyCallback)
+      await hTokenContract.methods.deposit(amount).send({ from: user }).on('transactionHash', notifyCallback)
     },
     [hTokenContract, notifyCallback, user],
   )

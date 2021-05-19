@@ -7,13 +7,14 @@ import TokenAmountWithoutIcon from '../../components/TokenAmountWithoutIcon'
 import { Row, Col, Container } from 'react-grid-system'
 import { toTokenAmount, fromTokenAmount } from '../../utils/math'
 import { usePool } from '../../hooks'
+import BigNumber from 'bignumber.js'
 
 export default function DepositDetail({ hodling }: { hodling: Hodling }) {
   const [isQuiting, setIsQuiting] = useState(false)
   const [isRedeeming, setIsRedeeming] = useState(false)
 
-  const [quitAmount, setQuitAmount] = useState<number>(0)
-  const [redeemAmount, setRedeemAmount] = useState<number>(0)
+  const [quitAmount, setQuitAmount] = useState<BigNumber>(new BigNumber(0))
+  const [redeemAmount, setRedeemAmount] = useState<BigNumber>(new BigNumber(0))
 
   const { quit, redeem } = usePool(hodling.token)
 
@@ -52,7 +53,7 @@ export default function DepositDetail({ hodling }: { hodling: Hodling }) {
                     symbol={hodling.token.symbol}
                     decimals={hodling.token.decimals}
                     amount={hodling.balance}
-                    onClick={() => setQuitAmount(toTokenAmount(hodling.balance, hodling.token.decimals).toNumber())}
+                    onClick={() => setQuitAmount(toTokenAmount(hodling.balance, hodling.token.decimals))}
                   />
                 </Entry>
               </Col>
@@ -81,9 +82,7 @@ export default function DepositDetail({ hodling }: { hodling: Hodling }) {
                     symbol={hodling.token.symbol}
                     decimals={hodling.token.decimals}
                     amount={hodling.shareBalance}
-                    onClick={() =>
-                      setRedeemAmount(toTokenAmount(hodling.shareBalance, hodling.token.decimals).toNumber())
-                    }
+                    onClick={() => setRedeemAmount(toTokenAmount(hodling.shareBalance, hodling.token.decimals))}
                   />
                 </Entry>
               </Col>

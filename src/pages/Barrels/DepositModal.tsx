@@ -33,7 +33,7 @@ DepositModalProps) {
   const { deposit, calculateShares } = usePool(hToken)
 
   // user input amount
-  const [inputAmount, setInputAmount] = useState<number>(0)
+  const [inputAmount, setInputAmount] = useState<BigNumber>(new BigNumber(0))
 
   const { allowance, approve } = useAllowance(hToken.token, hToken.id)
 
@@ -161,7 +161,7 @@ DepositModalProps) {
           wide
           type="number"
           onChange={event => {
-            if (event.target.value) setInputAmount(event.target.value)
+            if (event.target.value) setInputAmount(new BigNumber(event.target.value))
           }}
           value={inputAmount}
         ></TextInput>
@@ -185,7 +185,7 @@ DepositModalProps) {
           Balance:{' '}
           <LinkBase
             onClick={() => {
-              setInputAmount(userTokenBalance.toNumber())
+              setInputAmount(userTokenBalance)
             }}
           >
             {userTokenBalance.toString()} {underlyingSymbol}
