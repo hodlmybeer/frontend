@@ -32,7 +32,7 @@ export function usePool(hToken: hToken) {
   const deposit = useCallback(
     async (amount: BigNumber) => {
       // change to batch Fill when it's live
-      await hTokenContract.methods.deposit(amount).send({ from: user }).on('transactionHash', notifyCallback)
+      await hTokenContract.methods.deposit(amount.toString()).send({ from: user }).on('transactionHash', notifyCallback)
     },
     [hTokenContract, notifyCallback, user],
   )
@@ -40,7 +40,7 @@ export function usePool(hToken: hToken) {
   const redeem = useCallback(
     async (shares: BigNumber) => {
       // change to batch Fill when it's live
-      await hTokenContract.methods.redeem(shares).send({ from: user }).on('transactionHash', notifyCallback)
+      await hTokenContract.methods.redeem(shares.toString()).send({ from: user }).on('transactionHash', notifyCallback)
     },
     [hTokenContract, notifyCallback, user],
   )
@@ -48,7 +48,10 @@ export function usePool(hToken: hToken) {
   const quit = useCallback(
     async (hTokenAmount: BigNumber) => {
       // change to batch Fill when it's live
-      await hTokenContract.methods.quit(hTokenAmount).send({ from: user }).on('transactionHash', notifyCallback)
+      await hTokenContract.methods
+        .quit(hTokenAmount.toString())
+        .send({ from: user })
+        .on('transactionHash', notifyCallback)
     },
     [hTokenContract, notifyCallback, user],
   )
