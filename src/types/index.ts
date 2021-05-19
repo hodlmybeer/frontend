@@ -3,14 +3,18 @@ export type Token = {
   name: string
   symbol: string
   decimals: number
+  img?: string
+}
+
+export type Hodling = {
+  token: hToken
+  balance: string
+  shareBalance: string
 }
 
 export type Account = {
-  hodlings: {
-    token: hToken
-    balance: string
-    shareBalance: string
-  }
+  id: string
+  hodlings: Hodling[]
 }
 
 export type hToken = Token & {

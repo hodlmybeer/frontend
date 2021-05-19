@@ -1,6 +1,12 @@
 import { SupportedNetworks } from './networks'
 import { Token } from '../types/index'
 
+import ethIcon from '../imgs/coins/eth.png'
+import uniIcon from '../imgs/coins/uni.png'
+import usdcIcon from '../imgs/coins/usdc.png'
+import wbtcIcon from '../imgs/coins/wbtc.png'
+import wethIcon from '../imgs/coins/weth.png'
+
 type Tokens = {
   [key in SupportedNetworks]: Token[]
 }
@@ -12,6 +18,7 @@ export const eth: Token = {
   id: ZERO_ADDR,
   symbol: 'ETH',
   decimals: 18,
+  img: ethIcon,
 }
 
 export const tokens: Tokens = {
@@ -50,24 +57,28 @@ export const tokens: Tokens = {
       id: '0xc778417e063141139fce010982780140aa0cd5ab',
       symbol: 'WETH',
       decimals: 18,
+      img: wethIcon,
     },
     {
       name: 'Mock UNI',
       id: '0x042d140Bc1e281eb4477a12B979f297633f20B46',
       symbol: 'UNI',
       decimals: 18,
+      img: uniIcon,
     },
     {
       name: 'Mock USDC',
       id: '0xdAD5De585BC4AB7C7A3D4e00d95b9BdbC105d277',
       symbol: 'USDC',
       decimals: 6,
+      img: usdcIcon,
     },
     {
       name: 'Mock BTC',
       id: '0xbE10c00C6A0395a27ede213Bc4247887292B76B9',
       symbol: 'WBTC',
       decimals: 8,
+      img: wbtcIcon,
     },
   ],
   // [SupportedNetworks.Kovan]: [

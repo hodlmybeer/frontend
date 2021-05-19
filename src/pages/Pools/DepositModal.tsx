@@ -100,6 +100,23 @@ DepositModalProps) {
       <Entry>
         <EntryTitle uppercase={false}>
           <div style={{ display: 'flex' }}>
+            Early withdraw penalty:
+            <Help hint="What is penalty">
+              {' '}
+              If you withdraw your {underlyingSymbol} before expiry, you will get penalized.
+            </Help>
+          </div>
+        </EntryTitle>
+        <TokenAmountWithoutIcon
+          symbol={underlyingSymbol}
+          amount={depositAmount.times(hToken.penalty / 1000).toString()}
+          decimals={underlyingDecimals}
+        />
+      </Entry>
+
+      <Entry>
+        <EntryTitle uppercase={false}>
+          <div style={{ display: 'flex' }}>
             hToken minted:
             <Help hint="What is hToken">
               {' '}
@@ -127,7 +144,7 @@ DepositModalProps) {
             Approve{' '}
           </Button>
         ) : (
-          <Button style={{ minWidth: 150 }} mode="positive" onClick={depositToPool} diabled={!hasEnoughBalance}>
+          <Button style={{ minWidth: 150 }} mode="positive" onClick={depositToPool} disabled={!hasEnoughBalance}>
             {' '}
             Deposit{' '}
           </Button>

@@ -67,8 +67,6 @@ PoolCardProps) {
     }
   }, [state, theme])
 
-  console.log(`progressBarColor`, progressBarColor)
-
   return token ? (
     <Box
       heading={

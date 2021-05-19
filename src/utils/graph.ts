@@ -3,7 +3,6 @@ import { SupportedNetworks } from '../constants/networks'
 import { hToken, Account } from '../types'
 
 export async function getHTokens(networkId: SupportedNetworks, errorCallback: Function): Promise<hToken[]> {
-  console.log('get tokens called')
   const now = (Date.now() / 1000).toFixed(0)
   const query = `
   {
@@ -45,7 +44,7 @@ export async function getAccountHodlings(
 ): Promise<Account | null> {
   const query = `
   {
-  account(id: "${account}") {
+  account(id: "${account.toLowerCase()}") {
     id
     hodlings {
       id
@@ -62,6 +61,7 @@ export async function getAccountHodlings(
         penalty
         totalReward
         totalShares
+        token
       }
     }
   }
