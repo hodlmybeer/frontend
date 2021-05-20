@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react'
 import { Container, Row, Col } from 'react-grid-system'
 import { useAllHTokens } from '../../hooks'
-import { Header, SyncIndicator } from '@aragon/ui'
+import { SyncIndicator } from '@aragon/ui'
 import Comment from '../../components/Comment'
+import Header from '../../components/Header'
 import PoolCard from './PoolCard'
 
 function Barrels() {
