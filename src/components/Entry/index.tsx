@@ -6,6 +6,7 @@ export function Entry({ children }: { children: ReactChild[] }) {
     <div
       style={{
         width: '100%',
+        minHeight: 20,
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'flex-end',

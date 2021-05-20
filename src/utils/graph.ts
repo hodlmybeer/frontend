@@ -21,6 +21,7 @@ export async function getHTokens(networkId: SupportedNetworks, errorCallback: Fu
       totalFee
       totalShares
       totalReward
+      n
     }
   }
   `
@@ -62,6 +63,7 @@ export async function getAccountHodlings(
         totalReward
         totalShares
         token
+        n
       }
     }
   }

@@ -1,15 +1,18 @@
 import React, { useMemo, useState, useCallback } from 'react'
 import { Modal, TextInput, Button, useTheme, LinkBase, Header, Help, Timer, LoadingRing } from '@aragon/ui'
-
-import { useConnectedWallet } from '../../contexts/wallet'
-import { toTokenAmount, fromTokenAmount } from '../../utils/math'
-import { hToken } from '../../types'
-import { useAllowance, useTokenBalance, usePool } from '../../hooks'
-import useAsyncMemo from '../../hooks/useAsyncMemo'
 import BigNumber from 'bignumber.js'
+
 import Wanrinig from '../../components/Warning'
 import TokenAmountWithoutIcon from '../../components/TokenAmountWithoutIcon'
 import { Entry, EntryTitle } from '../../components/Entry'
+
+import { hToken } from '../../types'
+import { useConnectedWallet } from '../../contexts/wallet'
+import { useAllowance, useTokenBalance, usePool, useAsyncMemo } from '../../hooks'
+import { toTokenAmount, fromTokenAmount } from '../../utils/math'
+import { mintTestnetToken } from '../../utils/others'
+import { tokens } from '../../constants'
+import { useNotify } from '../../hooks/useNotify'
 
 type DepositModalProps = {
   hToken: hToken
@@ -28,7 +31,8 @@ DepositModalProps) {
 
   const theme = useTheme()
 
-  const { user } = useConnectedWallet()
+  const { user, web3, networkId } = useConnectedWallet()
+  const { notifyCallback } = useNotify()
 
   const { deposit, calculateShares } = usePool(hToken)
 
@@ -82,6 +86,25 @@ DepositModalProps) {
     }
   }, [depositAmount, approve])
 
+  // for faucet
+  const handleMintTestnetToken = useCallback(async () => {
+    await mintTestnetToken(web3, hToken.token, fromTokenAmount(100, hToken.decimals), user, notifyCallback)
+  }, [web3, hToken.token, hToken.decimals, user, notifyCallback])
+
+  const faucetToken = useMemo(() => {
+    return tokens[networkId].find(t => t.id.toLowerCase() === hToken.token)
+  }, [hToken, networkId])
+
+  const coefficientHint = useMemo(
+    () =>
+      hToken.n === 0
+        ? 'stable' // todo: revisit usage
+        : hToken.n === 1
+        ? 'linear'
+        : 'exponential',
+    [hToken],
+  )
+
   return (
     <Modal padding={'7%'} visible={open} onClose={onClose}>
       <Header primary={`Lock up your ${underlyingSymbol}!`} />
@@ -94,6 +117,10 @@ DepositModalProps) {
       <Entry>
         <EntryTitle uppercase={false}>Total Shares</EntryTitle>
         <TokenAmountWithoutIcon symbol="shares" amount={hToken.totalShares} decimals={hToken.decimals} />
+      </Entry>
+      <Entry>
+        <EntryTitle uppercase={false}>Share decrease coefficient</EntryTitle>
+        <TokenAmountWithoutIcon amount={hToken.n.toString()} symbol={`(${coefficientHint})`} decimals={0} />
       </Entry>
       <Entry>
         <EntryTitle uppercase={false}>Unlock in</EntryTitle>
@@ -195,6 +222,12 @@ DepositModalProps) {
           <Wanrinig show={!hasEnoughBalance} text="Insufficient Balance" />
         </div>
       </Entry>
+      {faucetToken && faucetToken.mintable && (
+        <Button size="small" onClick={handleMintTestnetToken}>
+          {' '}
+          Faucet{' '}
+        </Button>
+      )}
     </Modal>
   )
 }

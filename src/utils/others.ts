@@ -1,8 +1,8 @@
 import Web3 from 'web3'
 import ENS from 'ethereum-ens'
-import { toTokenAmount } from './math'
 import BigNumber from 'bignumber.js'
 
+const testTokenAbi = require('../constants/abis/mintableErc20.json')
 const INFURA_KEY = process.env.REACT_APP_INFURA_KEY
 
 // ENS
@@ -27,4 +27,15 @@ export function toUTCDateString(expiry: number): string {
 
 export function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+export async function mintTestnetToken(
+  web3: Web3,
+  token: string,
+  amount: BigNumber,
+  user: string,
+  notifyCallback: Function,
+) {
+  const erc = new web3.eth.Contract(testTokenAbi, token)
+  await erc.methods.mint(user, amount.toString()).send({ from: user }).on('transactionHash', notifyCallback)
 }

@@ -65,6 +65,7 @@ export const tokens: Tokens = {
       symbol: 'UNI',
       decimals: 18,
       img: uniIcon,
+      mintable: true,
     },
     {
       name: 'Mock USDC',
@@ -72,6 +73,7 @@ export const tokens: Tokens = {
       symbol: 'USDC',
       decimals: 6,
       img: usdcIcon,
+      mintable: true,
     },
     {
       name: 'Mock BTC',
@@ -79,6 +81,7 @@ export const tokens: Tokens = {
       symbol: 'WBTC',
       decimals: 8,
       img: wbtcIcon,
+      mintable: true,
     },
   ],
   // [SupportedNetworks.Kovan]: [

@@ -8,18 +8,20 @@ export default function TokenAmountWithoutIcon({
   amount,
   decimals,
   onClick,
+  reverse,
 }: {
-  symbol: string
+  symbol: string | any
   amount: string
   decimals: number
   onClick?: Function
+  reverse?: boolean
 }) {
   const theme = useTheme()
   const number = toTokenAmount(amount, decimals)
   const numebrStr = number.isInteger() ? number.toFixed() : number.toFormat(3)
 
   return (
-    <LinkBase style={{ display: 'flex' }} onClick={onClick}>
+    <LinkBase style={{ display: 'flex', flexDirection: reverse ? 'column-reverse' : 'normal' }} onClick={onClick}>
       <div> {numebrStr} </div>
       <div style={{ color: theme.contentSecondary, paddingLeft: 2 }}> {symbol} </div>
     </LinkBase>

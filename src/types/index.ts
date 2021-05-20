@@ -4,6 +4,7 @@ export type Token = {
   symbol: string
   decimals: number
   img?: string
+  mintable?: boolean
 }
 
 export type Hodling = {
@@ -30,4 +31,5 @@ export type hToken = Token & {
   totalShares: string
   totalFee: string
   totalReward: string
+  n: number // decrease coefficient
 }
