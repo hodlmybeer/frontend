@@ -33,15 +33,14 @@ export const useConnection = () => {
   }, [])
 
   const onboard = useMemo(() => {
-    function _handleNetworkChange(_networkId) {
-      if (_networkId in SupportedNetworks) {
-        setNetworkId(_networkId)
+    const _handleNetworkChange = (_newNetwork: number) => {
+      if (_newNetwork in SupportedNetworks) {
+        setNetworkId(_newNetwork)
         storePreference('gamma-networkId', networkId.toString())
-      }
-      if (onboard)
         onboard.config({
-          networkId: _networkId,
+          networkId: _newNetwork,
         })
+      }
     }
 
     return initOnboard(setAddressCallback, setWalletCallback, _handleNetworkChange, networkId)
@@ -81,12 +80,14 @@ export const useConnection = () => {
 }
 
 export const initOnboard = (addressChangeCallback, walletChangeCallback, networkChangeCallback, networkId) => {
+  console.log(`networkId`, networkId)
   const networkname = networkId === 1 ? 'mainnet' : networkId === 3 ? 'ropsten' : 'kovan'
   const RPC_URL = `https://${networkname}.infura.io/v3/${INFURA_KEY}`
   const onboard = Onboard({
     darkMode: getPreference('theme', 'light') === 'dark',
     dappId: BLOCKNATIVE_KEY, // [String] The API key created by step one above
-    networkId: networkId, // [Integer] The Ethereum network ID your Dapp uses.
+    networkId: 3, // todo: change this
+    // networkId: networkId, // [Integer] The Ethereum network ID your Dapp uses.
     subscriptions: {
       address: addressChangeCallback,
       wallet: walletChangeCallback,
