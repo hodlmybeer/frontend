@@ -1,7 +1,8 @@
 import React from 'react'
 import moment from 'moment'
+import { useHistory } from 'react-router-dom'
 
-import { Box, useTheme } from '@aragon/ui'
+import { Box, useTheme, Button } from '@aragon/ui'
 import { Token } from '../../types'
 import { useAsyncMemo } from '../../hooks'
 import { Entry } from '../../components/Entry'
@@ -12,6 +13,7 @@ type CardProps = {
 }
 export default function Card({ token }: CardProps) {
   const theme = useTheme()
+  const history = useHistory()
   const { oneMonth, sixMonths, oneYear, current } = useAsyncMemo(
     async () => {
       return await getHistoricalPrice(token.coingeckId as string)
@@ -52,6 +54,11 @@ export default function Card({ token }: CardProps) {
           <div> 1 Year </div>
           {getPercentage(current, oneYear, theme.positive, theme.negative)}
         </Entry>
+        <br />
+        <Button wide onClick={() => history.push(`/barrels?token=${token.symbol}`)}>
+          {' '}
+          Hodl {token.symbol}!{' '}
+        </Button>
       </div>
     </Box>
   )
