@@ -55,6 +55,7 @@ export const tokens: Tokens = {
     {
       name: 'Wrapped Ether',
       id: '0xc778417e063141139fce010982780140aa0cd5ab',
+      coingeckId: 'ethereum',
       symbol: 'WETH',
       decimals: 18,
       img: wethIcon,
@@ -62,6 +63,7 @@ export const tokens: Tokens = {
     {
       name: 'Mock UNI',
       id: '0x042d140Bc1e281eb4477a12B979f297633f20B46',
+      coingeckId: 'uniswap',
       symbol: 'UNI',
       decimals: 18,
       img: uniIcon,
@@ -71,6 +73,7 @@ export const tokens: Tokens = {
       name: 'Mock USDC',
       id: '0xdAD5De585BC4AB7C7A3D4e00d95b9BdbC105d277',
       symbol: 'USDC',
+      coingeckId: '',
       decimals: 6,
       img: usdcIcon,
       mintable: true,
@@ -78,6 +81,7 @@ export const tokens: Tokens = {
     {
       name: 'Mock BTC',
       id: '0xbE10c00C6A0395a27ede213Bc4247887292B76B9',
+      coingeckId: 'bitcoin',
       symbol: 'WBTC',
       decimals: 8,
       img: wbtcIcon,

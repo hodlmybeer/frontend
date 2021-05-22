@@ -5,6 +5,7 @@ export type Token = {
   decimals: number
   img?: string
   mintable?: boolean
+  coingeckId?: string
 }
 
 export type Hodling = {

@@ -1,14 +1,30 @@
-import React from 'react'
-import { Button } from '@aragon/ui'
-import { Container } from 'react-grid-system'
+import React, { useMemo } from 'react'
+import { LinkBase, useTheme } from '@aragon/ui'
+import { Container, Row, Col } from 'react-grid-system'
 import { useHistory } from 'react-router-dom'
 
+import beer2 from '../../imgs/beer2.png'
+
 import { Header } from '../../components/Header'
-import holding from '../../imgs/holding-beer.png'
 import SectionTitle from '../../components/SectionHeader'
+import { useConnectedWallet } from '../../contexts/wallet'
+
+import { tokens } from '../../constants'
+import MetrixCard from './MetrixCard'
 
 function Home() {
   const history = useHistory()
+  const theme = useTheme()
+  const { networkId } = useConnectedWallet()
+
+  const randomCoins = useMemo(() => {
+    const shuffled = tokens[networkId].filter(t => t.coingeckId).sort(() => 0.5 - Math.random())
+
+    // Get sub-array of first n elements after shuffled
+    const n = shuffled.length > 3 ? 3 : shuffled.length
+    let selected = shuffled.slice(0, n)
+    return selected
+  }, [networkId])
 
   return (
     <Container>
@@ -19,11 +35,39 @@ function Home() {
         <div style={{ paddingTop: 5 }}>
           Here, we help you hodl your coins, and make extra money by holding longer than everyone else.
         </div>
-        <img style={{ paddingTop: '3%' }} src={holding} height={150} alt="logo-beer"></img>
-        <Button mode="positive" onClick={() => history.push('/barrels')}>
-          {' '}
-          Start HODLing{' '}
-        </Button>
+        <br />
+
+        <Row style={{ width: '100%' }}>
+          {randomCoins.map(coin => (
+            <Col lg={4} sm={12} key={coin.id}>
+              <MetrixCard token={coin} />
+            </Col>
+          ))}
+        </Row>
+        <br></br>
+        <Row style={{ width: '100%' }}>
+          <Col offset={{ lg: 4 }} lg={4}>
+            <LinkBase
+              style={{
+                width: '100%',
+                height: 70,
+                borderColor: theme.border,
+                color: 'white',
+                backgroundColor: theme.positive,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 20,
+                fontFamily: 'Recursive',
+              }}
+              mode="positive"
+              onClick={() => history.push('/barrels')}
+            >
+              <span>Explore More</span>
+              <img style={{ paddingLeft: '3%' }} src={beer2} height={50} alt="logo-beer"></img>
+            </LinkBase>
+          </Col>
+        </Row>
       </div>
     </Container>
   )
