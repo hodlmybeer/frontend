@@ -7,10 +7,11 @@ import usdcBarrel from '../../imgs/barrels/usdcBarrel.png'
 import wethBarrel from '../../imgs/barrels/wethBarrel.png'
 import wbtcBarrel from '../../imgs/barrels/wbtcBarrel.png'
 import uniBarrel from '../../imgs/barrels/uniBarrel.png'
+import linkBarrel from '../../imgs/barrels/linkBarrel.png'
 
 import { useConnectedWallet } from '../../contexts/wallet'
-import { tokens, BarrelState, networkIdToAddressUrl } from '../../constants'
-import { hToken } from '../../types'
+import { BarrelState, networkIdToAddressUrl } from '../../constants'
+import { hToken, Token } from '../../types'
 import { toPoolName } from '../../utils/htoken'
 
 import TokenAmountWithoutIcon from '../../components/TokenAmountWithoutIcon'
@@ -19,10 +20,11 @@ import CountDownTimer from '../../components/Countdown'
 
 type PoolCardProps = {
   hToken: hToken
-  // totalDepositors: number
+  token: Token | undefined
 }
 
 function PoolCard({
+  token,
   hToken,
 }: // totalDepositors,
 PoolCardProps) {
@@ -31,8 +33,6 @@ PoolCardProps) {
   const theme = useTheme()
 
   const { networkId } = useConnectedWallet()
-
-  const token = useMemo(() => tokens[networkId].find(t => t.id.toLowerCase() === hToken.token), [networkId, hToken])
 
   const barrelImg = useMemo(() => {
     return token
@@ -44,6 +44,8 @@ PoolCardProps) {
         ? usdcBarrel
         : token.symbol === 'UNI'
         ? uniBarrel
+        : token.symbol === 'LINK'
+        ? linkBarrel
         : defaultBarrel
       : defaultBarrel
   }, [token])

@@ -6,6 +6,7 @@ import uniIcon from '../imgs/coins/uni.png'
 import usdcIcon from '../imgs/coins/usdc.png'
 import wbtcIcon from '../imgs/coins/wbtc.png'
 import wethIcon from '../imgs/coins/weth.png'
+import linkIcon from '../imgs/coins/link.png'
 
 type Tokens = {
   [key in SupportedNetworks]: Token[]
@@ -48,6 +49,13 @@ export const tokens: Tokens = {
   //     symbol: 'UNI',
   //     decimals: 18,
   //   },
+  // {
+  //   name: 'Chainlink',
+  //   id: '0x514910771af9ca656af840dff83e8264ecf986ca',
+  //   symbol: 'LINK',
+  //   decimals: 18,
+  //   img: linkIcon
+  // }
   // ],
 
   [SupportedNetworks.Ropsten]: [
@@ -85,6 +93,15 @@ export const tokens: Tokens = {
       symbol: 'WBTC',
       decimals: 8,
       img: wbtcIcon,
+      mintable: true,
+    },
+    {
+      name: 'Mock Chainlink',
+      id: '0xDC33784882E1Cd2CF46E583ca0C0905545D6759b',
+      coingeckId: 'chainlink',
+      symbol: 'LINK',
+      decimals: 18,
+      img: linkIcon,
       mintable: true,
     },
   ],
