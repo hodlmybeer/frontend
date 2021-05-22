@@ -27,7 +27,7 @@ function MyBar() {
   const dashboardButtom = useMemo(() => {
     return (
       <LinkBase
-        style={{ padding: 5, fontSize: 20 }}
+        style={{ padding: 5, fontSize: 20, fontFamily: 'Recursive' }}
         onClick={() => {
           history.push('/dashboard')
         }}
@@ -40,7 +40,7 @@ function MyBar() {
   const barrelsButtom = useMemo(() => {
     return (
       <LinkBase
-        style={{ padding: 5, fontSize: 20 }}
+        style={{ padding: 5, fontSize: 20, fontFamily: 'Recursive' }}
         onClick={() => {
           history.push('/barrels')
         }}

@@ -32,7 +32,7 @@ export default function Card({ token }: CardProps) {
         {current === 0 ? (
           <SectionTitle title={`Loading ${token.symbol} price...`} />
         ) : (
-          <SectionTitle title={`Traded at  $${current.toFixed(2)}`} />
+          <SectionTitle title={`Trading at  $${current.toFixed(2)}`} />
         )}
         <Entry>
           <SectionTitle title={`Holding Gain:`} />
