@@ -13,8 +13,9 @@ export const useConnection = () => {
 
   const [web3, setWeb3] = useState<Web3>(new Web3(`https://mainnet.infura.io/v3/${INFURA_KEY}`))
 
-  const storedNetwork = Number(getPreference('gamma-networkId', '3'))
-  const [networkId, setNetworkId] = useState<SupportedNetworks>(storedNetwork)
+  const [networkId, setNetworkId] = useState<SupportedNetworks>(3)
+
+  const [currnetProviderNetwork, setCurrentProvideNetwork] = useState<number>(3)
 
   // function for block native sdk when address is updated
   const setAddressCallback = useCallback((address: string | undefined) => {
@@ -36,11 +37,12 @@ export const useConnection = () => {
     const _handleNetworkChange = (_newNetwork: number) => {
       if (_newNetwork in SupportedNetworks) {
         setNetworkId(_newNetwork)
-        storePreference('gamma-networkId', networkId.toString())
         onboard.config({
           networkId: _newNetwork,
         })
       }
+      // update curentProviderNetwork no matter what
+      setCurrentProvideNetwork(_newNetwork)
     }
 
     return initOnboard(setAddressCallback, setWalletCallback, _handleNetworkChange, networkId)
@@ -76,11 +78,10 @@ export const useConnection = () => {
     setUser('')
   }, [onboard])
 
-  return { networkId, user, setUser, web3, connect, disconnect }
+  return { networkId, user, setUser, web3, connect, disconnect, currnetProviderNetwork }
 }
 
 export const initOnboard = (addressChangeCallback, walletChangeCallback, networkChangeCallback, networkId) => {
-  console.log(`networkId`, networkId)
   const networkname = networkId === 1 ? 'mainnet' : networkId === 3 ? 'ropsten' : 'kovan'
   const RPC_URL = `https://${networkname}.infura.io/v3/${INFURA_KEY}`
   const onboard = Onboard({
@@ -114,7 +115,7 @@ export const initOnboard = (addressChangeCallback, walletChangeCallback, network
           apiKey: FORTMATIC_KEY,
           preferred: true,
         },
-        { walletName: 'lattice', appName: 'Gamma Portal', rpcUrl: RPC_URL, preferred: true },
+        { walletName: 'lattice', appName: 'Hodl', rpcUrl: RPC_URL, preferred: true },
       ],
     },
     walletCheck: [

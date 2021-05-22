@@ -8,12 +8,14 @@ export interface Wallet {
   user: string
   setUser: (user: string) => void
   networkId: SupportedNetworks
+  currnetProviderNetwork: number
   connect: () => Promise<string | false>
   disconnect: Function
 }
 
 export const DEFAULT: Wallet = {
   networkId: 1,
+  currnetProviderNetwork: 1,
   web3: new Web3(`https://mainnet.infura.io/v3/${INFURA_KEY}`),
   user: '',
   setUser: (user: string): void => {},
