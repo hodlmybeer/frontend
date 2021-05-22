@@ -109,7 +109,7 @@ PoolCardProps) {
           value={(Date.now() / 1000 - hToken.createdAt) / (hToken.expiry - hToken.createdAt)}
         />
         <br></br>
-        <Button wide onClick={() => setModalOpened(true)}>
+        <Button wide onClick={() => setModalOpened(true)} disabled={state === BarrelState.Locked}>
           Deposit
         </Button>
       </div>
