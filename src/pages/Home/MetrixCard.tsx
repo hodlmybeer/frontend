@@ -1,7 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 
-import { Box } from '@aragon/ui'
+import { Box, useTheme } from '@aragon/ui'
 import { Token } from '../../types'
 import { useAsyncMemo } from '../../hooks'
 import { Entry } from '../../components/Entry'
@@ -11,6 +11,7 @@ type CardProps = {
   token: Token
 }
 export default function Card({ token }: CardProps) {
+  const theme = useTheme()
   const { oneMonth, sixMonths, oneYear, current } = useAsyncMemo(
     async () => {
       return await getHistoricalPrice(token.coingeckId as string)
@@ -25,7 +26,7 @@ export default function Card({ token }: CardProps) {
   )
 
   return (
-    <Box>
+    <Box heading={token.symbol}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <img src={token.img} height={80} alt={'token'} />
 
@@ -41,29 +42,29 @@ export default function Card({ token }: CardProps) {
 
         <Entry>
           <div> 1 Month </div>
-          {getPercentage(current, oneMonth)}
+          {getPercentage(current, oneMonth, theme.positive, theme.negative)}
         </Entry>
         <Entry>
           <div> 6 Months </div>
-          {getPercentage(current, sixMonths)}
+          {getPercentage(current, sixMonths, theme.positive, theme.negative)}
         </Entry>
         <Entry>
           <div> 1 Year </div>
-          {getPercentage(current, oneYear)}
+          {getPercentage(current, oneYear, theme.positive, theme.negative)}
         </Entry>
       </div>
     </Box>
   )
 }
 
-function getPercentage(current: number, historical: number | undefined) {
+function getPercentage(current: number, historical: number | undefined, green: string, red: string) {
   if (!historical) return <div> - </div>
   if (current > historical) {
     const ratio = ((current / historical - 1) * 100).toFixed(2)
-    return <div style={{ color: 'green' }}> {ratio}% </div>
+    return <div style={{ color: green }}> {ratio}% </div>
   } else {
     const ratio = ((1 - current / historical) * 100).toFixed(2)
-    return <div style={{ color: 'red' }}> -{ratio}% </div>
+    return <div style={{ color: red }}> -{ratio}% </div>
   }
 }
 
