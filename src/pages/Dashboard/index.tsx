@@ -2,11 +2,12 @@ import React, { useCallback } from 'react'
 import BigNumber from 'bignumber.js'
 import { Container } from 'react-grid-system'
 import { useHistory } from 'react-router-dom'
-import { DataView, TokenAmount, Timer, IdentityBadge, LinkBase, Info } from '@aragon/ui'
+import { DataView, TokenAmount, IdentityBadge, LinkBase, Info } from '@aragon/ui'
 
 import Detail from './Detail'
 import SectionTitle from '../../components/SectionHeader'
 import Header from '../../components/Header'
+import CountDownTimer from '../../components/Countdown'
 import { tokens } from '../../constants'
 import { useConnectedWallet } from '../../contexts/wallet'
 import { useAccountHodlings } from '../../hooks'
@@ -22,7 +23,6 @@ function DashBoard() {
   const renderHodlingRow = useCallback(
     (hodling: Hodling) => {
       const token = tokens[networkId].find(t => t.id.toLowerCase() === hodling.token.token)
-      const endTimeMs = Date.now() + 86400 * 100 * 1000
 
       const shareRatio =
         hodling.shareBalance === '0'
@@ -43,8 +43,7 @@ function DashBoard() {
           iconUrl={token ? token.img : undefined}
         />
       )
-
-      const countDown = <Timer end={new Date(endTimeMs)} format="Md" />
+      const countDown = <CountDownTimer expiry={hodling.token.expiry} />
 
       const rewardAmount = (
         <TokenAmount

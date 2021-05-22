@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { Timer, Box, Button, ProgressBar, useTheme, LinkBase } from '@aragon/ui'
+import { Box, Button, ProgressBar, useTheme, LinkBase } from '@aragon/ui'
 import DepositModal from './DepositModal'
 
 import defaultBarrel from '../../imgs/barrels/barrel.png'
@@ -15,6 +15,7 @@ import { toPoolName } from '../../utils/htoken'
 
 import TokenAmountWithoutIcon from '../../components/TokenAmountWithoutIcon'
 import { Entry, EntryTitle } from '../../components/Entry'
+import CountDownTimer from '../../components/Countdown'
 
 type PoolCardProps = {
   hToken: hToken
@@ -100,7 +101,7 @@ PoolCardProps) {
         {/* expiry */}
         <Entry>
           <EntryTitle>Unlock In:</EntryTitle>
-          <Timer format="Md" end={new Date(hToken.expiry * 1000)} />
+          <CountDownTimer expiry={hToken.expiry} />
         </Entry>
 
         <ProgressBar
