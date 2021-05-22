@@ -109,7 +109,11 @@ DepositModalProps) {
     <Modal padding={'7%'} visible={open} onClose={onClose}>
       <Header primary={`Lock up your ${underlyingSymbol}!`} />
 
-      <div style={{ fontSize: 18 }}> Pool Overview </div>
+      <div style={{ fontSize: 18 }}> Barrel Overview </div>
+      <Entry>
+        <EntryTitle uppercase={false}>Penalty</EntryTitle>
+        <TokenAmountWithoutIcon symbol={'%'} amount={(hToken.penalty / 10).toString()} decimals={0} />
+      </Entry>
       <Entry>
         <EntryTitle uppercase={false}>Total Locked</EntryTitle>
         <TokenAmountWithoutIcon symbol={underlyingSymbol} amount={hToken.tokenBalance} decimals={underlyingDecimals} />

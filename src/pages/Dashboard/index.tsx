@@ -56,8 +56,8 @@ function DashBoard() {
           iconUrl={token ? token.img : undefined}
         />
       )
-      const poolName = toPoolName(hodling.token, networkId)
-      const badge = <IdentityBadge entity={hodling.token.id} customLabel={poolName} />
+      const barrelName = toPoolName(hodling.token, networkId)
+      const badge = <IdentityBadge entity={hodling.token.id} customLabel={barrelName} />
       return [tokenAmount, badge, countDown, percentage, rewardAmount]
     },
     [networkId],
@@ -70,7 +70,7 @@ function DashBoard() {
       {user ? (
         <DataView
           status={isLoading ? 'loading' : 'default'}
-          fields={['Asset', 'Pool', 'Countdown', 'Reward Share', 'Current Reward']}
+          fields={['Asset', 'Barrel', 'Countdown', 'Reward Share', 'Current Reward']}
           renderEntry={renderHodlingRow}
           renderEntryExpansion={hodling => {
             return <Detail hodling={hodling} />

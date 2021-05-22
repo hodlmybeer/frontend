@@ -44,6 +44,13 @@ function Home() {
             </Col>
           ))}
         </Row>
+        <div style={{ fontSize: 12, paddingTop: 5, color: theme.surfaceContentSecondary }}>
+          Data from{' '}
+          <a rel="noopener noreferrer" target="_blank" href="https://www.coingecko.com/en">
+            {' '}
+            CoinGecko{' '}
+          </a>
+        </div>
         <br></br>
         <Row style={{ width: '100%' }}>
           <Col offset={{ lg: 4 }} lg={4}>
