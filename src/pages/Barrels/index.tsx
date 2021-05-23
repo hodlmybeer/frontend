@@ -6,6 +6,7 @@ import { Token } from '../../types'
 import Comment from '../../components/Comment'
 import Header from '../../components/Header'
 import PoolCard from './PoolCard'
+import Create from './Create'
 import { tokens } from '../../constants'
 import { useConnectedWallet } from '../../contexts/wallet'
 
@@ -47,6 +48,7 @@ function Barrels() {
     <Container>
       <Header primary="Barrels" />
       <Comment text="Choose your favorate barrel and how long you wanna keep your coins there." />
+      <Comment text="Once you deposit, your tokens will be locked up. If you choose to withdraw early, you will be penalized." />
       <br />
       <Row>
         <Col md={6} lg={4}>
@@ -63,7 +65,22 @@ function Barrels() {
       </Row>
 
       <br />
-      <Row>{barrels}</Row>
+      <Row>
+        {barrels}
+        {
+          <Col
+            style={{
+              padding: 5,
+            }}
+            xs={12}
+            sm={6}
+            md={4}
+            key="create"
+          >
+            <Create />
+          </Col>
+        }
+      </Row>
       <SyncIndicator visible={isLoading}> Loading... </SyncIndicator>
     </Container>
   )

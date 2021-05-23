@@ -8,11 +8,13 @@ import wbtcIcon from '../imgs/coins/wbtc.png'
 import wethIcon from '../imgs/coins/weth.png'
 import linkIcon from '../imgs/coins/link.png'
 
-type Tokens = {
-  [key in SupportedNetworks]: Token[]
-}
-
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000'
+
+export const factories: {
+  [key in SupportedNetworks]: string
+} = {
+  [SupportedNetworks.Ropsten]: '0xa3Bc356206dB2Adc75Eb79edaf07176Fd5849cF9',
+}
 
 export const eth: Token = {
   name: 'Ether',
@@ -20,6 +22,10 @@ export const eth: Token = {
   symbol: 'ETH',
   decimals: 18,
   img: ethIcon,
+}
+
+type Tokens = {
+  [key in SupportedNetworks]: Token[]
 }
 
 export const tokens: Tokens = {
@@ -59,7 +65,6 @@ export const tokens: Tokens = {
   // ],
 
   [SupportedNetworks.Ropsten]: [
-    eth,
     {
       name: 'Wrapped Ether',
       id: '0xc778417e063141139fce010982780140aa0cd5ab',
