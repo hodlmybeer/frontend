@@ -17,11 +17,11 @@ function ApproveSwitch() {
         <SectionTitle title="ERC20 Approve Mode" />
         <div style={{ paddingLeft: '10px', paddingTop: '25px' }}>
           <Help hint={'What is this'}>
-            Enabling unlimited approval will enable smart contracts to move all your token balance with 1 approval
+            Enabling unlimited approval will enable smart contracts to move all your token balance with 1 approve
             transaction.
             <br />
-            This can save you from making duplicated "approve" transactions, but it's also considered risky because if
-            Opyn got exploit, the hacker may be able to move your ERC20 tokens from your wallet.
+            This can save you gas if you plan to use this contract multiple times, but it's also considered risky
+            because if the contract got exploited, the hacker may be able to move all your tokens from your wallet.
           </Help>
         </div>
       </div>
