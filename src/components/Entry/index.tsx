@@ -26,6 +26,7 @@ export function EntryTitle({ children, uppercase = true }: { children: ReactChil
         color: theme.contentSecondary,
         fontSize: 14,
         fontWeight: 400,
+        paddingRight: 5,
       }}
     >
       {children}

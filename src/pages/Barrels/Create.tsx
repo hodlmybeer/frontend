@@ -1,6 +1,18 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react'
 import BigNumber from 'bignumber.js'
-import { Box, Button, useTheme, Modal, TextInput, Header, DropDown, EthIdenticon, Info, LoadingRing } from '@aragon/ui'
+import {
+  Box,
+  Button,
+  useTheme,
+  Modal,
+  TextInput,
+  Header,
+  DropDown,
+  EthIdenticon,
+  Info,
+  LoadingRing,
+  Help,
+} from '@aragon/ui'
 import moment from 'moment'
 
 import defaultBarrel from '../../imgs/barrels/barrel.png'
@@ -121,7 +133,13 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
         />
       </Entry>
       <Entry>
-        <EntryTitle uppercase={false}>Locking Window</EntryTitle>
+        <div style={{ display: 'flex' }}>
+          <EntryTitle uppercase={false}>Locking Window</EntryTitle>
+          <Help hint="What is locking window">
+            Days before expiry that the barrel will be locked and no longer accept deposit.
+          </Help>
+        </div>
+
         <TextInput
           value={lockingPeriodDays}
           onChange={event => setLockingDays(event.target.value)}
@@ -152,7 +170,14 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
         />
       </Entry>
       <Entry>
-        <EntryTitle uppercase={false}>Fee</EntryTitle>
+        <div style={{ display: 'flex' }}>
+          <EntryTitle uppercase={false}>Fee</EntryTitle>
+          <Help hint="When are fee charged">
+            The fee is charged from the penalty amount when someone quit. If everyone hodls until the end, there will be
+            no fees accrued.
+          </Help>
+        </div>
+
         <TextInput
           value={fee}
           type="number"
@@ -162,7 +187,14 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
         />
       </Entry>
       <Entry>
-        <EntryTitle uppercase={false}>Share Decreasing Coefficient (N)</EntryTitle>
+        <div style={{ display: 'flex' }}>
+          <EntryTitle uppercase={false}>Share Decreasing Coefficient (N)</EntryTitle>
+          <Help hint="When is N">
+            N indicates how fast the reward share drops as time goes by. If N = 1, it drops linearly. In other words,
+            shares you get is proportional to (remaining time / total time ) ^ N
+          </Help>
+        </div>
+
         <TextInput
           value={n}
           type="number"
