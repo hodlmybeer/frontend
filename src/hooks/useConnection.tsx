@@ -11,10 +11,13 @@ const FORTMATIC_KEY = process.env.REACT_APP_FORTMATIC_KEY
 export const useConnection = () => {
   const [user, setUser] = useState<string>('')
 
+  // web3 instance associate with the wallet. if the wallet is on a weird network, could be bad.
   const [web3, setWeb3] = useState<Web3>(new Web3(`https://mainnet.infura.io/v3/${INFURA_KEY}`))
 
+  // the network id that should be used to retrive data. (always a supported network)
   const [networkId, setNetworkId] = useState<SupportedNetworks>(3)
 
+  // the network id that the current provider is on.
   const [currnetProviderNetwork, setCurrentProvideNetwork] = useState<number>(3)
 
   // function for block native sdk when address is updated
@@ -82,8 +85,7 @@ export const useConnection = () => {
 }
 
 export const initOnboard = (addressChangeCallback, walletChangeCallback, networkChangeCallback, networkId) => {
-  const networkname = networkId === 1 ? 'mainnet' : networkId === 3 ? 'ropsten' : 'kovan'
-  const RPC_URL = `https://${networkname}.infura.io/v3/${INFURA_KEY}`
+  const RPC_URL = getInfuraProvider(networkId)
   const onboard = Onboard({
     darkMode: getPreference('theme', 'light') === 'dark',
     dappId: BLOCKNATIVE_KEY, // [String] The API key created by step one above
@@ -100,22 +102,14 @@ export const initOnboard = (addressChangeCallback, walletChangeCallback, network
         { walletName: 'metamask', preferred: true },
         {
           walletName: 'walletConnect',
-          rpc: {
-            // eslint-disable-next-line
-            // [SupportedNetworks.Mainnet]: RPC_URL,
-            // eslint-disable-next-line
-            [SupportedNetworks.Ropsten]: RPC_URL,
-            // eslint-disable-next-line
-            // [SupportedNetworks.Kovan]: RPC_URL,
-          }, // [Optional]
+          infuraKey: INFURA_KEY,
           preferred: true,
         },
-        {
-          walletName: 'fortmatic',
-          apiKey: FORTMATIC_KEY,
-          preferred: true,
-        },
+        { walletName: 'fortmatic', apiKey: FORTMATIC_KEY, preferred: true },
         { walletName: 'lattice', appName: 'Hodl', rpcUrl: RPC_URL, preferred: true },
+        { walletName: 'huobiwallet', rpcUrl: RPC_URL, preferred: true },
+        { walletName: 'authereum', preferred: true },
+        { walletName: 'trust', preferred: true, rpcUrl: RPC_URL },
       ],
     },
     walletCheck: [
@@ -126,4 +120,9 @@ export const initOnboard = (addressChangeCallback, walletChangeCallback, network
     ],
   })
   return onboard
+}
+
+export const getInfuraProvider = (networkId: number) => {
+  const networkname = networkId === 1 ? 'mainnet' : networkId === 3 ? 'ropsten' : 'kovan'
+  return `https://${networkname}.infura.io/v3/${INFURA_KEY}`
 }

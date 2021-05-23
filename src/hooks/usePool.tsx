@@ -2,7 +2,7 @@ import { useMemo, useCallback } from 'react'
 import { useConnectedWallet } from '../contexts/wallet'
 import { useNotify } from './useNotify'
 import BigNumber from 'bignumber.js'
-
+import moment from 'moment'
 BigNumber.config({
   DECIMAL_PLACES: 29,
 })
@@ -22,16 +22,16 @@ export function usePool(hToken: hToken) {
   }, [hToken, web3])
 
   const calculateShares = useCallback(
-    async (amount: BigNumber) => {
+    (amount: BigNumber) => {
       // change to batch Fill when it's live
-      try {
-        return (await hTokenContract.methods.calculateShares(amount).call()) as Promise<string>
-      } catch (error) {
-        console.log(`catch calculation error`, error)
-        return '0'
-      }
+      const timeLeft = hToken.expiry - moment().unix()
+      const totalTime = hToken.expiry - hToken.createdAt
+      return amount
+        .times(timeLeft ** hToken.n)
+        .div(totalTime ** hToken.n)
+        .integerValue()
     },
-    [hTokenContract],
+    [hToken.createdAt, hToken.n, hToken.expiry],
   )
 
   const deposit = useCallback(

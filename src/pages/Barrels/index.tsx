@@ -52,7 +52,7 @@ function Barrels() {
         <Col md={6} lg={4}>
           <TextInput
             wide
-            placeholder="Search symbol"
+            placeholder="Filter by Symbol"
             value={searchText}
             onChange={event => {
               clearQuery('token') // whenever user put in, override url param
