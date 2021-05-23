@@ -1,16 +1,21 @@
+import moment from 'moment'
 import { useConnectedWallet } from '../contexts/wallet'
 import { useAsyncMemo } from '../hooks/useAsyncMemo'
 import { getAccountHodlings } from '../utils/graph'
 import { Hodling } from '../types'
 import { useCustomToast } from './useCustomToast'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 
-export function useAccountHodlings(user: string): { hodlings: Hodling[]; isLoading: boolean } {
+export function useAccountHodlings(user: string): {
+  hodlings: Hodling[]
+  unlockedHodlings: Hodling[]
+  isLoading: boolean
+} {
   const [isLoading, setIsLoading] = useState(true)
   const { networkId } = useConnectedWallet()
   const toast = useCustomToast()
 
-  const hodlings = useAsyncMemo(
+  const allHodlings = useAsyncMemo(
     async () => {
       if (!user) return []
       try {
@@ -24,5 +29,14 @@ export function useAccountHodlings(user: string): { hodlings: Hodling[]; isLoadi
     [],
     [networkId, user],
   )
-  return { hodlings, isLoading }
+
+  const hodlings = useMemo(() => {
+    return allHodlings.filter(h => h.token.expiry > moment().unix())
+  }, [allHodlings])
+
+  const unlockedHodlings = useMemo(() => {
+    return allHodlings.filter(h => h.token.expiry < moment().unix())
+  }, [allHodlings])
+
+  return { hodlings, isLoading, unlockedHodlings }
 }
