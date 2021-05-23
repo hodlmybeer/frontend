@@ -21,7 +21,7 @@ export function useAccountHodlings(user: string): {
       try {
         setIsLoading(true)
         const account = await getAccountHodlings(networkId, user, toast.error)
-        return account === null ? [] : account.hodlings
+        return account === null ? [] : account.hodlings.filter(h => h.balance !== '0' || h.shareBalance !== '0')
       } finally {
         setIsLoading(false)
       }
