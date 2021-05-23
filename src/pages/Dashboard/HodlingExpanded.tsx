@@ -9,7 +9,7 @@ import { toTokenAmount, fromTokenAmount } from '../../utils/math'
 import { usePool } from '../../hooks'
 import BigNumber from 'bignumber.js'
 
-export default function DepositDetail({ hodling }: { hodling: Hodling }) {
+export default function HodlingExpanded({ hodling }: { hodling: Hodling }) {
   const [isQuiting, setIsQuiting] = useState(false)
   const [isRedeeming, setIsRedeeming] = useState(false)
 

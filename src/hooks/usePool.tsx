@@ -61,5 +61,10 @@ export function usePool(hToken: hToken) {
     [hTokenContract, notifyCallback, user],
   )
 
-  return { deposit, calculateShares, redeem, quit }
+  const withdrawAll = useCallback(async () => {
+    // change to batch Fill when it's live
+    await hTokenContract.methods.withdrawAllPostExpiry().send({ from: user }).on('transactionHash', notifyCallback)
+  }, [hTokenContract, notifyCallback, user])
+
+  return { deposit, calculateShares, redeem, quit, withdrawAll }
 }
