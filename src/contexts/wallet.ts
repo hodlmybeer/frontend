@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react'
 import Web3 from 'web3'
-import { SupportedNetworks } from '../constants/networks'
+import { SupportedNetworks } from '../constants/enums'
 const INFURA_KEY = process.env.REACT_APP_INFURA_KEY
 
 export interface Wallet {

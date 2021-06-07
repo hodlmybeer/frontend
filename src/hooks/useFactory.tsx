@@ -2,7 +2,7 @@ import { useMemo, useCallback } from 'react'
 import { useConnectedWallet } from '../contexts/wallet'
 import { useNotify } from './useNotify'
 
-import { factories } from '../constants'
+import { factories, ZERO_ADDR } from '../constants'
 
 const abi = require('../constants/abis/hTokenFactory.json')
 
@@ -25,9 +25,10 @@ export function useFactory() {
       n: string,
       feeRecipient: string,
     ) => {
-      // change to batch Fill when it's live
+      // todo: add bonus token
+      const bonusToken = ZERO_ADDR
       await factory.methods
-        .createHodlERC20(token, penalty, lockWindow, expiry, fee, n, feeRecipient)
+        .createHodlERC20(token, penalty, lockWindow, expiry, fee, n, feeRecipient, bonusToken)
         .send({ from: user })
         .on('transactionHash', notifyCallback)
     },

@@ -5,7 +5,7 @@ import SectionTitle from '../../components/SectionHeader'
 import { RadioList } from '@aragon/ui'
 import { subgraph } from '../../constants/endpoints'
 import { useConnectedWallet } from '../../contexts/wallet'
-import { SupportedNetworks } from '../../constants/networks'
+import { SupportedNetworks } from '../../constants/enums'
 
 const items = [
   // {
@@ -16,10 +16,10 @@ const items = [
     title: 'Ropsten',
     description: `Subgraph endpoint: ${subgraph[SupportedNetworks.Ropsten]}`,
   },
-  // {
-  //   title: 'Kovan',
-  //   description: `Subgraph endpoint: ${subgraph[SupportedNetworks.Kovan]}`,
-  // },
+  {
+    title: 'Kovan',
+    description: `Subgraph endpoint: ${subgraph[SupportedNetworks.Kovan]}`,
+  },
 ]
 
 const networkIdToIdx = {

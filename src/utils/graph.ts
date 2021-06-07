@@ -1,5 +1,5 @@
 import { subgraph as endpoints } from '../constants/endpoints'
-import { SupportedNetworks } from '../constants/networks'
+import { SupportedNetworks } from '../constants/enums'
 import { hToken, Account } from '../types'
 
 export async function getHTokens(networkId: SupportedNetworks, errorCallback: Function): Promise<hToken[]> {
@@ -27,6 +27,7 @@ export async function getHTokens(networkId: SupportedNetworks, errorCallback: Fu
   `
   try {
     const response = await postQuery(endpoints[networkId], query)
+    console.log(`response.data.htokens`, response.data.htokens)
     return response.data.htokens
   } catch (error) {
     console.log(`error`, error)

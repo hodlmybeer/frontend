@@ -1,7 +1,7 @@
-import { SupportedNetworks } from './networks'
+import { SupportedNetworks } from './enums'
 import { Token } from '../types/index'
 
-import ethIcon from '../imgs/coins/eth.png'
+// import ethIcon from '../imgs/coins/eth.png'
 import uniIcon from '../imgs/coins/uni.png'
 import usdcIcon from '../imgs/coins/usdc.png'
 import wbtcIcon from '../imgs/coins/wbtc.png'
@@ -13,16 +13,17 @@ export const ZERO_ADDR = '0x0000000000000000000000000000000000000000'
 export const factories: {
   [key in SupportedNetworks]: string
 } = {
-  [SupportedNetworks.Ropsten]: '0xa3Bc356206dB2Adc75Eb79edaf07176Fd5849cF9',
+  [SupportedNetworks.Ropsten]: '0x9cdd6c5e687989c5d461fb465a22a3f01d4ce1ad',
+  [SupportedNetworks.Kovan]: '0x60DDbd581468EfD95B3a1058b7f2f6C3863dBB16',
 }
 
-export const eth: Token = {
-  name: 'Ether',
-  id: ZERO_ADDR,
-  symbol: 'ETH',
-  decimals: 18,
-  img: ethIcon,
-}
+// export const eth: Token = {
+//   name: 'Ether',
+//   id: ZERO_ADDR,
+//   symbol: 'ETH',
+//   decimals: 18,
+//   img: ethIcon,
+// }
 
 type Tokens = {
   [key in SupportedNetworks]: Token[]
@@ -110,36 +111,39 @@ export const tokens: Tokens = {
       mintable: true,
     },
   ],
-  // [SupportedNetworks.Kovan]: [
-  //   eth,
-  //   {
-  //     name: 'USDC',
-  //     id: '0xf5cb5408b40e819e7db5347664be03b52accac9d',
-  //     symbol: 'USDC',
-  //     decimals: 6,
-  //   },
-  //   {
-  //     name: 'Wrapped Ether',
-  //     id: '0xd0a1e359811322d97991e03f863a0c30c2cf029c',
-  //     symbol: 'WETH',
-  //     decimals: 18,
-  //   },
-  //   {
-  //     name: 'Wrapped Bitcoin',
-  //     id: '0xd7c8c2f7b6ebdbc88e5ab0101dd24ed5aca58b0f',
-  //     symbol: 'WBTC',
-  //     decimals: 8,
-  //   },
-  // ],
-}
-
-type SystemAddresses = {
-  [key in SupportedNetworks]: {
-    controller: string
-    factory: string
-    addressBook: string
-    whitelist: string
-    pool: string
-    zeroxExchange: string
-  }
+  [SupportedNetworks.Kovan]: [
+    {
+      name: 'Wrapped Ether',
+      id: '0xd0a1e359811322d97991e03f863a0c30c2cf029c',
+      symbol: 'WETH',
+      decimals: 18,
+    },
+    {
+      name: 'Mock UNI',
+      id: '0xf9d300C776F452B1219f69d5e14c46f5AC0C19DE',
+      coingeckId: 'uniswap',
+      symbol: 'UNI',
+      decimals: 18,
+      img: uniIcon,
+      mintable: true,
+    },
+    {
+      name: 'Mock BTC',
+      id: '0x23faDac905feCDe8Fb5d788f6947536fDCd8516d',
+      coingeckId: 'bitcoin',
+      symbol: 'WBTC',
+      decimals: 8,
+      img: wbtcIcon,
+      mintable: true,
+    },
+    {
+      name: 'Mock Chainlink',
+      id: '0xCEE8A49b267b1f692B44b9889494Acbc74753218',
+      coingeckId: 'chainlink',
+      symbol: 'LINK',
+      decimals: 18,
+      img: linkIcon,
+      mintable: true,
+    },
+  ],
 }
