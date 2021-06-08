@@ -4,7 +4,7 @@ import Header from '../../components/Header'
 import ThemeSwitch from './Theme'
 import ApproveSwitch from './Approval'
 import ClearCache from './ClearCache'
-
+import Social from './Social'
 function Settings({ setTheme }: { setTheme: any }) {
   useEffect(() => ReactGA.pageview('/settings/'), [])
   return (
@@ -16,6 +16,7 @@ function Settings({ setTheme }: { setTheme: any }) {
       <br />
       <ClearCache />
       <br />
+      <Social />
       <br />
     </>
   )
