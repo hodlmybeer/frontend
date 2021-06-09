@@ -20,8 +20,6 @@ import TokenAmountWithoutIcon from '../../components/TokenAmountWithoutIcon'
 import { Entry, EntryTitle } from '../../components/Entry'
 import CountDownTimer from '../../components/Countdown'
 
-import { Main, IconEdit } from '@aragon/ui'
-
 type PoolCardProps = {
   hToken: hToken
   token: Token | undefined
