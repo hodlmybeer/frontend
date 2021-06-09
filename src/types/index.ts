@@ -33,4 +33,6 @@ export type hToken = Token & {
   totalFee: string
   totalReward: string
   n: number // decrease coefficient
+  bonusToken: string
+  bonusTokenBalance: string
 }

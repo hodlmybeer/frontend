@@ -6,7 +6,7 @@ import { MAX_UINT } from '../constants'
 import { useNotify } from './useNotify'
 const abi = require('../constants/abis/erc20.json')
 
-export function useAllowance(token: string, spenderAddess: string) {
+export function useAllowance(token: string, spenderAddress: string) {
   const { web3, user } = useConnectedWallet()
 
   const [allowance, setAllowance] = useState(new BigNumber(0))
@@ -22,26 +22,26 @@ export function useAllowance(token: string, spenderAddess: string) {
       const erc = new web3.eth.Contract(abi, token)
       const approveAmount = approveMode === 'normal' && amount ? amount.toString() : MAX_UINT
 
-      if (spenderAddess === '') throw new Error('Unkown Spender')
+      if (spenderAddress === '') throw new Error('Unknown Spender')
 
       await erc.methods
-        .approve(spenderAddess, approveAmount)
+        .approve(spenderAddress, approveAmount)
         .send({ from: user })
         .on('transactionHash', hash => {
           notifyCallback(hash)
           if (typeof callback === 'function') callback()
         })
-      const newAllowance = await erc.methods.allowance(user, spenderAddess).call()
+      const newAllowance = await erc.methods.allowance(user, spenderAddress).call()
       setAllowance(new BigNumber(newAllowance.toString()))
     },
-    [web3, token, user, notifyCallback, spenderAddess],
+    [web3, token, user, notifyCallback, spenderAddress],
   )
 
   useEffect(() => {
     if (user === '') return
     const erc = new web3.eth.Contract(abi, token)
     erc.methods
-      .allowance(user, spenderAddess)
+      .allowance(user, spenderAddress)
       .call()
       .then(allowance => {
         setAllowance(new BigNumber(allowance.toString()))
@@ -50,7 +50,7 @@ export function useAllowance(token: string, spenderAddess: string) {
       .catch(err => {
         setIsLoadingAllowance(false)
       })
-  }, [web3, spenderAddess, token, user])
+  }, [web3, spenderAddress, token, user])
 
   return { allowance, isLoadingAllowance, approve }
 }

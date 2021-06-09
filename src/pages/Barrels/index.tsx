@@ -10,10 +10,11 @@ import PoolCard from './PoolCard'
 import Create from './Create'
 import { tokens } from '../../constants'
 import { ZERO_ADDR } from '../../constants/addresses'
-const erc20 = require('../../constants/abis/erc20.json')
 import { useConnectedWallet } from '../../contexts/wallet'
 
 function Barrels({ web3 }: { web3: Web3 }) {
+  const erc20 = require('../../constants/abis/erc20.json')
+
   const { hTokens, isLoading } = useAllHTokens()
   const { networkId } = useConnectedWallet()
   const { query, clearQuery } = useQuery()
