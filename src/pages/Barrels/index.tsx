@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { Container, Row, Col } from 'react-grid-system'
 import { SyncIndicator, TextInput } from '@aragon/ui'
+import Web3 from 'web3'
 import { useAllHTokens, useQuery } from '../../hooks'
 import { Token } from '../../types'
 import Comment from '../../components/Comment'
@@ -8,9 +9,11 @@ import Header from '../../components/Header'
 import PoolCard from './PoolCard'
 import Create from './Create'
 import { tokens } from '../../constants'
+import { ZERO_ADDR } from '../../constants/addresses'
+const erc20 = require('../../constants/abis/erc20.json')
 import { useConnectedWallet } from '../../contexts/wallet'
 
-function Barrels() {
+function Barrels({ web3 }: { web3: Web3 }) {
   const { hTokens, isLoading } = useAllHTokens()
   const { networkId } = useConnectedWallet()
   const { query, clearQuery } = useQuery()
@@ -33,7 +36,14 @@ function Barrels() {
     const knownTokens = tokens[networkId]
     const boxes = knownHTokens.map(hToken => {
       const token = knownTokens.find(t => t.id.toLowerCase() === hToken.token) as Token
-      const card = <PoolCard hToken={hToken} token={token} />
+      const card = (
+        <PoolCard
+          hToken={hToken}
+          token={token}
+          hasBonusToken={hToken.bonusToken !== ZERO_ADDR && hToken.bonusToken !== hToken.token}
+          bonusToken={new web3.eth.Contract(erc20, hToken.bonusToken)}
+        />
+      )
 
       return (
         <Col style={{ padding: 5 }} xs={12} sm={6} md={4} key={hToken.id}>
@@ -47,7 +57,7 @@ function Barrels() {
   return (
     <Container>
       <Header primary="Barrels" />
-      <Comment text="Choose your favorate barrel and how long you wanna keep your coins there." />
+      <Comment text="Choose your favorite barrel and how long you wanna keep your coins there." />
       <Comment text="Once you deposit, your tokens will be locked up. If you choose to withdraw early, you will be penalized." />
       <br />
       <Row>
