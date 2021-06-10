@@ -53,7 +53,7 @@ function Barrels({ web3 }: { web3: Web3 }) {
       )
     })
     return boxes.filter(b => b !== null)
-  }, [knownHTokens, networkId])
+  }, [knownHTokens, networkId, erc20, web3])
 
   return (
     <Container>
