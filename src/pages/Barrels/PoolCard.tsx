@@ -88,25 +88,9 @@ PoolCardProps) {
         return { symbol: '', decimals: 0 }
       }
     },
-    { symbol: '...', decimals: 18 },
-    ['...', 18],
+    { symbol: '', decimals: 18 },
+    [hasBonusToken],
   )
-
-  let bonusTokenElement
-  if (hasBonusToken) {
-    bonusTokenElement = (
-      <Entry>
-        <EntryTitle>Total Bonus:</EntryTitle>
-        <TokenAmountWithoutIcon
-          symbol={bonusTokenDetail.symbol}
-          amount={hToken.bonusTokenBalance}
-          decimals={bonusTokenDetail.decimals}
-        />
-      </Entry>
-    )
-  } else {
-    bonusTokenElement = null
-  }
 
   return token ? (
     <Box
@@ -132,7 +116,16 @@ PoolCardProps) {
           <EntryTitle>Total Reward:</EntryTitle>
           <TokenAmountWithoutIcon symbol={token.symbol} amount={hToken.totalReward} decimals={token.decimals} />
         </Entry>
-        {bonusTokenElement}
+        {hasBonusToken && (
+          <Entry>
+            <EntryTitle>Total Bonus:</EntryTitle>
+            <TokenAmountWithoutIcon
+              symbol={bonusTokenDetail.symbol}
+              amount={hToken.bonusTokenBalance}
+              decimals={bonusTokenDetail.decimals}
+            />
+          </Entry>
+        )}
         {/* expiry */}
         <Entry>
           <EntryTitle>Unlock In:</EntryTitle>
