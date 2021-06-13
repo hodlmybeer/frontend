@@ -1,5 +1,7 @@
 import React, { useMemo, useState } from 'react'
+import { useAsyncMemo } from '../../hooks/useAsyncMemo'
 import { Box, Button, ProgressBar, useTheme, LinkBase } from '@aragon/ui'
+import { Contract } from 'web3-eth-contract'
 import DepositModal from './DepositModal'
 
 import defaultBarrel from '../../imgs/barrels/barrel.png'
@@ -21,11 +23,15 @@ import CountDownTimer from '../../components/Countdown'
 type PoolCardProps = {
   hToken: hToken
   token: Token | undefined
+  hasBonusToken: boolean
+  bonusToken: Contract
 }
 
 function PoolCard({
   token,
   hToken,
+  hasBonusToken,
+  bonusToken,
 }: // totalDepositors,
 PoolCardProps) {
   const [depositModalOpened, setModalOpened] = useState(false)
@@ -72,6 +78,20 @@ PoolCardProps) {
     }
   }, [state, theme])
 
+  const bonusTokenDetail = useAsyncMemo(
+    async () => {
+      if (hasBonusToken) {
+        const bonusTokenSymbol = await bonusToken.methods.symbol().call()
+        const bonusTokenDecimals = await bonusToken.methods.decimals().call()
+        return { symbol: bonusTokenSymbol, decimals: bonusTokenDecimals }
+      } else {
+        return { symbol: '', decimals: 0 }
+      }
+    },
+    { symbol: '', decimals: 18 },
+    [hasBonusToken],
+  )
+
   return token ? (
     <Box
       heading={
@@ -84,28 +104,33 @@ PoolCardProps) {
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <img src={barrelImg} alt={'img'} height={150}></img>
         <br></br>
-
         <Entry>
           <EntryTitle>Penalty:</EntryTitle>
           {hToken.penalty / 10}%
         </Entry>
-
         <Entry>
           <EntryTitle>Total Locked:</EntryTitle>
           <TokenAmountWithoutIcon symbol={token.symbol} amount={hToken.tokenBalance} decimals={token.decimals} />
         </Entry>
-
         <Entry>
           <EntryTitle>Total Reward:</EntryTitle>
           <TokenAmountWithoutIcon symbol={token.symbol} amount={hToken.totalReward} decimals={token.decimals} />
         </Entry>
-
+        {hasBonusToken && (
+          <Entry>
+            <EntryTitle>Total Bonus:</EntryTitle>
+            <TokenAmountWithoutIcon
+              symbol={bonusTokenDetail.symbol}
+              amount={hToken.bonusTokenBalance}
+              decimals={bonusTokenDetail.decimals}
+            />
+          </Entry>
+        )}
         {/* expiry */}
         <Entry>
           <EntryTitle>Unlock In:</EntryTitle>
           <CountDownTimer expiry={hToken.expiry} />
         </Entry>
-
         <ProgressBar
           color={progressBarColor.toString()}
           value={(Date.now() / 1000 - hToken.createdAt) / (hToken.expiry - hToken.createdAt)}

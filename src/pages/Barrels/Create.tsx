@@ -65,6 +65,7 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
 
   // const [token, setToken] = useState<Token>(tokens[networkId][0])
   const [selectedIdx, setSelectedIdx] = useState(0)
+  const [selectedBonusIdx, setSelectedBonusIdx] = useState(0)
 
   const [expiry, setExpiry] = useState<number>(moment().add('years', 1).unix())
   const [lockingPeriodDays, setLockingDays] = useState<number>(30)
@@ -100,11 +101,12 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
         new BigNumber(fee * 10).integerValue().toString(),
         n.toString(),
         feeRecipient,
+        tokens[networkId][selectedBonusIdx].id,
       )
     } finally {
       setIsCreating(false)
     }
-  }, [create, selectedIdx, penalty, lockingPeriodDays, expiry, fee, n, feeRecipient, networkId])
+  }, [create, selectedIdx, penalty, lockingPeriodDays, expiry, fee, n, feeRecipient, networkId, selectedBonusIdx])
 
   return (
     <Modal padding={'7%'} visible={visible} onClose={() => setOpen(false)} closeButton={false}>
@@ -135,7 +137,7 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
       <Entry>
         <div style={{ display: 'flex' }}>
           <EntryTitle uppercase={false}>Locking Window</EntryTitle>
-          <Help hint="What is locking window">
+          <Help hint="What is locking window?">
             Days before expiry that the barrel will be locked and no longer accept deposit.
           </Help>
         </div>
@@ -172,7 +174,7 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
       <Entry>
         <div style={{ display: 'flex' }}>
           <EntryTitle uppercase={false}>Fee</EntryTitle>
-          <Help hint="When are fee charged">
+          <Help hint="When are fees charged?">
             The fee is charged from the penalty amount when someone quit. If everyone hodls until the end, there will be
             no fees accrued.
           </Help>
@@ -201,6 +203,17 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
           adornment={<span style={{ paddingLeft: 5, paddingRight: 5 }}> </span>}
           adornmentPosition="end"
           onChange={event => setN(parseInt(event.target.value))}
+        />
+      </Entry>
+      <Entry>
+        <EntryTitle uppercase={false}>Bonus Token</EntryTitle>
+        <DropDown
+          items={tokens[networkId].map(t => t.symbol)}
+          selected={selectedBonusIdx}
+          onChange={idx => {
+            setSelectedBonusIdx(idx)
+            setOpen(true) // fix auto close modal error
+          }}
         />
       </Entry>
       {errorMessage && <Info mode="error"> {errorMessage} </Info>}

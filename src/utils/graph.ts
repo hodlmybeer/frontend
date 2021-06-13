@@ -22,6 +22,8 @@ export async function getHTokens(networkId: SupportedNetworks, errorCallback: Fu
       totalShares
       totalReward
       n
+      bonusToken
+      bonusTokenBalance
     }
   }
   `
