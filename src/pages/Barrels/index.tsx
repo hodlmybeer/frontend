@@ -41,8 +41,11 @@ function Barrels({ web3 }: { web3: Web3 }) {
         <PoolCard
           hToken={hToken}
           token={token}
-          hasBonusToken={hToken.bonusToken !== ZERO_ADDR && hToken.bonusToken !== hToken.token}
-          bonusToken={new web3.eth.Contract(erc20, hToken.bonusToken)}
+          bonusToken={
+            hToken.bonusToken !== ZERO_ADDR && hToken.bonusToken !== hToken.token
+              ? new web3.eth.Contract(erc20, hToken.bonusToken)
+              : null
+          }
         />
       )
 
