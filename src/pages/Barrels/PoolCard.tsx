@@ -114,10 +114,7 @@ PoolCardProps) {
           <EntryTitle>Total Reward:</EntryTitle>
           <TokenAmountWithoutIcon symbol={token.symbol} amount={hToken.totalReward} decimals={token.decimals} />
         </Entry>
-        {
-          <Entry>
-            <EntryTitle>Total Bonus:</EntryTitle>
-            {bonusToken ? (
+        {bonusToken ? (
               <TokenAmountWithoutIcon
                 symbol={bonusTokenDetail.symbol}
                 amount={hToken.bonusTokenBalance}
@@ -126,8 +123,6 @@ PoolCardProps) {
             ) : (
               <div style={{ color: theme.contentSecondary, paddingLeft: 2 }}> {'-'} </div>
             )}
-          </Entry>
-        }
         {/* expiry */}
         <Entry>
           <EntryTitle>Unlock In:</EntryTitle>
