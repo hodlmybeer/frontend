@@ -23,14 +23,12 @@ import CountDownTimer from '../../components/Countdown'
 type PoolCardProps = {
   hToken: hToken
   token: Token | undefined
-  hasBonusToken: boolean
-  bonusToken: Contract
+  bonusToken: Contract | null
 }
 
 function PoolCard({
   token,
   hToken,
-  hasBonusToken,
   bonusToken,
 }: // totalDepositors,
 PoolCardProps) {
@@ -80,7 +78,7 @@ PoolCardProps) {
 
   const bonusTokenDetail = useAsyncMemo(
     async () => {
-      if (hasBonusToken) {
+      if (bonusToken) {
         const bonusTokenSymbol = await bonusToken.methods.symbol().call()
         const bonusTokenDecimals = await bonusToken.methods.decimals().call()
         return { symbol: bonusTokenSymbol, decimals: bonusTokenDecimals }
@@ -89,7 +87,7 @@ PoolCardProps) {
       }
     },
     { symbol: '', decimals: 18 },
-    [hasBonusToken],
+    [bonusToken],
   )
 
   return token ? (
@@ -116,16 +114,18 @@ PoolCardProps) {
           <EntryTitle>Total Reward:</EntryTitle>
           <TokenAmountWithoutIcon symbol={token.symbol} amount={hToken.totalReward} decimals={token.decimals} />
         </Entry>
-        {hasBonusToken && (
-          <Entry>
-            <EntryTitle>Total Bonus:</EntryTitle>
+        <Entry>
+          <EntryTitle>Total Bonus:</EntryTitle>
+          {bonusToken ? (
             <TokenAmountWithoutIcon
               symbol={bonusTokenDetail.symbol}
               amount={hToken.bonusTokenBalance}
               decimals={bonusTokenDetail.decimals}
             />
-          </Entry>
-        )}
+          ) : (
+            <div style={{ color: theme.contentSecondary, paddingLeft: 2 }}> {'-'} </div>
+          )}
+        </Entry>
         {/* expiry */}
         <Entry>
           <EntryTitle>Unlock In:</EntryTitle>
