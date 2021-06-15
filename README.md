@@ -1,4 +1,4 @@
-# HODL
+# HODL My Beer
 
 <p align="center">
 
@@ -12,6 +12,18 @@
 </a>
 <br>
 </p>
+
+## Introduction
+
+The DApp is hosted on https://hodlmybeer.co. 
+
+![image](https://user-images.githubusercontent.com/20136488/122099420-8f2b2700-ce44-11eb-9e94-a77da533c1a2.png)
+
+
+With Hodl, you simply lock up your ERC20 for a predefined period of time, in exchange of some extra incentive either donated by the project, or the penalties collected from quitters. 
+
+There're lots of paramters to customized, for more detail about how the contract works, visit our [contract repo](https://github.com/hodlmybeer/hodl).
+
 
 ## Run 
 
