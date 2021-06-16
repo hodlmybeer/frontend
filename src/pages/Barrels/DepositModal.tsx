@@ -1,18 +1,15 @@
 import React, { useMemo, useState, useCallback } from 'react'
-import { Modal, TextInput, Button, useTheme, LinkBase, Header, Help, Timer, LoadingRing } from '@aragon/ui'
+import { Modal, Header, Help, Timer } from '@aragon/ui'
 import BigNumber from 'bignumber.js'
 
-import Wanrinig from '../../components/Warning'
 import TokenAmountWithoutIcon from '../../components/TokenAmountWithoutIcon'
 import { Entry, EntryTitle } from '../../components/Entry'
 
 import { hToken } from '../../types'
 import { useConnectedWallet } from '../../contexts/wallet'
-import { useAllowance, useTokenBalance, usePool, useAsyncMemo } from '../../hooks'
-import { toTokenAmount, fromTokenAmount } from '../../utils/math'
-import { mintTestnetToken } from '../../utils/others'
-import { tokens } from '../../constants'
-import { useNotify } from '../../hooks/useNotify'
+import { useTokenBalance, usePool, useAsyncMemo } from '../../hooks'
+import { fromTokenAmount } from '../../utils/math'
+import TransferForm from '../../components/shared/TransferForm'
 
 type DepositModalProps = {
   hToken: hToken
@@ -26,33 +23,18 @@ function DepositModal({
   hToken,
 }: // totalDepositors,
 DepositModalProps) {
-  const [isApproving, setIsApproving] = useState(false)
   const [isDepositing, setIsDepositing] = useState(false)
 
-  const theme = useTheme()
-
-  const { user, web3, networkId } = useConnectedWallet()
-  const { notifyCallback } = useNotify()
-
+  const { user } = useConnectedWallet()
   const { deposit, calculateShares } = usePool(hToken)
 
-  // user input amount
-  const [inputAmount, setInputAmount] = useState<BigNumber>(new BigNumber(0))
+  const { symbol: underlyingSymbol, decimals: underlyingDecimals } = useTokenBalance(hToken.token, user, 20)
 
-  const { allowance, approve } = useAllowance(hToken.token, hToken.id)
-
-  const { balance, symbol: underlyingSymbol, decimals: underlyingDecimals } = useTokenBalance(hToken.token, user, 20)
-
+  const [inputAmount, setInputAmount] = useState(0)
   const depositAmount = useMemo(
     () => fromTokenAmount(inputAmount, underlyingDecimals),
     [underlyingDecimals, inputAmount],
   )
-
-  const needApproval = useMemo(() => depositAmount.gt(allowance), [depositAmount, allowance])
-
-  const userTokenBalance = useMemo(() => toTokenAmount(balance, underlyingDecimals), [balance, underlyingDecimals])
-
-  const hasEnoughBalance = useMemo(() => balance.gte(depositAmount), [balance, depositAmount])
 
   const sharesToGet = useAsyncMemo(
     async () => {
@@ -76,24 +58,6 @@ DepositModalProps) {
       setIsDepositing(false)
     }
   }, [depositAmount, deposit])
-
-  const handleApprove = useCallback(async () => {
-    setIsApproving(true)
-    try {
-      await approve(depositAmount)
-    } finally {
-      setIsApproving(false)
-    }
-  }, [depositAmount, approve])
-
-  // for faucet
-  const handleMintTestnetToken = useCallback(async () => {
-    await mintTestnetToken(web3, hToken.token, fromTokenAmount(100, hToken.decimals), user, notifyCallback)
-  }, [web3, hToken.token, hToken.decimals, user, notifyCallback])
-
-  const faucetToken = useMemo(() => {
-    return tokens[networkId].find(t => t.id.toLowerCase() === hToken.token)
-  }, [hToken, networkId])
 
   const coefficientHint = useMemo(
     () =>
@@ -185,53 +149,15 @@ DepositModalProps) {
         </EntryTitle>
         <TokenAmountWithoutIcon symbol={hToken.symbol} amount={depositAmount.toString()} decimals={hToken.decimals} />
       </Entry>
-
-      <br></br>
-      <Entry>
-        <TextInput
-          wide
-          type="number"
-          onChange={event => {
-            if (event.target.value) setInputAmount(new BigNumber(event.target.value))
-          }}
-          value={inputAmount}
-        ></TextInput>
-        {needApproval ? (
-          <Button style={{ minWidth: 150 }} disabled={!hasEnoughBalance || isApproving} onClick={handleApprove}>
-            {isApproving ? <LoadingRing /> : 'Approve'}
-          </Button>
-        ) : (
-          <Button
-            style={{ minWidth: 150 }}
-            mode="positive"
-            onClick={depositToPool}
-            disabled={!hasEnoughBalance || isDepositing}
-          >
-            {isDepositing ? <LoadingRing /> : 'Deposit'}
-          </Button>
-        )}
-      </Entry>
-      <Entry>
-        <span style={{ fontSize: 12, color: theme.contentSecondary }}>
-          Balance:{' '}
-          <LinkBase
-            onClick={() => {
-              setInputAmount(userTokenBalance)
-            }}
-          >
-            {userTokenBalance.toString()} {underlyingSymbol}
-          </LinkBase>
-        </span>
-        <div>
-          <Wanrinig show={!hasEnoughBalance} text="Insufficient Balance" />
-        </div>
-      </Entry>
-      {faucetToken && faucetToken.mintable && (
-        <Button size="small" onClick={handleMintTestnetToken}>
-          {' '}
-          Faucet{' '}
-        </Button>
-      )}
+      <TransferForm
+        tokenAddress={hToken.token}
+        tokenSymbol={hToken.symbol}
+        decimals={hToken.decimals}
+        isDepositing={isDepositing}
+        spenderAddress={hToken.id}
+        onDepositClick={depositToPool}
+        onInputChanged={value => setInputAmount(value)}
+      />
     </Modal>
   )
 }
