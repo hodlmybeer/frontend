@@ -40,7 +40,7 @@ function CreateButton() {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'space-between',
-            minHeight: 334,
+            minHeight: 354,
           }}
         >
           <img src={defaultBarrel} height={150} alt="default" />
@@ -96,7 +96,7 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
       await create(
         tokens[networkId][selectedIdx].id,
         new BigNumber(penalty * 10).integerValue().toString(),
-        new BigNumber(lockingPeriodDays).integerValue().toString(),
+        new BigNumber(lockingPeriodDays * 86400).integerValue().toString(),
         new BigNumber(expiry).integerValue().toString(),
         new BigNumber(fee * 10).integerValue().toString(),
         n.toString(),
