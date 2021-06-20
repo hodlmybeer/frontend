@@ -53,11 +53,11 @@ DepositModalProps) {
   const depositToPool = useCallback(async () => {
     setIsDepositing(true)
     try {
-      await deposit(depositAmount)
+      await deposit(depositAmount, user)
     } finally {
       setIsDepositing(false)
     }
-  }, [depositAmount, deposit])
+  }, [depositAmount, deposit, user])
 
   const coefficientHint = useMemo(
     () =>

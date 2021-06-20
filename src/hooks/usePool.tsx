@@ -35,9 +35,12 @@ export function usePool(hToken: hToken) {
   )
 
   const deposit = useCallback(
-    async (amount: BigNumber) => {
+    async (amount: BigNumber, recipient: string) => {
       // change to batch Fill when it's live
-      await hTokenContract.methods.deposit(amount.toString()).send({ from: user }).on('transactionHash', notifyCallback)
+      await hTokenContract.methods
+        .deposit(amount.toString(), recipient)
+        .send({ from: user })
+        .on('transactionHash', notifyCallback)
     },
     [hTokenContract, notifyCallback, user],
   )

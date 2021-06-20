@@ -13,8 +13,8 @@ export const ZERO_ADDR = '0x0000000000000000000000000000000000000000'
 export const factories: {
   [key in SupportedNetworks]: string
 } = {
-  [SupportedNetworks.Ropsten]: '0x9cdd6c5e687989c5d461fb465a22a3f01d4ce1ad',
-  [SupportedNetworks.Kovan]: '0x60DDbd581468EfD95B3a1058b7f2f6C3863dBB16',
+  [SupportedNetworks.Ropsten]: '0xE4c2981f17102390C694698504741D8a6325e4f2',
+  [SupportedNetworks.Kovan]: '0x0bced6E2D5548c89882686fBBdd5D8BdFF44827d',
 }
 
 // export const eth: Token = {

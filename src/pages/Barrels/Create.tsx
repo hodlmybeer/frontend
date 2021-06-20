@@ -40,7 +40,7 @@ function CreateButton() {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'space-between',
-            minHeight: 334,
+            minHeight: 354,
           }}
         >
           <img src={defaultBarrel} height={150} alt="default" />
@@ -96,7 +96,7 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
       await create(
         tokens[networkId][selectedIdx].id,
         new BigNumber(penalty * 10).integerValue().toString(),
-        new BigNumber(lockingPeriodDays).integerValue().toString(),
+        new BigNumber(lockingPeriodDays * 86400).integerValue().toString(),
         new BigNumber(expiry).integerValue().toString(),
         new BigNumber(fee * 10).integerValue().toString(),
         n.toString(),
@@ -114,6 +114,7 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
       <Entry>
         <EntryTitle uppercase={false}>Token</EntryTitle>
         <DropDown
+          style={{ minWidth: 189 }}
           items={tokens[networkId].map(t => t.symbol)}
           selected={selectedIdx}
           onChange={idx => {
@@ -125,6 +126,7 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
       <Entry>
         <EntryTitle uppercase={false}>Expiry</EntryTitle>
         <TextInput
+          style={{ minWidth: 189 }}
           type="date"
           value={moment.utc(expiry * 1000).format('yyyy-MM-DD')}
           onChange={e => {
@@ -208,6 +210,7 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
       <Entry>
         <EntryTitle uppercase={false}>Bonus Token</EntryTitle>
         <DropDown
+          style={{ minWidth: 189 }}
           items={tokens[networkId].map(t => t.symbol)}
           selected={selectedBonusIdx}
           onChange={idx => {
