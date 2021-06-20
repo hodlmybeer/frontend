@@ -55,6 +55,8 @@ export async function getAccountHodlings(
       shareBalance
       balance
       token {
+        bonusToken
+        bonusTokenBalance
         id
         symbol
         name 
