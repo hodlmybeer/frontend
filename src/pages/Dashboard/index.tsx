@@ -10,7 +10,7 @@ import WithdrawButton from './WithdrawButton'
 import SectionTitle from '../../components/SectionHeader'
 import Header from '../../components/Header'
 import CountDownTimer from '../../components/Countdown'
-import { tokens } from '../../constants'
+import { tokens, ZERO_ADDR } from '../../constants'
 import { useConnectedWallet } from '../../contexts/wallet'
 import { useAccountHodlings } from '../../hooks'
 import { Hodling } from '../../types'
@@ -27,6 +27,8 @@ function DashBoard() {
     (hodling: Hodling) => {
       const token = tokens[networkId].find(t => t.id.toLowerCase() === hodling.token.token)
 
+      const bonusToken = tokens[networkId].find(t => t.id.toLowerCase() === hodling.token.bonusToken)
+
       const shareRatio =
         hodling.shareBalance === '0'
           ? new BigNumber(0)
@@ -34,7 +36,7 @@ function DashBoard() {
       const percentage = `${shareRatio.times(100).toFixed(2)}%`
 
       const reward = new BigNumber(hodling.token.totalReward).times(shareRatio)
-
+      const bonus = new BigNumber(hodling.token.bonusTokenBalance).times(shareRatio)
       const tokenAmount = (
         <TokenAmount
           address={hodling.token.token}
@@ -59,9 +61,26 @@ function DashBoard() {
           iconUrl={token ? token.img : undefined}
         />
       )
+
+      console.log(`hodling.token.bonusToken`, hodling.token.bonusToken)
+
+      const bonusAmount =
+        hodling.token.bonusToken === ZERO_ADDR ? (
+          '-'
+        ) : (
+          <TokenAmount
+            address={hodling.token.bonusToken}
+            amount={bonus.toFixed(0)}
+            chainId={networkId}
+            decimals={bonusToken?.decimals || 18}
+            digits={4}
+            symbol={bonusToken ? bonusToken.symbol : undefined}
+            iconUrl={bonusToken ? bonusToken.img : undefined}
+          />
+        )
       const barrelName = toPoolName(hodling.token, networkId)
       const badge = <IdentityBadge entity={hodling.token.id} customLabel={barrelName} />
-      return [tokenAmount, badge, countDown, percentage, rewardAmount]
+      return [tokenAmount, badge, countDown, percentage, rewardAmount, bonusAmount]
     },
     [networkId],
   )
@@ -118,7 +137,7 @@ function DashBoard() {
         <div>
           <DataView
             status={isLoading ? 'loading' : 'default'}
-            fields={['Asset', 'Barrel', 'Countdown', 'Reward Share', 'Current Reward']}
+            fields={['My deposit', 'Barrel id', 'Countdown', 'Reward Share', 'Reward', 'Bonus']}
             renderEntry={renderHodlingRow}
             renderEntryExpansion={hodling => {
               return <HodlingExpanded hodling={hodling} />

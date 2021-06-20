@@ -77,7 +77,6 @@ function TransferForm({
   BigNumber.config({ DECIMAL_PLACES: 4 })
   return (
     <div>
-      <br></br>
       <Entry>
         <TextInput
           wide
