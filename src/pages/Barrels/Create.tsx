@@ -114,6 +114,7 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
       <Entry>
         <EntryTitle uppercase={false}>Token</EntryTitle>
         <DropDown
+          style={{ minWidth: 189 }}
           items={tokens[networkId].map(t => t.symbol)}
           selected={selectedIdx}
           onChange={idx => {
@@ -125,6 +126,7 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
       <Entry>
         <EntryTitle uppercase={false}>Expiry</EntryTitle>
         <TextInput
+          style={{ minWidth: 189 }}
           type="date"
           value={moment.utc(expiry * 1000).format('yyyy-MM-DD')}
           onChange={e => {
@@ -208,6 +210,7 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
       <Entry>
         <EntryTitle uppercase={false}>Bonus Token</EntryTitle>
         <DropDown
+          style={{ minWidth: 189 }}
           items={tokens[networkId].map(t => t.symbol)}
           selected={selectedBonusIdx}
           onChange={idx => {
