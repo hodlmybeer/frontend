@@ -137,7 +137,7 @@ function DashBoard() {
         <div>
           <DataView
             status={isLoading ? 'loading' : 'default'}
-            fields={['Asset', 'Barrel', 'Countdown', 'Reward Share', 'Reward', 'Bonus']}
+            fields={['My deposit', 'Barrel id', 'Countdown', 'Reward Share', 'Reward', 'Bonus']}
             renderEntry={renderHodlingRow}
             renderEntryExpansion={hodling => {
               return <HodlingExpanded hodling={hodling} />

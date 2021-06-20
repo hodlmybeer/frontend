@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useCallback } from 'react'
-import { Modal, Header, Help, Timer } from '@aragon/ui'
+import { Modal, Header, Help, Timer, useTheme, IconDown, IconClose, TextInput, LinkBase } from '@aragon/ui'
 import BigNumber from 'bignumber.js'
 
 import TokenAmountWithoutIcon from '../../components/TokenAmountWithoutIcon'
@@ -26,6 +26,12 @@ DepositModalProps) {
   const [isDepositing, setIsDepositing] = useState(false)
 
   const { user } = useConnectedWallet()
+
+  const [showAdvancedOptions, setShowAdvance] = useState(false)
+
+  const [recipient, setRecipient] = useState<string>(user)
+  const theme = useTheme()
+
   const { deposit, calculateShares } = usePool(hToken)
 
   const { symbol: underlyingSymbol, decimals: underlyingDecimals } = useTokenBalance(hToken.token, user, 20)
@@ -53,11 +59,11 @@ DepositModalProps) {
   const depositToPool = useCallback(async () => {
     setIsDepositing(true)
     try {
-      await deposit(depositAmount, user)
+      await deposit(depositAmount, recipient)
     } finally {
       setIsDepositing(false)
     }
-  }, [depositAmount, deposit, user])
+  }, [depositAmount, deposit, recipient])
 
   const coefficientHint = useMemo(
     () =>
@@ -149,6 +155,43 @@ DepositModalProps) {
         </EntryTitle>
         <TokenAmountWithoutIcon symbol={hToken.symbol} amount={depositAmount.toString()} decimals={hToken.decimals} />
       </Entry>
+
+      {/* show advance option on the right */}
+      <div style={{ paddingBottom: 10, paddingTop: 15 }}>
+        {showAdvancedOptions ? (
+          <Entry>
+            <EntryTitle uppercase={false}> hToken Recipient </EntryTitle>
+            <TextInput
+              style={{ minWidth: 220 }}
+              value={recipient}
+              onChange={event => setRecipient(event.target.value)}
+              adornment={
+                <LinkBase
+                  onClick={() => {
+                    setShowAdvance(false)
+                    setRecipient(user)
+                  }}
+                >
+                  {' '}
+                  <IconClose />
+                </LinkBase>
+              }
+              adornmentPosition="end"
+            />
+          </Entry>
+        ) : (
+          <Entry>
+            <div />
+            <div onClick={() => setShowAdvance(true)} style={{ fontSize: 12, color: theme.contentSecondary }}>
+              <div>
+                {' '}
+                Add recipient <IconDown size="tiny" />{' '}
+              </div>
+            </div>
+          </Entry>
+        )}
+      </div>
+
       <TransferForm
         tokenAddress={hToken.token}
         tokenSymbol={hToken.symbol}
