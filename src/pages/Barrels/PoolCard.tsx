@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
-import { useAsyncMemo } from '../../hooks/useAsyncMemo'
-import { Box, Button, ProgressBar, useTheme, LinkBase } from '@aragon/ui'
+import { useAsyncMemo } from '../../hooks'
+import { Box, Button, ContextMenu, ContextMenuItem, ProgressBar, useTheme, LinkBase } from '@aragon/ui'
 import { Contract } from 'web3-eth-contract'
 import DepositModal from './DepositModal'
 
@@ -19,6 +19,7 @@ import { toPoolName } from '../../utils/htoken'
 import TokenAmountWithoutIcon from '../../components/TokenAmountWithoutIcon'
 import { Entry, EntryTitle } from '../../components/Entry'
 import CountDownTimer from '../../components/Countdown'
+import DonationModal from './DonationModal'
 
 type PoolCardProps = {
   hToken: hToken
@@ -33,6 +34,7 @@ function PoolCard({
 }: // totalDepositors,
 PoolCardProps) {
   const [depositModalOpened, setModalOpened] = useState(false)
+  const [donateModalOpened, setDonationModalOpened] = useState(false)
 
   const theme = useTheme()
 
@@ -83,20 +85,35 @@ PoolCardProps) {
         const bonusTokenDecimals = await bonusToken.methods.decimals().call()
         return { symbol: bonusTokenSymbol, decimals: bonusTokenDecimals }
       } else {
-        return { symbol: '', decimals: 0 }
+        return null
       }
     },
-    { symbol: '', decimals: 18 },
+    null,
     [bonusToken],
   )
 
   return token ? (
     <Box
       heading={
-        <LinkBase external href={`${networkIdToAddressUrl[networkId]}/${hToken.id}`}>
-          {' '}
-          {poolTitle}{' '}
-        </LinkBase>
+        <Entry>
+          <EntryTitle>
+            <LinkBase external href={`${networkIdToAddressUrl[networkId]}/${hToken.id}`}>
+              {' '}
+              {poolTitle}{' '}
+            </LinkBase>
+          </EntryTitle>
+
+          <ContextMenu>
+            <ContextMenuItem onClick={() => setDonationModalOpened(true)}>Donate</ContextMenuItem>
+          </ContextMenu>
+          <DonationModal
+            setOpen={setDonationModalOpened}
+            visible={donateModalOpened}
+            token={token}
+            hToken={hToken}
+            bonusTokenDetail={bonusTokenDetail}
+          />
+        </Entry>
       }
     >
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
@@ -118,9 +135,9 @@ PoolCardProps) {
           <EntryTitle>Total Bonus:</EntryTitle>
           {bonusToken ? (
             <TokenAmountWithoutIcon
-              symbol={bonusTokenDetail.symbol}
+              symbol={bonusTokenDetail?.symbol}
               amount={hToken.bonusTokenBalance}
-              decimals={bonusTokenDetail.decimals}
+              decimals={bonusTokenDetail?.decimals}
             />
           ) : (
             <div style={{ color: theme.contentSecondary, paddingLeft: 2 }}> {'-'} </div>
