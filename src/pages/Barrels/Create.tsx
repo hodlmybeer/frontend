@@ -18,7 +18,7 @@ import moment from 'moment'
 import defaultBarrel from '../../imgs/barrels/barrel.png'
 
 import { Entry, EntryTitle } from '../../components/Entry'
-import { tokens } from '../../constants'
+import { tokens, ZERO_ADDR } from '../../constants'
 import { useConnectedWallet } from '../../contexts/wallet'
 import { useFactory } from '../../hooks'
 
@@ -63,9 +63,8 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
 
   const { create } = useFactory()
 
-  // const [token, setToken] = useState<Token>(tokens[networkId][0])
   const [selectedIdx, setSelectedIdx] = useState(0)
-  const [selectedBonusIdx, setSelectedBonusIdx] = useState(0)
+  const [selectedBonusIdx, setSelectedBonusIdx] = useState(-1)
 
   const [expiry, setExpiry] = useState<number>(moment().add('years', 1).unix())
   const [lockingPeriodDays, setLockingDays] = useState<number>(30)
@@ -85,13 +84,20 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
   const errorMessage = useMemo(() => {
     if (fee > 100 || fee < 0) return 'Invalid fee percentage'
     if (penalty > 100 || penalty < 0) return 'Invalid penalty percentage'
-    if (!web3.utils.isAddress(feeRecipient)) return 'Invalid fee reciepient address'
+    if (!web3.utils.isAddress(feeRecipient)) return 'Invalid fee recipient address'
     if (expiry - 86400 * lockingPeriodDays < moment().unix()) return 'Invalid expiry and locking window'
     return null
   }, [fee, penalty, web3, feeRecipient, expiry, lockingPeriodDays])
 
+  const bonusTokenOptions = useMemo(() => {
+    const copy = [...tokens[networkId]]
+    copy.splice(selectedIdx, 1)
+    return copy
+  }, [networkId, selectedIdx])
+
   const handleCreate = useCallback(async () => {
     setIsCreating(true)
+    const bonusTokenAddress = selectedBonusIdx === -1 ? ZERO_ADDR : bonusTokenOptions[selectedBonusIdx].id
     try {
       await create(
         tokens[networkId][selectedIdx].id,
@@ -101,12 +107,24 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
         new BigNumber(fee * 10).integerValue().toString(),
         n.toString(),
         feeRecipient,
-        tokens[networkId][selectedBonusIdx].id,
+        bonusTokenAddress,
       )
     } finally {
       setIsCreating(false)
     }
-  }, [create, selectedIdx, penalty, lockingPeriodDays, expiry, fee, n, feeRecipient, networkId, selectedBonusIdx])
+  }, [
+    create,
+    selectedIdx,
+    penalty,
+    lockingPeriodDays,
+    expiry,
+    fee,
+    n,
+    feeRecipient,
+    networkId,
+    selectedBonusIdx,
+    bonusTokenOptions,
+  ])
 
   return (
     <Modal padding={'7%'} visible={visible} onClose={() => setOpen(false)} closeButton={false}>
@@ -177,7 +195,7 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
         <div style={{ display: 'flex' }}>
           <EntryTitle uppercase={false}>Fee</EntryTitle>
           <Help hint="When are fees charged?">
-            The fee is charged from the penalty amount when someone quit. If everyone hodls until the end, there will be
+            The fee is charged from the penalty amount when someone quit. If everyone holds until the end, there will be
             no fees accrued.
           </Help>
         </div>
@@ -211,12 +229,13 @@ export function CreateModal({ visible, setOpen }: { setOpen: Function; visible: 
         <EntryTitle uppercase={false}>Bonus Token</EntryTitle>
         <DropDown
           style={{ minWidth: 189 }}
-          items={tokens[networkId].map(t => t.symbol)}
+          items={bonusTokenOptions.map(t => t.symbol)}
           selected={selectedBonusIdx}
           onChange={idx => {
             setSelectedBonusIdx(idx)
             setOpen(true) // fix auto close modal error
           }}
+          placeholder="None"
         />
       </Entry>
       {errorMessage && <Info mode="error"> {errorMessage} </Info>}
