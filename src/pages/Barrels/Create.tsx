@@ -44,7 +44,7 @@ function CreateButton() {
           }}
         >
           <img src={defaultBarrel} height={150} alt="default" />
-          Can't find what you're looking for? Brew your own barrel with your fav ingredients!
+          Can't find what you're looking for? Brew your own barrel with your favorite ingredients!
           <Button wide onClick={() => setCreateModalOpened(true)}>
             {' '}
             Create{' '}

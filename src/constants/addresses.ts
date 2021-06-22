@@ -1,13 +1,6 @@
 import { SupportedNetworks } from './enums'
 import { Token } from '../types/index'
 
-// import ethIcon from '../imgs/coins/eth.png'
-import uniIcon from '../imgs/coins/uni.png'
-import usdcIcon from '../imgs/coins/usdc.png'
-import wbtcIcon from '../imgs/coins/wbtc.png'
-import wethIcon from '../imgs/coins/weth.png'
-import linkIcon from '../imgs/coins/link.png'
-
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000'
 
 export const factories: {
@@ -61,7 +54,6 @@ export const tokens: Tokens = {
   //   id: '0x514910771af9ca656af840dff83e8264ecf986ca',
   //   symbol: 'LINK',
   //   decimals: 18,
-  //   img: linkIcon
   // }
   // ],
 
@@ -72,7 +64,7 @@ export const tokens: Tokens = {
       coingeckId: 'ethereum',
       symbol: 'WETH',
       decimals: 18,
-      img: wethIcon,
+      img: require('../imgs/coins/weth.png'),
     },
     {
       name: 'Mock UNI',
@@ -80,7 +72,7 @@ export const tokens: Tokens = {
       coingeckId: 'uniswap',
       symbol: 'UNI',
       decimals: 18,
-      img: uniIcon,
+      img: require('../imgs/coins/uni.png'),
       mintable: true,
     },
     {
@@ -89,7 +81,7 @@ export const tokens: Tokens = {
       symbol: 'USDC',
       coingeckId: '',
       decimals: 6,
-      img: usdcIcon,
+      img: require('../imgs/coins/usdc.png'),
       mintable: true,
     },
     {
@@ -98,7 +90,7 @@ export const tokens: Tokens = {
       coingeckId: 'bitcoin',
       symbol: 'WBTC',
       decimals: 8,
-      img: wbtcIcon,
+      img: require('../imgs/coins/wbtc.png'),
       mintable: true,
     },
     {
@@ -107,7 +99,43 @@ export const tokens: Tokens = {
       coingeckId: 'chainlink',
       symbol: 'LINK',
       decimals: 18,
-      img: linkIcon,
+      img: require('../imgs/coins/link.png'),
+      mintable: true,
+    },
+    {
+      name: 'Mock ANT',
+      id: '0x9a58Ea5960660f916A1566c4F666121cD6e56f4E',
+      coingeckId: 'aragon',
+      symbol: 'ANT',
+      decimals: 18,
+      img: require('../imgs/coins/ant.png'),
+      mintable: true,
+    },
+    {
+      name: 'Mock COMP',
+      id: '0xa40DFdb9969EB28e9B2dB5EC5407bE18889a1B18',
+      coingeckId: 'compound',
+      symbol: 'COMP',
+      decimals: 18,
+      img: require('../imgs/coins/comp.png'),
+      mintable: true,
+    },
+    {
+      name: 'Mock DPI',
+      id: '0xb5a56ff31D1bfaB5c6992386f334Af60843a096D',
+      coingeckId: 'defipulse-index',
+      symbol: 'DPI',
+      decimals: 18,
+      img: require('../imgs/coins/dpi.png'),
+      mintable: true,
+    },
+    {
+      name: 'Mock MKR',
+      id: '0xBb749D57533F44755b0c4049db8B5cEa64055200',
+      coingeckId: 'maker',
+      symbol: 'MKR',
+      decimals: 18,
+      img: require('../imgs/coins/mkr.png'),
       mintable: true,
     },
   ],
@@ -117,6 +145,7 @@ export const tokens: Tokens = {
       id: '0xd0a1e359811322d97991e03f863a0c30c2cf029c',
       symbol: 'WETH',
       decimals: 18,
+      img: require('../imgs/coins/weth.png'),
     },
     {
       name: 'Mock UNI',
@@ -124,7 +153,7 @@ export const tokens: Tokens = {
       coingeckId: 'uniswap',
       symbol: 'UNI',
       decimals: 18,
-      img: uniIcon,
+      img: require('../imgs/coins/uni.png'),
       mintable: true,
     },
     {
@@ -133,7 +162,7 @@ export const tokens: Tokens = {
       coingeckId: 'bitcoin',
       symbol: 'WBTC',
       decimals: 8,
-      img: wbtcIcon,
+      img: require('../imgs/coins/wbtc.png'),
       mintable: true,
     },
     {
@@ -142,7 +171,43 @@ export const tokens: Tokens = {
       coingeckId: 'chainlink',
       symbol: 'LINK',
       decimals: 18,
-      img: linkIcon,
+      img: require('../imgs/coins/link.png'),
+      mintable: true,
+    },
+    {
+      name: 'Mock ANT',
+      id: '0x5819814c2dc7c339423f18785b20563eF6667aA8',
+      coingeckId: 'aragon',
+      symbol: 'ANT',
+      decimals: 18,
+      img: require('../imgs/coins/ant.png'),
+      mintable: true,
+    },
+    {
+      name: 'Mock COMP',
+      id: '0xC2d864154d5BCA67E9C34A66cE3dbFaCE87dc372',
+      coingeckId: 'compound',
+      symbol: 'COMP',
+      decimals: 18,
+      img: require('../imgs/coins/comp.png'),
+      mintable: true,
+    },
+    {
+      name: 'Mock DPI',
+      id: '0xaE53D328dB1ff0e626a276F350997b7b09f5622f',
+      coingeckId: 'defipulse-index',
+      symbol: 'DPI',
+      decimals: 18,
+      img: require('../imgs/coins/dpi.png'),
+      mintable: true,
+    },
+    {
+      name: 'Mock MKR',
+      id: '0x3afba74869fEb1BCD800851BF7699fC48cCe0F81',
+      coingeckId: 'maker',
+      symbol: 'MKR',
+      decimals: 18,
+      img: require('../imgs/coins/mkr.png'),
       mintable: true,
     },
   ],
