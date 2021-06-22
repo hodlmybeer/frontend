@@ -4,12 +4,9 @@ import { Box, Button, ContextMenu, ContextMenuItem, ProgressBar, useTheme, LinkB
 import { Contract } from 'web3-eth-contract'
 import DepositModal from './DepositModal'
 
+import styled from 'styled-components'
+
 import defaultBarrel from '../../imgs/barrels/barrel.png'
-import usdcBarrel from '../../imgs/barrels/usdcBarrel.png'
-import wethBarrel from '../../imgs/barrels/wethBarrel.png'
-import wbtcBarrel from '../../imgs/barrels/wbtcBarrel.png'
-import uniBarrel from '../../imgs/barrels/uniBarrel.png'
-import linkBarrel from '../../imgs/barrels/linkBarrel.png'
 
 import { useConnectedWallet } from '../../contexts/wallet'
 import { BarrelState, networkIdToAddressUrl } from '../../constants'
@@ -41,19 +38,9 @@ PoolCardProps) {
   const { networkId } = useConnectedWallet()
 
   const barrelImg = useMemo(() => {
-    return token
-      ? token.symbol === 'WETH'
-        ? wethBarrel
-        : token.symbol === 'WBTC'
-        ? wbtcBarrel
-        : token.symbol === 'USDC'
-        ? usdcBarrel
-        : token.symbol === 'UNI'
-        ? uniBarrel
-        : token.symbol === 'LINK'
-        ? linkBarrel
-        : defaultBarrel
-      : defaultBarrel
+    if (!token) return <img src={defaultBarrel} alt={'img'} height={150}></img>
+    if (!token.img) return <img src={defaultBarrel} alt={'img'} height={150}></img>
+    return getBarrelWithIcon(token.img)
   }, [token])
 
   const poolTitle = useMemo(() => {
@@ -117,7 +104,7 @@ PoolCardProps) {
       }
     >
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <img src={barrelImg} alt={'img'} height={150}></img>
+        {barrelImg}
         <br></br>
         <Entry>
           <EntryTitle>Penalty:</EntryTitle>
@@ -164,3 +151,25 @@ PoolCardProps) {
 }
 
 export default PoolCard
+
+function getBarrelWithIcon(img: any) {
+  return (
+    <ImgContainer>
+      <img height={150} src={defaultBarrel} alt="barrel"></img>
+      <Icon src={img}></Icon>
+    </ImgContainer>
+  )
+}
+
+const ImgContainer = styled.div`
+  position: relative;
+`
+
+const Icon = styled.img`
+  z-index: 1;
+  position: absolute;
+  top: 60px;
+  right: 56px;
+  display: block;
+  height: 50px;
+`
