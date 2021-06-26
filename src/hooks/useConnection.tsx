@@ -12,13 +12,13 @@ export const useConnection = () => {
   const [user, setUser] = useState<string>('')
 
   // web3 instance associate with the wallet. if the wallet is on a weird network, could be bad.
-  const [web3, setWeb3] = useState<Web3>(new Web3(`https://mainnet.infura.io/v3/${INFURA_KEY}`))
+  const [web3, setWeb3] = useState<Web3>(new Web3(`https://ropsten.infura.io/v3/${INFURA_KEY}`))
 
   // the network id that should be used to retrive data. (always a supported network)
   const [networkId, setNetworkId] = useState<SupportedNetworks>(3)
 
   // the network id that the current provider is on.
-  const [currnetProviderNetwork, setCurrentProvideNetwork] = useState<number>(3)
+  const [currentProviderNetwork, setCurrentProvideNetwork] = useState<number>(3)
 
   // function for block native sdk when address is updated
   const setAddressCallback = useCallback((address: string | undefined) => {
@@ -81,7 +81,7 @@ export const useConnection = () => {
     setUser('')
   }, [onboard])
 
-  return { networkId, user, setUser, web3, connect, disconnect, currnetProviderNetwork }
+  return { networkId, user, setUser, web3, connect, disconnect, currentProviderNetwork }
 }
 
 export const initOnboard = (addressChangeCallback, walletChangeCallback, networkChangeCallback, networkId) => {
@@ -123,6 +123,7 @@ export const initOnboard = (addressChangeCallback, walletChangeCallback, network
 }
 
 export const getInfuraProvider = (networkId: number) => {
-  const networkname = networkId === 1 ? 'mainnet' : networkId === 3 ? 'ropsten' : 'kovan'
-  return `https://${networkname}.infura.io/v3/${INFURA_KEY}`
+  const network = networkId === 1 ? 'mainnet' : networkId === 3 ? 'ropsten' : 'kovan'
+  console.log(`network`, network)
+  return `https://${network}.infura.io/v3/${INFURA_KEY}`
 }

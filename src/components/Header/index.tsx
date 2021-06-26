@@ -5,7 +5,7 @@ import { SupportedNetworks } from '../../constants'
 
 // set tab title while using Header
 export function Header({ primary, secondary, title }: { primary?: any; secondary?: any; title?: string }) {
-  const { currnetProviderNetwork } = useConnectedWallet()
+  const { currentProviderNetwork } = useConnectedWallet()
 
   useEffect(() => {
     if (title) {
@@ -18,7 +18,7 @@ export function Header({ primary, secondary, title }: { primary?: any; secondary
   return (
     <div>
       <AragonHeader primary={primary} secondary={secondary} />
-      {!(currnetProviderNetwork in SupportedNetworks) && (
+      {!(currentProviderNetwork in SupportedNetworks) && (
         <Info mode="warning"> You're at the wrong network. Please switch to Ropsten or Kovan testnet </Info>
       )}
     </div>
