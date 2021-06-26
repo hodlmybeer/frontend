@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { useAsyncMemo } from '../../hooks'
-import { Box, Button, ContextMenu, ContextMenuItem, ProgressBar, useTheme, LinkBase } from '@aragon/ui'
+import { Box, Button, IconHeart, ProgressBar, useTheme, LinkBase } from '@aragon/ui'
 import { Contract } from 'web3-eth-contract'
 import DepositModal from './DepositModal'
 
@@ -90,9 +90,14 @@ PoolCardProps) {
             </LinkBase>
           </EntryTitle>
 
-          <ContextMenu>
-            <ContextMenuItem onClick={() => setDonationModalOpened(true)}>Donate</ContextMenuItem>
-          </ContextMenu>
+          {/* <ContextMenu> */}
+          <LinkBase onClick={() => setDonationModalOpened(true)}>
+            {' '}
+            <div>
+              <IconHeart />
+            </div>{' '}
+          </LinkBase>
+          {/* </ContextMenu> */}
           <DonationModal
             setOpen={setDonationModalOpened}
             visible={donateModalOpened}

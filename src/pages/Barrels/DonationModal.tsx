@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useCallback } from 'react'
 import { usePool } from '../../hooks'
 import { fromTokenAmount } from '../../utils/math'
-import { Checkbox, DropDown, Header, Info, Modal } from '@aragon/ui'
+import { Checkbox, DropDown, Header, Info, Modal, useTheme } from '@aragon/ui'
 
 import { hToken, Token } from '../../types'
 
@@ -19,6 +19,7 @@ type DonationModalProps = {
 
 function DonationModal({ token, hToken, bonusTokenDetail, visible, setOpen }: DonationModalProps) {
   const [isDepositing, setIsDepositing] = useState(false)
+  const theme = useTheme()
   const { donate } = usePool(hToken)
   const [selectedIdx, setSelectedIdx] = useState(0)
   const [inputAmount, setInputAmount] = useState(0)
@@ -57,7 +58,7 @@ function DonationModal({ token, hToken, bonusTokenDetail, visible, setOpen }: Do
         <br />
         <div style={{ display: 'flex' }}>
           <label style={{ marginLeft: 'auto', display: 'flex', alignItems: 'flex-end' }}>
-            <h1 style={{ color: 'black' }}>I Understand</h1>
+            <h1 style={{ color: theme.content }}>I Understand</h1>
             <Checkbox checked={donationConsentReceived} onChange={checked => setDonationConsentReceived(checked)} />
           </label>
         </div>

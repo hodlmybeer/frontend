@@ -124,6 +124,5 @@ export const initOnboard = (addressChangeCallback, walletChangeCallback, network
 
 export const getInfuraProvider = (networkId: number) => {
   const network = networkId === 1 ? 'mainnet' : networkId === 3 ? 'ropsten' : 'kovan'
-  console.log(`network`, network)
   return `https://${network}.infura.io/v3/${INFURA_KEY}`
 }
