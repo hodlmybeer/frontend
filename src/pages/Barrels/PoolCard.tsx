@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useRef } from 'react'
 import { useAsyncMemo } from '../../hooks'
-import { Box, Button, ContextMenu, ContextMenuItem, ProgressBar, useTheme, LinkBase } from '@aragon/ui'
+import { Box, Button, ContextMenu, ContextMenuItem, IconHeart, ProgressBar, useTheme, LinkBase } from '@aragon/ui'
 import { Contract } from 'web3-eth-contract'
 import DepositModal from './DepositModal'
 
@@ -20,16 +20,12 @@ import DonationModal from './DonationModal'
 
 type PoolCardProps = {
   hToken: hToken
-  token: Token | undefined
+  token: Token
   bonusToken: Contract | null
 }
 
-function PoolCard({
-  token,
-  hToken,
-  bonusToken,
-}: // totalDepositors,
-PoolCardProps) {
+function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
+  const nodeRef = useRef(null)
   const [depositModalOpened, setModalOpened] = useState(false)
   const [donateModalOpened, setDonationModalOpened] = useState(false)
 
@@ -67,20 +63,19 @@ PoolCardProps) {
 
   const bonusTokenDetail = useAsyncMemo(
     async () => {
-      if (bonusToken) {
-        const bonusTokenSymbol = await bonusToken.methods.symbol().call()
-        const bonusTokenDecimals = await bonusToken.methods.decimals().call()
-        return { symbol: bonusTokenSymbol, decimals: bonusTokenDecimals }
-      } else {
-        return null
-      }
+      if (!bonusToken) return null
+
+      const bonusTokenSymbol = await bonusToken.methods.symbol().call()
+      const bonusTokenDecimals = await bonusToken.methods.decimals().call()
+      return { symbol: bonusTokenSymbol, decimals: bonusTokenDecimals }
     },
     null,
     [bonusToken],
   )
 
-  return token ? (
+  return (
     <Box
+      nodeRef={nodeRef}
       heading={
         <Entry>
           <EntryTitle>
@@ -90,19 +85,23 @@ PoolCardProps) {
             </LinkBase>
           </EntryTitle>
 
-          <ContextMenu>
-            <ContextMenuItem onClick={() => setDonationModalOpened(true)}>Donate</ContextMenuItem>
-          </ContextMenu>
-          <DonationModal
-            setOpen={setDonationModalOpened}
-            visible={donateModalOpened}
-            token={token}
-            hToken={hToken}
-            bonusTokenDetail={bonusTokenDetail}
-          />
+          <div ref={nodeRef}>
+            <ContextMenu>
+              <ContextMenuItem onClick={() => setDonationModalOpened(true)}>
+                <IconHeart /> Donate
+              </ContextMenuItem>
+            </ContextMenu>
+          </div>
         </Entry>
       }
     >
+      <DonationModal
+        setOpen={setDonationModalOpened}
+        visible={donateModalOpened}
+        token={token}
+        hToken={hToken}
+        bonusTokenDetail={bonusTokenDetail}
+      />
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         {barrelImg}
         <br></br>
@@ -147,7 +146,7 @@ PoolCardProps) {
 
       <DepositModal open={depositModalOpened} onClose={() => setModalOpened(false)} hToken={hToken} />
     </Box>
-  ) : null
+  )
 }
 
 export default PoolCard

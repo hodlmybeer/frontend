@@ -62,8 +62,6 @@ function DashBoard() {
         />
       )
 
-      console.log(`hodling.token.bonusToken`, hodling.token.bonusToken)
-
       const bonusAmount =
         hodling.token.bonusToken === ZERO_ADDR ? (
           '-'

@@ -94,7 +94,8 @@ async function getHistoricalPrice(id: string) {
 
 async function getCurrentPrice(id: string): Promise<number> {
   const url = `https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=usd`
-  return (await (await fetch(url)).json())[id].usd
+  const prices = (await (await fetch(url)).json())[id]
+  return prices ? prices.usd : 0
 }
 
 async function getPriceAtDate(id: string, date: string): Promise<number | undefined> {

@@ -35,26 +35,28 @@ function Barrels({ web3 }: { web3: Web3 }) {
 
   const barrels = useMemo(() => {
     const knownTokens = tokens[networkId]
-    const boxes = knownHTokens.map(hToken => {
-      const token = knownTokens.find(t => t.id.toLowerCase() === hToken.token) as Token
-      const card = (
-        <PoolCard
-          hToken={hToken}
-          token={token}
-          bonusToken={
-            hToken.bonusToken !== ZERO_ADDR && hToken.bonusToken !== hToken.token
-              ? new web3.eth.Contract(erc20, hToken.bonusToken)
-              : null
-          }
-        />
-      )
+    const boxes = knownHTokens
+      .filter(hToken => knownTokens.find(t => t.id.toLowerCase() === hToken.token))
+      .map(hToken => {
+        const token = knownTokens.find(t => t.id.toLowerCase() === hToken.token) as Token
+        const card = (
+          <PoolCard
+            hToken={hToken}
+            token={token}
+            bonusToken={
+              hToken.bonusToken !== ZERO_ADDR && hToken.bonusToken !== hToken.token
+                ? new web3.eth.Contract(erc20, hToken.bonusToken)
+                : null
+            }
+          />
+        )
 
-      return (
-        <Col style={{ padding: 5 }} xs={12} sm={6} md={4} key={hToken.id}>
-          {card}
-        </Col>
-      )
-    })
+        return (
+          <Col style={{ padding: 5 }} xs={12} sm={6} md={4} key={hToken.id}>
+            {card}
+          </Col>
+        )
+      })
     return boxes.filter(b => b !== null)
   }, [knownHTokens, networkId, erc20, web3])
 

@@ -40,7 +40,7 @@ function CreateButton() {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'space-between',
-            minHeight: 354,
+            minHeight: 362,
           }}
         >
           <img src={defaultBarrel} height={150} alt="default" />
