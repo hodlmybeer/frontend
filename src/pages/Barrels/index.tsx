@@ -63,8 +63,8 @@ function Barrels({ web3 }: { web3: Web3 }) {
   return (
     <Container>
       <Header primary="Barrels" />
-      <Comment text="Choose your favorite barrel and how long you wanna keep your coins there." />
-      <Comment text="Once you deposit, your tokens will be locked up. If you choose to withdraw early, you will be penalized." />
+      <Comment text="Choose your favorite barrel, deposit and chill!" />
+      <Comment text="If you choose to withdraw early, you will be penalized." />
       <br />
       <Row>
         <Col md={6} lg={4}>

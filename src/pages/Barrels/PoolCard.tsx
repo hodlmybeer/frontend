@@ -1,15 +1,16 @@
 import React, { useMemo, useState, useRef } from 'react'
 import { useAsyncMemo } from '../../hooks'
-import { Box, Button, ContextMenu, ContextMenuItem, IconHeart, ProgressBar, useTheme, LinkBase } from '@aragon/ui'
+import { Box, Button, ContextMenu, ContextMenuItem, IconHeart, ProgressBar, useTheme, LinkBase, Tag } from '@aragon/ui'
 import { Contract } from 'web3-eth-contract'
 import DepositModal from './DepositModal'
 
 import styled from 'styled-components'
 
 import defaultBarrel from '../../imgs/barrels/barrel.png'
+import emptyBarrel from '../../imgs/barrels/barrel-empty.png'
 
 import { useConnectedWallet } from '../../contexts/wallet'
-import { BarrelState, networkIdToAddressUrl } from '../../constants'
+import { BarrelState, networkIdToAddressUrl, tagBackground, tagColor } from '../../constants'
 import { hToken, Token } from '../../types'
 import { toPoolName } from '../../utils/htoken'
 
@@ -34,8 +35,8 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
   const { networkId } = useConnectedWallet()
 
   const barrelImg = useMemo(() => {
-    if (!token) return <img src={defaultBarrel} alt={'img'} height={150}></img>
-    if (!token.img) return <img src={defaultBarrel} alt={'img'} height={150}></img>
+    if (!token) return <img src={defaultBarrel} alt={'img'} height={130}></img>
+    if (!token.img) return <img src={defaultBarrel} alt={'img'} height={130}></img>
     return getBarrelWithIcon(token.img)
   }, [token])
 
@@ -104,6 +105,18 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
       />
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         {barrelImg}
+        <div>
+          {token.tags ? (
+            token.tags.map(tag => (
+              <Tag background={tagBackground[tag]} color={tagColor[tag]}>
+                {' '}
+                {tag}{' '}
+              </Tag>
+            ))
+          ) : (
+            <br />
+          )}
+        </div>
         <br></br>
         <Entry>
           <EntryTitle>Penalty:</EntryTitle>
@@ -154,7 +167,7 @@ export default PoolCard
 function getBarrelWithIcon(img: any) {
   return (
     <ImgContainer>
-      <img height={150} src={defaultBarrel} alt="barrel"></img>
+      <img height={130} src={emptyBarrel} alt="barrel"></img>
       <Icon src={img}></Icon>
     </ImgContainer>
   )
@@ -167,8 +180,8 @@ const ImgContainer = styled.div`
 const Icon = styled.img`
   z-index: 1;
   position: absolute;
-  top: 60px;
-  right: 56px;
+  top: 53px;
+  right: 51px;
   display: block;
-  height: 50px;
+  height: 40px;
 `

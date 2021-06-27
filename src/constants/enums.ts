@@ -16,3 +16,10 @@ export enum BarrelState {
   Locked,
   Expired,
 }
+
+export enum CoinTags {
+  DeFi = 'defi',
+  DAO = 'dao',
+  LongETH = 'long eth',
+  YIELD = 'yield',
+}
