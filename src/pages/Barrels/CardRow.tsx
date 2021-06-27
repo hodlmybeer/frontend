@@ -36,10 +36,9 @@ function CardRow({
       hToken?: hToken
       token?: Token
     }[]
-    boxes.push({ id: 'create' })
-
+    boxes.unshift({ id: 'create' })
     return boxes.filter(b => b !== null)
-  }, [knownHTokens, networkId, erc20, web3])
+  }, [knownHTokens, networkId])
 
   const config = { tension: 280, friction: 60 }
 
