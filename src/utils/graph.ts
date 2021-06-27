@@ -6,7 +6,11 @@ export async function getHTokens(networkId: SupportedNetworks, errorCallback: Fu
   const now = (Date.now() / 1000).toFixed(0)
   const query = `
   {
-    htokens (where: { expiry_gt: ${now} }) {
+    htokens (
+      orderBy: createdAt, 
+      orderDirection:desc, 
+      where: { expiry_gt: ${now} }) 
+    {
       id
       token
       symbol

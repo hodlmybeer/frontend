@@ -103,7 +103,15 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
         hToken={hToken}
         bonusTokenDetail={bonusTokenDetail}
       />
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: 362,
+        }}
+      >
         {barrelImg}
         <div>
           {token.tags ? (
@@ -151,7 +159,7 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
           color={progressBarColor.toString()}
           value={(Date.now() / 1000 - hToken.createdAt) / (hToken.expiry - hToken.createdAt)}
         />
-        <br></br>
+        <div style={{ padding: 10 }} />
         <Button wide onClick={() => setModalOpened(true)} disabled={state === BarrelState.Locked}>
           Deposit
         </Button>
