@@ -43,7 +43,7 @@ function CreateButton() {
             minHeight: 362,
           }}
         >
-          <img src={defaultBarrel} height={150} alt="default" />
+          <img src={defaultBarrel} height={130} alt="default" />
           Can't find what you're looking for? Brew your own barrel with your favorite ingredients!
           <Button wide onClick={() => setCreateModalOpened(true)}>
             {' '}

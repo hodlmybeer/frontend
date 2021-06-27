@@ -6,6 +6,7 @@ export type Token = {
   img?: string
   mintable?: boolean
   coingeckId?: string
+  tags?: string[]
 }
 
 export type Hodling = {
