@@ -5,6 +5,7 @@ import { getPreference, storePreference } from '../../utils/storage'
 
 import { ZERO_ADDR } from '../../constants/addresses'
 import { useConnectedWallet } from '../../contexts/wallet'
+import { SupportedNetworks } from '../../constants'
 
 type CustomIdentityBadgeProps = {
   shorten?: boolean
@@ -58,10 +59,20 @@ function CustomIdentityBadge({ entity, connectedAccount, label, shorten }: Custo
     setOpened(false)
   }
 
+  const getNetworkType = (networkId: SupportedNetworks): string => {
+    if (networkId === SupportedNetworks.Ropsten) {
+      return 'ropsten'
+    }
+    if (networkId === SupportedNetworks.Kovan) {
+      return 'kovan'
+    }
+    return 'main'
+  }
+
   return (
     <>
       <IdentityBadge
-        networkType={networkId === 1 ? 'main' : networkId === 3 ? 'ropsten' : 'kovan'}
+        networkType={getNetworkType(networkId)}
         entity={entity}
         connectedAccount={connectedAccount}
         label={displayLabel}
