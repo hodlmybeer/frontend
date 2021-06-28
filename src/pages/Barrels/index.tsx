@@ -47,7 +47,7 @@ function Barrels({ web3 }: { web3: Web3 }) {
   const filteredHTokens = useMemo(() => {
     const hTokensFilterByTags = knownHTokens.filter(hToken => {
       const mainToken = tokens[networkId].find(t => t.id.toLowerCase() === hToken.token) as Token
-      return showAll || mainToken.tags.filter(tag => selectedTags.includes(tag)).length > 0
+      return showAll || mainToken.tags.filter(tag => selectedTags.includes(tag.replace(' ', ''))).length > 0
     })
     if (searchText === null) return hTokensFilterByTags
 
@@ -70,22 +70,25 @@ function Barrels({ web3 }: { web3: Web3 }) {
                 if (checked) {
                   setSelectedTags([])
                 } else {
-                  setSelectedTags(Object.keys(CoinTags).map(k => k))
+                  setSelectedTags(Object.keys(CoinTags).map(key => key.replace(' ', '')))
                 }
               }}
             />
-            {Object.keys(CoinTags).map(key => (
-              <CheckBoxWithLabel
-                key={key}
-                label={CoinTags[key]}
-                checked={selectedTags.includes(CoinTags[key].replace(' ', ''))}
-                setChecked={checked =>
-                  checked
-                    ? setSelectedTags(tags => [...tags, CoinTags[key]])
-                    : setSelectedTags(tags => [...tags].filter(t => t !== CoinTags[key]))
-                }
-              />
-            ))}
+            {Object.keys(CoinTags).map(key => {
+              const tagId = CoinTags[key].replace(' ', '')
+              return (
+                <CheckBoxWithLabel
+                  key={key}
+                  label={CoinTags[key]}
+                  checked={selectedTags.includes(tagId)}
+                  setChecked={checked =>
+                    checked
+                      ? setSelectedTags(tags => [...tags, tagId])
+                      : setSelectedTags(tags => [...tags].filter(t => t !== tagId))
+                  }
+                />
+              )
+            })}
           </div>
         </div>
       </Popover>
