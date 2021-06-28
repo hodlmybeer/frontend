@@ -10,19 +10,19 @@ import { ZERO_ADDR } from '../../constants/addresses'
 import { SupportedNetworks } from '../../constants/enums'
 
 function CardRow({
-  knownHTokens,
+  hTokens,
   networkId,
   erc20,
   web3,
 }: {
-  knownHTokens: hToken[]
+  hTokens: hToken[]
   networkId: SupportedNetworks
   erc20: any
   web3: Web3
 }) {
   const barrels = useMemo(() => {
     const knownTokens = tokens[networkId]
-    const boxes = knownHTokens
+    const boxes = hTokens
       .filter(hToken => knownTokens.find(t => t.id.toLowerCase() === hToken.token))
       .map((hToken, index) => {
         const token = knownTokens.find(t => t.id.toLowerCase() === hToken.token) as Token
@@ -38,7 +38,7 @@ function CardRow({
     }[]
     boxes.unshift({ id: 'create' })
     return boxes.filter(b => b !== null)
-  }, [knownHTokens, networkId])
+  }, [hTokens, networkId])
 
   const config = { tension: 280, friction: 60 }
 

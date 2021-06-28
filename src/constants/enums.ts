@@ -18,8 +18,8 @@ export enum BarrelState {
 }
 
 export enum CoinTags {
-  DeFi = 'defi',
-  DAO = 'dao',
-  LongETH = 'long eth',
-  YIELD = 'yield',
+  DeFi = 'DeFi',
+  DAO = 'DAO',
+  LongETH = 'Long ETH',
+  Yield = 'Yield',
 }
