@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react'
+import React, { useMemo, useState, useRef } from 'react'
 import { Container, Row, Col } from 'react-grid-system'
 import { SyncIndicator, TextInput, IconConfiguration, Popover, Button } from '@aragon/ui'
 import Web3 from 'web3'
@@ -19,13 +19,7 @@ function Barrels({ web3 }: { web3: Web3 }) {
   const [showAll, setShowAll] = useState<boolean>(true)
 
   const [configModalOpen, setConfigModalOpen] = useState<boolean>(false)
-  const opener = React.createRef()
-
-  // hack: use another constant and ref to record button ref, cause opener isn't always updated in useMemo
-  const [refButton, setRefButton] = useState<any>(null)
-  useEffect(() => {
-    if (opener.current) setRefButton(opener.current)
-  }, [opener])
+  const configIconRef = useRef()
 
   const { hTokens, isLoading } = useAllHTokens()
   const { networkId } = useConnectedWallet()
@@ -58,7 +52,7 @@ function Barrels({ web3 }: { web3: Web3 }) {
 
   const TagFilterPopOver = useMemo(() => {
     return (
-      <Popover visible={configModalOpen} opener={refButton} onClose={() => setConfigModalOpen(false)}>
+      <Popover visible={configModalOpen} opener={configIconRef.current} onClose={() => setConfigModalOpen(false)}>
         <div style={{ padding: 15 }}>
           <SectionHeader title="Filter by Tags" paddingTop={10} />
           <div style={{ display: 'flex' }}>
@@ -93,7 +87,7 @@ function Barrels({ web3 }: { web3: Web3 }) {
         </div>
       </Popover>
     )
-  }, [showAll, setSelectedTags, selectedTags, refButton, configModalOpen])
+  }, [showAll, setSelectedTags, selectedTags, configIconRef, configModalOpen])
 
   return (
     <Container>
@@ -114,8 +108,7 @@ function Barrels({ web3 }: { web3: Web3 }) {
           />
         </Col>
         <Col md={6} lg={4}>
-          <Button ref={opener} type="icon" onClick={() => setConfigModalOpen(true)}>
-            {' '}
+          <Button type="icon" ref={configIconRef} onClick={() => setConfigModalOpen(true)}>
             <IconConfiguration />{' '}
           </Button>
           {TagFilterPopOver}
