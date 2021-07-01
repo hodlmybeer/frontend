@@ -6,7 +6,7 @@ import { Button } from '@aragon/ui'
 
 import discord from '../../imgs/social-media/discord.png'
 import github from '../../imgs/social-media/github.png'
-// import twitter from '../../imgs/social-media/twitter.png'
+import twitter from '../../imgs/social-media/twitter.png'
 
 function Social() {
   return (
@@ -15,6 +15,8 @@ function Social() {
       <div> Join our community and follow us on social media! </div>
 
       <SocialLink img={discord} link={'https://discord.gg/3kdYuyzUC2'} />
+
+      <SocialLink img={twitter} link={'https://twitter.com/_hodlprotocol'} />
 
       <SocialLink img={github} link={'https://github.com/hodlmybeer'} />
     </>
