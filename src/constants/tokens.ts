@@ -140,6 +140,15 @@ export const tokens: Tokens = {
       mintable: true,
       tags: [CoinTags.DeFi],
     },
+    {
+      name: 'Shiba Inu',
+      id: '0x88e79067FbeB744cfc087CeB785a71B07c18c81e',
+      symbol: 'SHIB',
+      decimals: 18,
+      img: require('../imgs/coins/shib.png'),
+      mintable: true,
+      tags: [],
+    },
   ],
   [SupportedNetworks.Kovan]: [
     {
@@ -229,6 +238,15 @@ export const tokens: Tokens = {
       img: require('../imgs/coins/steth.svg'),
       mintable: true,
       tags: [CoinTags.Yield, CoinTags.LongETH],
+    },
+    {
+      name: 'Shiba Inu',
+      id: '0x090e29A0Fb5c661d86ce27CF932C44Fb178B5c56',
+      symbol: 'SHIB',
+      decimals: 18,
+      img: require('../imgs/coins/shib.png'),
+      mintable: true,
+      tags: [],
     },
   ],
 }
