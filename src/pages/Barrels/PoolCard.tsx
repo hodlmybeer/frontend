@@ -116,7 +116,7 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
         <div>
           {token.tags ? (
             token.tags.map(tag => (
-              <Tag background={tagBackground[tag]} color={tagColor[tag]}>
+              <Tag background={tagBackground[tag]} color={tagColor[tag]} key={tag}>
                 {' '}
                 {tag}{' '}
               </Tag>

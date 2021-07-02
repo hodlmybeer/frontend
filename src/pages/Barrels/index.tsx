@@ -1,16 +1,26 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useRef } from 'react'
 import { Container, Row, Col } from 'react-grid-system'
-import { SyncIndicator, TextInput } from '@aragon/ui'
+import { SyncIndicator, TextInput, IconConfiguration, Popover, Button } from '@aragon/ui'
 import Web3 from 'web3'
 import { useAllHTokens, useQuery } from '../../hooks'
 import Comment from '../../components/Comment'
 import Header from '../../components/Header'
 import CardRow from './CardRow'
-import { tokens } from '../../constants'
+import { tokens, CoinTags } from '../../constants'
 import { useConnectedWallet } from '../../contexts/wallet'
+import CheckBoxWithLabel from '../../components/CheckBoxWithLabel'
+import SectionHeader from '../../components/SectionHeader'
+import { Token } from '../../types'
 
 function Barrels({ web3 }: { web3: Web3 }) {
   const erc20 = require('../../constants/abis/erc20.json')
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
+
+  const [showAll, setShowAll] = useState<boolean>(true)
+
+  const [configModalOpen, setConfigModalOpen] = useState<boolean>(false)
+  const configIconRef = useRef()
+
   const { hTokens, isLoading } = useAllHTokens()
   const { networkId } = useConnectedWallet()
   const { query, clearQuery } = useQuery()
@@ -19,15 +29,65 @@ function Barrels({ web3 }: { web3: Web3 }) {
 
   const [searchText, setSearchText] = useState(tokenFromQuery ? tokenFromQuery : '')
 
-  const filteredHTokens = useMemo(() => {
-    if (searchText !== null)
-      return hTokens.filter(h => h.id.includes(searchText) || h.symbol.toLowerCase().includes(searchText.toLowerCase()))
-    return hTokens
-  }, [searchText, hTokens])
-
+  // hTokens which has main token that's in our token list
   const knownHTokens = useMemo(() => {
-    return filteredHTokens.filter(hToken => tokens[networkId].find(t => t.id.toLowerCase() === hToken.token))
-  }, [filteredHTokens, networkId])
+    return hTokens.filter(hToken => {
+      const mainToken = tokens[networkId].find(t => t.id.toLowerCase() === hToken.token)
+      return mainToken !== undefined
+    })
+  }, [hTokens, networkId])
+
+  // hTokens to show
+  const filteredHTokens = useMemo(() => {
+    const hTokensFilterByTags = knownHTokens.filter(hToken => {
+      const mainToken = tokens[networkId].find(t => t.id.toLowerCase() === hToken.token) as Token
+      return showAll || mainToken.tags.filter(tag => selectedTags.includes(tag.replace(' ', ''))).length > 0
+    })
+    if (searchText === null) return hTokensFilterByTags
+
+    return hTokensFilterByTags.filter(
+      h => h.id.includes(searchText) || h.symbol.toLowerCase().includes(searchText.toLowerCase()),
+    )
+  }, [searchText, knownHTokens, selectedTags, showAll, networkId])
+
+  const TagFilterPopOver = useMemo(() => {
+    return (
+      <Popover visible={configModalOpen} opener={configIconRef.current} onClose={() => setConfigModalOpen(false)}>
+        <div style={{ padding: 15 }}>
+          <SectionHeader title="Filter by Tags" paddingTop={10} />
+          <div style={{ display: 'flex' }}>
+            <CheckBoxWithLabel
+              label={'All'}
+              checked={showAll}
+              setChecked={checked => {
+                setShowAll(checked)
+                if (checked) {
+                  setSelectedTags([])
+                } else {
+                  setSelectedTags(Object.keys(CoinTags).map(key => key.replace(' ', '')))
+                }
+              }}
+            />
+            {Object.keys(CoinTags).map(key => {
+              const tagId = CoinTags[key].replace(' ', '')
+              return (
+                <CheckBoxWithLabel
+                  key={key}
+                  label={CoinTags[key]}
+                  checked={selectedTags.includes(tagId)}
+                  setChecked={checked =>
+                    checked
+                      ? setSelectedTags(tags => [...tags, tagId])
+                      : setSelectedTags(tags => [...tags].filter(t => t !== tagId))
+                  }
+                />
+              )
+            })}
+          </div>
+        </div>
+      </Popover>
+    )
+  }, [showAll, setSelectedTags, selectedTags, configIconRef, configModalOpen])
 
   return (
     <Container>
@@ -47,10 +107,16 @@ function Barrels({ web3 }: { web3: Web3 }) {
             }}
           />
         </Col>
+        <Col md={6} lg={4}>
+          <Button type="icon" ref={configIconRef} onClick={() => setConfigModalOpen(true)}>
+            <IconConfiguration />{' '}
+          </Button>
+          {TagFilterPopOver}
+        </Col>
       </Row>
 
       <br />
-      <CardRow web3={web3} erc20={erc20} knownHTokens={knownHTokens} networkId={networkId} />
+      <CardRow web3={web3} erc20={erc20} hTokens={filteredHTokens} networkId={networkId} />
       <SyncIndicator visible={isLoading}> Loading... </SyncIndicator>
     </Container>
   )
