@@ -21,6 +21,8 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
 import { GuideCarousel } from './components/Carousel'
 
+import './App.css'
+
 function App() {
   const wallet = useConnection()
   const defaultTheme = getPreference('theme', 'light')

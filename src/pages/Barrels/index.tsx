@@ -3,7 +3,6 @@ import { Container, Row, Col } from 'react-grid-system'
 import { SyncIndicator, TextInput } from '@aragon/ui'
 import Web3 from 'web3'
 import { useAllHTokens, useQuery } from '../../hooks'
-import Comment from '../../components/Comment'
 import Header from '../../components/Header'
 import CardRow from './CardRow'
 import { tokens } from '../../constants'
@@ -32,8 +31,6 @@ function Barrels({ web3 }: { web3: Web3 }) {
   return (
     <Container>
       <Header primary="Barrels" />
-      <Comment text="Choose your favorite barrel, deposit and chill!" />
-      <Comment text="If you choose to withdraw early, you will be penalized." />
       <br />
       <Row>
         <Col md={6} lg={4}>

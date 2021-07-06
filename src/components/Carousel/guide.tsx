@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { Modal, Header, Checkbox, useTheme } from '@aragon/ui'
+import { Modal, Checkbox, useTheme } from '@aragon/ui'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import '../../App.css'
 import { mustGetPreference, storePreference } from '../../utils/storage'
 import moment from 'moment'
+
+import { Steps } from './steps'
 
 export function GuideCarousel({ open, onClose }: { open: boolean; onClose: () => void }) {
   const theme = useTheme()
@@ -18,16 +19,6 @@ export function GuideCarousel({ open, onClose }: { open: boolean; onClose: () =>
     slidesToShow: 1,
     slidesToScroll: 1,
   }
-  //TODO: revise real guides
-  const getGuides = () => {
-    return [1, 2, 3, 4].map(e => {
-      return (
-        <div key={e.toString()}>
-          <img alt="demo" src="http://placekitten.com/g/400/200" />
-        </div>
-      )
-    })
-  }
 
   const handleChanged = (checked: boolean) => {
     setChecked(checked)
@@ -39,15 +30,17 @@ export function GuideCarousel({ open, onClose }: { open: boolean; onClose: () =>
   }
 
   return (
-    <Modal visible={open} onClose={handleClose}>
-      <Header primary={`User Guide`} />
-      <div className="container">
-        <Slider {...settings}>{getGuides()}</Slider>
+    <Modal visible={open} onClose={handleClose} padding={'5%'}>
+      <div style={{ padding: 30 }}>
+        <Slider {...settings}>{Steps()}</Slider>
       </div>
-      <label style={{ marginLeft: 'auto', display: 'flex', alignItems: 'flex-start' }}>
-        <Checkbox checked={checked} onChange={checked => handleChanged(checked)} />
-        <h1 style={{ color: theme.content }}>Don't show this guide again</h1>
-      </label>
+
+      <div style={{ display: 'flex', paddingTop: 20 }}>
+        <label style={{ marginLeft: 'auto', display: 'flex', alignItems: 'flex-end' }}>
+          <Checkbox checked={checked} onChange={checked => handleChanged(checked)} />
+          <h1 style={{ color: theme.contentSecondary, fontSize: 14 }}>Don't show this guide again</h1>
+        </label>
+      </div>
     </Modal>
   )
 }
