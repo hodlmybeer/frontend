@@ -58,7 +58,7 @@ export const tokens: Tokens = {
       decimals: 18,
       img: require('../imgs/coins/steth.svg'),
       mintable: true,
-      tags: [CoinTags.YIELD, CoinTags.LongETH],
+      tags: [CoinTags.Yield, CoinTags.LongETH],
     },
     {
       name: 'Mock UNI',
@@ -78,6 +78,7 @@ export const tokens: Tokens = {
       decimals: 6,
       img: require('../imgs/coins/usdc.png'),
       mintable: true,
+      tags: [],
     },
     {
       name: 'Mock BTC',
@@ -87,6 +88,7 @@ export const tokens: Tokens = {
       decimals: 8,
       img: require('../imgs/coins/wbtc.png'),
       mintable: true,
+      tags: [],
     },
     {
       name: 'Mock Chainlink',
@@ -96,6 +98,7 @@ export const tokens: Tokens = {
       decimals: 18,
       img: require('../imgs/coins/link.png'),
       mintable: true,
+      tags: [],
     },
     {
       name: 'Mock ANT',
@@ -137,6 +140,15 @@ export const tokens: Tokens = {
       mintable: true,
       tags: [CoinTags.DeFi],
     },
+    {
+      name: 'Shiba Inu',
+      id: '0x88e79067FbeB744cfc087CeB785a71B07c18c81e',
+      symbol: 'SHIB',
+      decimals: 18,
+      img: require('../imgs/coins/shib.png'),
+      mintable: true,
+      tags: [],
+    },
   ],
   [SupportedNetworks.Kovan]: [
     {
@@ -165,6 +177,7 @@ export const tokens: Tokens = {
       decimals: 8,
       img: require('../imgs/coins/wbtc.png'),
       mintable: true,
+      tags: [],
     },
     {
       name: 'Mock Chainlink',
@@ -174,6 +187,7 @@ export const tokens: Tokens = {
       decimals: 18,
       img: require('../imgs/coins/link.png'),
       mintable: true,
+      tags: [],
     },
     {
       name: 'Mock ANT',
@@ -223,7 +237,16 @@ export const tokens: Tokens = {
       decimals: 18,
       img: require('../imgs/coins/steth.svg'),
       mintable: true,
-      tags: [CoinTags.YIELD, CoinTags.LongETH],
+      tags: [CoinTags.Yield, CoinTags.LongETH],
+    },
+    {
+      name: 'Shiba Inu',
+      id: '0x090e29A0Fb5c661d86ce27CF932C44Fb178B5c56',
+      symbol: 'SHIB',
+      decimals: 18,
+      img: require('../imgs/coins/shib.png'),
+      mintable: true,
+      tags: [],
     },
   ],
 }

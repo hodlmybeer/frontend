@@ -109,23 +109,19 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          minHeight: 362,
+          minHeight: 350,
         }}
       >
         {barrelImg}
-        <div>
-          {token.tags ? (
+        <div style={{ minHeight: '25px' }}>
+          {token.tags &&
             token.tags.map(tag => (
-              <Tag background={tagBackground[tag]} color={tagColor[tag]}>
+              <Tag background={tagBackground[tag]} color={tagColor[tag]} key={tag}>
                 {' '}
                 {tag}{' '}
               </Tag>
-            ))
-          ) : (
-            <br />
-          )}
+            ))}
         </div>
-        <br></br>
         <Entry>
           <EntryTitle>Penalty:</EntryTitle>
           {hToken.penalty / 10}%
@@ -188,8 +184,8 @@ const ImgContainer = styled.div`
 const Icon = styled.img`
   z-index: 1;
   position: absolute;
-  top: 53px;
-  right: 51px;
+  top: 51px;
+  right: 49px;
   display: block;
-  height: 40px;
+  height: 43px;
 `
