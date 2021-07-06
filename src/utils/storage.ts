@@ -8,6 +8,14 @@ export function getPreference(key: string, defaultValue: string): string {
 }
 
 /**
+ * Get value by key
+ * @param {string} key
+ */
+export function mustGetPreference(key: string): string {
+  return localStorage.getItem(key)!
+}
+
+/**
  * store value to storage
  * @param {string} key
  * @param {string} value

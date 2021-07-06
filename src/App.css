@@ -27,3 +27,19 @@
 .App-link {
   color: #61dafb;
 }
+
+.slick-prev:before,
+.slick-next:before {
+  color: black;
+}
+
+.container {
+  padding-top: 0px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 40px;
+}
+
+.slick-slide img {
+  margin: auto;
+}

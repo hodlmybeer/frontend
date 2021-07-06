@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Col, Row } from 'react-grid-system'
 import 'moment-timezone'
+import moment from 'moment'
 
 import { Main, Layout } from '@aragon/ui'
 import { walletContext } from './contexts/wallet'
@@ -14,14 +15,34 @@ import Barrels from './pages/Barrels'
 
 import { useConnection } from './hooks/useConnection'
 
-import { getPreference } from './utils/storage'
+import { getPreference, mustGetPreference } from './utils/storage'
 
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
+
+import { GuideCarousel } from './components/Carousel'
+
+import './App.css'
 
 function App() {
   const wallet = useConnection()
   const defaultTheme = getPreference('theme', 'light')
   const [theme, setTheme] = useState(defaultTheme)
+
+  const [open, setOpened] = useState(false)
+
+  useEffect(() => {
+    const now = moment()
+    const nextShowGuide =
+      mustGetPreference('next_show_guide') === ''
+        ? undefined
+        : getPreference('next_show_guide', moment().subtract(1, 'day').toISOString())
+    // show intro once a day if user didn't check "don't show this guide again"
+    if (nextShowGuide) {
+      if (now.isAfter(moment(nextShowGuide))) {
+        setOpened(true)
+      }
+    }
+  }, [])
 
   return (
     <Router>
@@ -54,6 +75,12 @@ function App() {
               </Switch>
             </Col>
           </Row>
+          <GuideCarousel
+            open={open}
+            onClose={() => {
+              setOpened(false)
+            }}
+          />
         </walletContext.Provider>
       </Main>
     </Router>
