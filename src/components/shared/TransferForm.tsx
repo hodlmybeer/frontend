@@ -108,7 +108,12 @@ function TransferForm({
       <Entry>
         <span style={{ fontSize: 12, color: theme.contentSecondary }}>
           Balance:{' '}
-          <LinkBase onClick={() => setInputAmount(userTokenBalance)}>
+          <LinkBase
+            onClick={() => {
+              setInputAmount(userTokenBalance)
+              onInputChanged(userTokenBalance)
+            }}
+          >
             {userTokenBalance.toString()} {tokenSymbol}
           </LinkBase>
         </span>
