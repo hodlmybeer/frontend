@@ -85,7 +85,7 @@ export const useConnection = () => {
 }
 
 export const initOnboard = (addressChangeCallback, walletChangeCallback, networkChangeCallback, networkId) => {
-  const RPC_URL = getInfuraProvider(networkId)
+  const RPC_URL = getProvider(networkId)
   const onboard = Onboard({
     darkMode: getPreference('theme', 'light') === 'dark',
     dappId: BLOCKNATIVE_KEY, // [String] The API key created by step one above
@@ -122,7 +122,12 @@ export const initOnboard = (addressChangeCallback, walletChangeCallback, network
   return onboard
 }
 
-export const getInfuraProvider = (networkId: number) => {
+export const getProvider = (networkId: number) => {
+  if (networkId === 80001) return 'https://rpc-mumbai.maticvigil.com' // mumbai
+  if (networkId === 137) return 'https://rpc-mainnet.matic.network' // network
+  if (networkId === 56) return 'https://bsc-dataseed.binance.org/' // bsc testnet
+  if (networkId === 97) return 'https://data-seed-prebsc-1-s1.binance.org:8545' // bsc
+
   const network = networkId === 1 ? 'mainnet' : networkId === 3 ? 'ropsten' : 'kovan'
   return `https://${network}.infura.io/v3/${INFURA_KEY}`
 }

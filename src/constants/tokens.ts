@@ -249,4 +249,14 @@ export const tokens: Tokens = {
       tags: [],
     },
   ],
+  [SupportedNetworks.Mumbai]: [
+    {
+      name: 'Wrapped Ether',
+      id: '0xA6FA4fB5f76172d178d61B04b0ecd319C5d1C0aa',
+      symbol: 'WETH',
+      decimals: 18,
+      img: require('../imgs/coins/weth.png'),
+      tags: [CoinTags.LongETH],
+    },
+  ],
 }

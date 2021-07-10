@@ -4,7 +4,7 @@ import Web3 from 'web3'
 import { useConnectedWallet } from '../contexts/wallet'
 import { ZERO_ADDR } from '../constants/addresses'
 
-import { getInfuraProvider } from '../hooks/useConnection'
+import { getProvider } from '../hooks/useConnection'
 
 const erc20Abi = require('../constants/abis/erc20.json')
 
@@ -59,7 +59,7 @@ export const useTokenBalance = (
 
 async function getTokenDetails(networkId: number, token: string): Promise<{ symbol: string; decimals: number }> {
   if (token === ZERO_ADDR) return { symbol: 'ETH', decimals: 18 }
-  const web3 = new Web3(getInfuraProvider(networkId))
+  const web3 = new Web3(getProvider(networkId))
   const erc20 = new web3.eth.Contract(erc20Abi, token)
   const symbol = await erc20.methods.symbol().call()
   const decimals = await erc20.methods.decimals().call()
@@ -67,7 +67,7 @@ async function getTokenDetails(networkId: number, token: string): Promise<{ symb
 }
 
 async function getBalance(networkId: number, token: string, account: string) {
-  const web3 = new Web3(getInfuraProvider(networkId))
+  const web3 = new Web3(getProvider(networkId))
   if (token === ZERO_ADDR) return new BigNumber(await web3.eth.getBalance(account))
   const erc20 = new web3.eth.Contract(erc20Abi, token)
   const t = await erc20.methods.balanceOf(account).call()
