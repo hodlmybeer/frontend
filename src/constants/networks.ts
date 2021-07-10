@@ -1,17 +1,10 @@
 import { SupportedNetworks } from './enums'
 
-export const networkIdToTxUrl = {
-  // [SupportedNetworks.Mainnet]: 'https://etherscan.io/tx',
-  [SupportedNetworks.Ropsten]: 'https://ropsten.etherscan.io/tx',
-  [SupportedNetworks.Kovan]: 'https://kovan.etherscan.io/tx',
-  [SupportedNetworks.Mumbai]: 'https://polygon-explorer-mumbai.chainstacklabs.com/tx/',
-}
-
-export const networkIdToAddressUrl = {
-  // [SupportedNetworks.Mainnet]: 'https://etherscan.io/address',
-  [SupportedNetworks.Kovan]: 'https://kovan.etherscan.io/address',
-  [SupportedNetworks.Ropsten]: 'https://ropsten.etherscan.io/address',
-  [SupportedNetworks.Mumbai]: 'https://polygon-explorer-mumbai.chainstacklabs.com/address/',
+export const networkIdToExplorer = {
+  // [SupportedNetworks.Mainnet]: 'https://etherscan.io/',
+  [SupportedNetworks.Ropsten]: 'https://ropsten.etherscan.io',
+  [SupportedNetworks.Kovan]: 'https://kovan.etherscan.io',
+  [SupportedNetworks.Mumbai]: 'https://mumbai.polygonscan.com/',
 }
 
 export const networkIdToName = {
@@ -21,4 +14,13 @@ export const networkIdToName = {
   [SupportedNetworks.Mumbai]: 'Mumbai',
   // [SupportedNetworks.Polygon]: 'Matic',
   // [SupportedNetworks.BSC]: 'BSC',
+}
+
+export const networkToNativeCurrency = (networkId: SupportedNetworks) => {
+  if (networkId === SupportedNetworks.Mumbai) return { decimals: 18, name: 'Matic', symbol: 'MATIC' }
+
+  // if (networkId === SupportedNetworks.Mumbai) return {decimals: 18, name: 'BNB', symbol: 'bnb'}
+
+  // ethereum networks
+  return undefined
 }

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Bar, LinkBase, ContextMenu, ContextMenuItem } from '@aragon/ui'
 import ConnectButton from './ConnectButton'
@@ -7,10 +7,13 @@ import Settings from './SettingsButton'
 import logo from '../../imgs/beer.png'
 import { useBreakpoint } from '../../hooks'
 import { BreakPoints } from '../../constants'
+import { SwitchChainModal } from '../SwitchChainModal'
 
 function MyBar() {
   const history = useHistory()
   const breakPoint = useBreakpoint()
+
+  const [networkModalOpen, setNetworkModalOpen] = useState(false)
 
   const homeButtom = useMemo(() => {
     return (
@@ -84,22 +87,25 @@ function MyBar() {
   }, [homeButtom, dashboardButtom, barrelsButtom])
 
   return (
-    <Bar
-      primary={breakPoint > BreakPoints.sm ? normalNavBar : homeButtom}
-      secondary={
-        breakPoint <= BreakPoints.sm ? (
-          <>
-            {' '}
-            <ConnectButton /> {navBarMenu}{' '}
-          </>
-        ) : (
-          <>
-            <ConnectButton />
-            <Settings />
-          </>
-        )
-      }
-    />
+    <div>
+      <Bar
+        primary={breakPoint > BreakPoints.sm ? normalNavBar : homeButtom}
+        secondary={
+          breakPoint <= BreakPoints.sm ? (
+            <>
+              {' '}
+              <ConnectButton setNetworkModalOpen={setNetworkModalOpen} /> {navBarMenu}{' '}
+            </>
+          ) : (
+            <>
+              <ConnectButton setNetworkModalOpen={setNetworkModalOpen} />
+              <Settings />
+            </>
+          )
+        }
+      />
+      <SwitchChainModal open={networkModalOpen} setOpen={setNetworkModalOpen} />
+    </div>
   )
 }
 

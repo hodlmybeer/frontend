@@ -10,7 +10,7 @@ import defaultBarrel from '../../imgs/barrels/barrel.png'
 import emptyBarrel from '../../imgs/barrels/barrel-empty.png'
 
 import { useConnectedWallet } from '../../contexts/wallet'
-import { BarrelState, networkIdToAddressUrl, tagBackground, tagColor } from '../../constants'
+import { BarrelState, networkIdToExplorer, tagBackground, tagColor } from '../../constants'
 import { hToken, Token } from '../../types'
 import { toPoolName } from '../../utils/htoken'
 
@@ -80,7 +80,7 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
       heading={
         <Entry>
           <EntryTitle>
-            <LinkBase external href={`${networkIdToAddressUrl[networkId]}/${hToken.id}`}>
+            <LinkBase external href={`${networkIdToExplorer[networkId]}/address/${hToken.id}`}>
               {' '}
               {poolTitle}{' '}
             </LinkBase>

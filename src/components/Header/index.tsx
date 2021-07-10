@@ -19,7 +19,7 @@ export function Header({ primary, secondary, title }: { primary?: any; secondary
     <div>
       <AragonHeader primary={primary} secondary={secondary} />
       {!(currentProviderNetwork in SupportedNetworks) && (
-        <Info mode="warning"> You're at the wrong network. Please switch to Ropsten or Kovan testnet </Info>
+        <Info mode="warning"> You're at the wrong network. Please switch to Ropsten, Kovan or Mumbai testnet </Info>
       )}
     </div>
   )

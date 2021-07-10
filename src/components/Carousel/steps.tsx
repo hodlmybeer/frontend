@@ -10,11 +10,13 @@ import barrelUnknown from '../../imgs/barrels/barrel-unknown.png'
 export const Steps = () => {
   return [
     <Template
+      key="1"
       title={'Welcome to Hodl My Beer'}
       img={hodlTheBeer}
       description={"Ready to HODL your coin with diamond hands? We're here to help you achieve that in 3 simple steps"}
     />,
     <Template
+      key="2"
       title={'Find your favorite Barrel'}
       img={barrels}
       description={
@@ -22,16 +24,19 @@ export const Steps = () => {
       }
     />,
     <Template
+      key="3"
       title={'Deposit and chill '}
       img={depositBarrel}
       description={'Deposit into the barrel to start HODLing. You will get some untransferable hToken in return.'}
     />,
     <Template
+      key="4"
       title={'Come back and claim rewards'}
       img={barrelWithRewards}
       description={'Come back later and use your shares to claim reward from quitters or additional bonus.'}
     />,
     <Template
+      key="5"
       title={'Create new Barrels and earn some extra'}
       img={barrelUnknown}
       description={"Can't find anything interesting? Create your own barrel and start earning fee from quitters!"}

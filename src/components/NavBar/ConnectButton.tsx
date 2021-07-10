@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 
-import { Button, IconConnect, Box, IconPower, IdentityBadge, Tag } from '@aragon/ui'
+import { Button, LinkBase, IconConnect, Box, IconPower, IdentityBadge, Tag } from '@aragon/ui'
 
 import { checkAddressAndAddToStorage } from '../../utils/storage'
 import { isMainnet } from '../../utils/others'
@@ -8,8 +8,9 @@ import { useConnectedWallet } from '../../contexts/wallet'
 import { useBreakpoint } from '../../hooks'
 import { BreakPoints, networkIdToName } from '../../constants'
 
-function ConnectButton() {
+function ConnectButton({ setNetworkModalOpen }) {
   const { connect, disconnect, user, networkId } = useConnectedWallet()
+
   const breakpoint = useBreakpoint()
   const connectWeb3 = async () => {
     const address = await connect()
@@ -25,10 +26,12 @@ function ConnectButton() {
         <div style={{ verticalAlign: 'middle', textAlign: 'center' }}>
           {breakpoint > BreakPoints.sm && (
             <div style={{ display: 'inline-block' }}>
-              <Tag uppercase={false} mode={isMainnet(networkId) ? 'indicator' : 'identifier'}>
-                {' '}
-                {networkName}{' '}
-              </Tag>
+              <LinkBase onClick={() => setNetworkModalOpen(true)}>
+                <Tag uppercase={false} mode={isMainnet(networkId) ? 'indicator' : 'identifier'}>
+                  {' '}
+                  {networkName}{' '}
+                </Tag>
+              </LinkBase>
             </div>
           )}
 
@@ -37,7 +40,7 @@ function ConnectButton() {
             popoverAction={{
               label: (
                 <>
-                  <IconPower></IconPower> Disconnect{' '}
+                  <IconPower /> Disconnect{' '}
                 </>
               ),
               onClick: disconnect,
