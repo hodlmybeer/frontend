@@ -11,6 +11,7 @@ import { useConnectedWallet } from '../../contexts/wallet'
 
 import { tokens } from '../../constants'
 import MetrixCard from './MetrixCard'
+import Footer from './Footer'
 
 function Home() {
   const history = useHistory()
@@ -30,11 +31,8 @@ function Home() {
     <Container>
       {/* center everything */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <Header primary="Hodl" />
+        <Header primary="Hodl My Bear" />
         <SectionTitle title="The strategy that outperform 95% of all professional traders" paddingTop={0} />
-        <div style={{ paddingTop: 5 }}>
-          Here, we help you hodl your coins, and make extra money by holding longer than everyone else.
-        </div>
         <br />
 
         <Row style={{ width: '100%' }}>
@@ -75,6 +73,8 @@ function Home() {
             </LinkBase>
           </Col>
         </Row>
+
+        <Footer />
       </div>
     </Container>
   )

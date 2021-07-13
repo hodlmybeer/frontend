@@ -10,3 +10,7 @@ export const subgraph: graphEndPointType = {
   [SupportedNetworks.Kovan]: 'https://api.thegraph.com/subgraphs/name/hodlmybeer/hodl-kovan',
   [SupportedNetworks.Mumbai]: 'https://api.thegraph.com/subgraphs/name/hodlmybeer/hodl-mumbai',
 }
+
+export const DISCORD = 'https://discord.gg/3kdYuyzUC2'
+export const TWITTER = 'https://twitter.com/_hodlprotocol'
+export const GITHUB = 'https://github.com/hodlmybeer'
