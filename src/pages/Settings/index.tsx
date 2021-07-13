@@ -6,6 +6,7 @@ import ApproveSwitch from './Approval'
 import ClearCache from './ClearCache'
 import Social from './Social'
 import Guide from './Guide'
+
 import { GuideCarousel } from '../../components/Carousel'
 function Settings({ setTheme }: { setTheme: any }) {
   const [open, setOpened] = useState(false)
