@@ -7,11 +7,11 @@ export async function getHTokens(networkId: SupportedNetworks, errorCallback: Fu
   const query = `
   {
     htokens (
-      orderBy: createdAt, 
-      orderDirection:desc, 
       where: { expiry_gt: ${now} }) 
     {
       id
+      creator
+      feeRecipient
       token
       symbol
       name 
@@ -28,6 +28,10 @@ export async function getHTokens(networkId: SupportedNetworks, errorCallback: Fu
       n
       bonusToken
       bonusTokenBalance
+
+      hodlings {
+        balance
+      }
     }
   }
   `

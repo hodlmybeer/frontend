@@ -59,7 +59,7 @@ function App() {
                 </Route>
                 <Route path="/barrels">
                   <Layout>
-                    <Barrels web3={wallet.web3} />
+                    <Barrels />
                   </Layout>
                 </Route>
                 <Route path="/dashboard">
