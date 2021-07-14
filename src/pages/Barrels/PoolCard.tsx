@@ -187,15 +187,15 @@ function getImgIncludingFilters(img: string, verified: boolean, communityFee: bo
     <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
       {/* use this element to center the barrel */}
       <div style={{ display: 'flex', justifySelf: 'end', visibility: 'hidden' }}>
-        {verified && <img style={{ height: 30, top: 20 }} src={verifiedIcon} alt="verified" />}
-        {communityFee && <img style={{ height: 30, top: 20 }} src={goldCoin} alt="coin" />}
+        {verified && <img style={{ height: 25, top: 20 }} src={verifiedIcon} alt="verified" />}
+        {communityFee && <img style={{ height: 25, top: 20 }} src={goldCoin} alt="coin" />}
       </div>
 
       <div style={{ display: 'inline-block' }}> {getBarrelWithIcon(img)} </div>
 
       <div style={{ display: 'flex', justifySelf: 'end' }}>
-        {verified && <img style={{ height: 30, top: 20 }} src={verifiedIcon} alt="verified" />}
-        {communityFee && <img style={{ height: 30, top: 20 }} src={goldCoin} alt="coin" />}
+        {verified && <img style={{ height: 25, top: 20 }} src={verifiedIcon} alt="verified" />}
+        {communityFee && <img style={{ height: 25, top: 20 }} src={goldCoin} alt="coin" />}
       </div>
     </div>
   )
