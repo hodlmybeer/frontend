@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { Split, TextInput, Button, LoadingRing } from '@aragon/ui'
 import SectionHeader from '../../components/SectionHeader'
+import ReactTooltip from 'react-tooltip'
 import { Hodling } from '../../types'
 import { Entry, EntryTitle } from '../../components/Entry'
 import TokenAmountWithoutIcon from '../../components/TokenAmountWithoutIcon'
@@ -38,6 +39,12 @@ export default function HodlingExpanded({ hodling }: { hodling: Hodling }) {
     }
   }, [redeemAmount, redeem, hodling])
 
+  const shareRatio =
+    hodling.shareBalance === '0' ? new BigNumber(0) : new BigNumber(hodling.shareBalance).div(hodling.token.totalShares)
+  const reward = new BigNumber(hodling.token.totalReward).times(shareRatio)
+  const bonus = new BigNumber(hodling.token.bonusTokenBalance).times(shareRatio)
+
+  const redeemTooltip = reward.eq(0) && bonus.eq ? 'Nothing to redeem' : ''
   return (
     <div style={{ padding: '2%', width: '100%' }}>
       <SectionHeader title="Hodling Detail" />
@@ -96,8 +103,15 @@ export default function HodlingExpanded({ hodling }: { hodling: Hodling }) {
                       if (event.target.value) setRedeemAmount(event.target.value)
                     }}
                   />
-                  <Button onClick={handleRedeem} style={{ minWidth: 110 }} mode="positive" disabled={isRedeeming}>
+                  <Button
+                    data-tip={redeemTooltip}
+                    onClick={handleRedeem}
+                    style={{ minWidth: 110 }}
+                    mode="positive"
+                    disabled={isRedeeming || (reward.eq(0) && bonus.eq)}
+                  >
                     {isRedeeming ? <LoadingRing /> : 'Redeem'}
+                    <ReactTooltip />
                   </Button>
                 </Entry>
               </Col>

@@ -32,7 +32,7 @@ function Home() {
       {/* center everything */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <Header primary="Hodl My Bear" />
-        <SectionTitle title="The strategy that outperform 95% of all professional traders" paddingTop={0} />
+        <SectionTitle title="The strategy that outperforms 95% of all professional traders" paddingTop={0} />
         <br />
 
         <Row style={{ width: '100%' }}>
