@@ -9,8 +9,18 @@ import styled from 'styled-components'
 import defaultBarrel from '../../imgs/barrels/barrel.png'
 import emptyBarrel from '../../imgs/barrels/barrel-empty.png'
 
+import verifiedIcon from '../../imgs/barrels/verified.png'
+import goldCoin from '../../imgs/barrels/goldCoin.png'
+
 import { useConnectedWallet } from '../../contexts/wallet'
-import { BarrelState, networkIdToExplorer, tagBackground, tagColor } from '../../constants'
+import {
+  BarrelState,
+  networkIdToExplorer,
+  tagBackground,
+  tagColor,
+  trustedCreators,
+  getOfficialFeeRecipient,
+} from '../../constants'
 import { hToken, Token } from '../../types'
 import { toPoolName } from '../../utils/htoken'
 
@@ -34,11 +44,14 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
 
   const { networkId } = useConnectedWallet()
 
+  const verifiedCreator = useMemo(() => trustedCreators.includes(hToken.creator), [hToken])
+  const usePublicPool = useMemo(() => hToken.feeRecipient === getOfficialFeeRecipient(networkId), [hToken, networkId])
+
   const barrelImg = useMemo(() => {
     if (!token) return <img src={defaultBarrel} alt={'img'} height={130}></img>
     if (!token.img) return <img src={defaultBarrel} alt={'img'} height={130}></img>
-    return getBarrelWithIcon(token.img)
-  }, [token])
+    return getImgIncludingFilters(token.img, verifiedCreator, usePublicPool)
+  }, [token, usePublicPool, verifiedCreator])
 
   const poolTitle = useMemo(() => {
     return toPoolName(hToken, networkId)
@@ -103,6 +116,7 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
         hToken={hToken}
         bonusTokenDetail={bonusTokenDetail}
       />
+
       <div
         style={{
           display: 'flex',
@@ -167,6 +181,25 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
 }
 
 export default PoolCard
+
+function getImgIncludingFilters(img: string, verified: boolean, communityFee: boolean) {
+  return (
+    <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+      {/* use this element to center the barrel */}
+      <div style={{ display: 'flex', justifySelf: 'end', visibility: 'hidden' }}>
+        {verified && <img style={{ height: 30, top: 20 }} src={verifiedIcon} alt="verified" />}
+        {communityFee && <img style={{ height: 30, top: 20 }} src={goldCoin} alt="coin" />}
+      </div>
+
+      <div style={{ display: 'inline-block' }}> {getBarrelWithIcon(img)} </div>
+
+      <div style={{ display: 'flex', justifySelf: 'end' }}>
+        {verified && <img style={{ height: 30, top: 20 }} src={verifiedIcon} alt="verified" />}
+        {communityFee && <img style={{ height: 30, top: 20 }} src={goldCoin} alt="coin" />}
+      </div>
+    </div>
+  )
+}
 
 function getBarrelWithIcon(img: any) {
   return (

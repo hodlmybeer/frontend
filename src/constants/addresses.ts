@@ -3,7 +3,7 @@ import { SupportedNetworks } from './enums'
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000'
 
 export const trustedCreators = [
-  '0xf668606B896389066a39B132741763e1ca6d76a2', // tester account1
+  '0xf668606b896389066a39b132741763e1ca6d76a2', // tester account1
 ]
 
 export const factories: {
@@ -15,5 +15,7 @@ export const factories: {
 }
 
 export const getOfficialFeeRecipient = (network: SupportedNetworks) => {
-  return '0x556076279Edd24c614b4E1AeF8215fc963d18E97' // testnet fee recipient
+  const feeRecipient = '0x556076279Edd24c614b4E1AeF8215fc963d18E97' // testnet fee recipient
+
+  return feeRecipient.toLowerCase()
 }
