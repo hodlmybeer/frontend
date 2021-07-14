@@ -5,9 +5,8 @@ import { Row, Col } from 'react-grid-system'
 import { Token, hToken } from '../../types'
 import PoolCard from './PoolCard'
 import Create from './Create'
-import { tokens } from '../../constants'
-import { ZERO_ADDR } from '../../constants/addresses'
-import { SupportedNetworks } from '../../constants/enums'
+import { tokens, ZERO_ADDR, SupportedNetworks, getOfficialFeeRecipient } from '../../constants'
+import { getSortHTokensFunction } from '../../utils/htoken'
 
 function CardRow({
   hTokens,
@@ -22,8 +21,10 @@ function CardRow({
 }) {
   const barrels = useMemo(() => {
     const knownTokens = tokens[networkId]
+    const officialFR = getOfficialFeeRecipient(networkId)
     const boxes = hTokens
       .filter(hToken => knownTokens.find(t => t.id.toLowerCase() === hToken.token))
+      .sort(getSortHTokensFunction(officialFR))
       .map((hToken, index) => {
         const token = knownTokens.find(t => t.id.toLowerCase() === hToken.token) as Token
         return {

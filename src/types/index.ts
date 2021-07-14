@@ -24,6 +24,7 @@ export type hToken = Token & {
   token: string
   creator: string
   penalty: number
+  feeRecipient: string
   fee: number
   expiry: number
   lockWindow: number
@@ -36,4 +37,6 @@ export type hToken = Token & {
   n: number // decrease coefficient
   bonusToken: string
   bonusTokenBalance: string
+
+  hodlings: { id: string }[]
 }

@@ -30,6 +30,7 @@
     "react-scripts": "3.4.3",
     "react-slick": "^0.28.1",
     "react-spring": "^9.2.3",
+    "react-tooltip": "^4.2.21",
     "react-use-websocket": "^2.2.0",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.2.1",

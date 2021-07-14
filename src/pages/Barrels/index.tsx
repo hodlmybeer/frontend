@@ -1,7 +1,6 @@
 import React, { useMemo, useState, useRef } from 'react'
 import { Container, Row, Col } from 'react-grid-system'
 import { SyncIndicator, TextInput, IconConfiguration, Popover, Button } from '@aragon/ui'
-import Web3 from 'web3'
 import { useAllHTokens, useQuery } from '../../hooks'
 import Header from '../../components/Header'
 import CardRow from './CardRow'
@@ -11,7 +10,7 @@ import CheckBoxWithLabel from '../../components/CheckBoxWithLabel'
 import SectionHeader from '../../components/SectionHeader'
 import { Token } from '../../types'
 
-function Barrels({ web3 }: { web3: Web3 }) {
+function Barrels() {
   const erc20 = require('../../constants/abis/erc20.json')
   const [selectedTags, setSelectedTags] = useState<string[]>([])
 
@@ -19,6 +18,8 @@ function Barrels({ web3 }: { web3: Web3 }) {
 
   const [configModalOpen, setConfigModalOpen] = useState<boolean>(false)
   const configIconRef = useRef()
+
+  const { web3 } = useConnectedWallet()
 
   const { hTokens, isLoading } = useAllHTokens()
   const { networkId } = useConnectedWallet()
@@ -91,7 +92,6 @@ function Barrels({ web3 }: { web3: Web3 }) {
   return (
     <Container>
       <Header primary="Barrels" />
-      <br />
       <Row>
         <Col md={6} lg={4}>
           <TextInput
