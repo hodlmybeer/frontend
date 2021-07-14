@@ -3,7 +3,7 @@ import { useAsyncMemo } from '../../hooks'
 import { Box, Button, ContextMenu, ContextMenuItem, IconHeart, ProgressBar, useTheme, LinkBase, Tag } from '@aragon/ui'
 import { Contract } from 'web3-eth-contract'
 import DepositModal from './DepositModal'
-
+import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
 import defaultBarrel from '../../imgs/barrels/barrel.png'
@@ -194,9 +194,18 @@ function getImgIncludingFilters(img: string, verified: boolean, communityFee: bo
       <div style={{ display: 'inline-block' }}> {getBarrelWithIcon(img)} </div>
 
       <div style={{ display: 'flex', justifySelf: 'end' }}>
-        {verified && <img style={{ height: 25, top: 20 }} src={verifiedIcon} alt="verified" />}
-        {communityFee && <img style={{ height: 25, top: 20 }} src={goldCoin} alt="coin" />}
+        {verified && <IconWithToolTip imgSrc={verifiedIcon} msg="This barrel is created by a trusted creator." />}
+        {communityFee && <IconWithToolTip imgSrc={goldCoin} msg="The fee this barrel collects go to community pool" />}
       </div>
+    </div>
+  )
+}
+
+function IconWithToolTip({ imgSrc, msg }: { imgSrc: string; msg: string }) {
+  return (
+    <div style={{ position: 'relative', display: 'inline-block' }}>
+      <img style={{ height: 25, top: 20 }} src={imgSrc} alt="alt" data-tip={msg} />
+      <ReactTooltip />
     </div>
   )
 }
