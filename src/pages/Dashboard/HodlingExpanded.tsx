@@ -11,7 +11,7 @@ import { usePool } from '../../hooks'
 import BigNumber from 'bignumber.js'
 
 export default function HodlingExpanded({ hodling }: { hodling: Hodling }) {
-  const [isQuiting, setIsQuiting] = useState(false)
+  const [isQuitting, setIsQuitting] = useState(false)
   const [isRedeeming, setIsRedeeming] = useState(false)
 
   const [quitAmount, setQuitAmount] = useState<BigNumber>(new BigNumber(0))
@@ -20,12 +20,12 @@ export default function HodlingExpanded({ hodling }: { hodling: Hodling }) {
   const { quit, redeem } = usePool(hodling.token)
 
   const handleQuit = useCallback(async () => {
-    setIsQuiting(true)
+    setIsQuitting(true)
     try {
       const quitAmountRaw = fromTokenAmount(quitAmount, hodling.token.decimals)
       await quit(quitAmountRaw)
     } finally {
-      setIsQuiting(false)
+      setIsQuitting(false)
     }
   }, [quitAmount, quit, hodling])
 
@@ -39,12 +39,11 @@ export default function HodlingExpanded({ hodling }: { hodling: Hodling }) {
     }
   }, [redeemAmount, redeem, hodling])
 
-  const shareRatio =
-    hodling.shareBalance === '0' ? new BigNumber(0) : new BigNumber(hodling.shareBalance).div(hodling.token.totalShares)
-  const reward = new BigNumber(hodling.token.totalReward).times(shareRatio)
-  const bonus = new BigNumber(hodling.token.bonusTokenBalance).times(shareRatio)
+  const reward = new BigNumber(hodling.token.totalReward)
+  const bonus = new BigNumber(hodling.token.bonusTokenBalance)
 
-  const redeemTooltip = reward.eq(0) && bonus.eq ? 'Nothing to redeem' : ''
+  const nothingToRedeem = reward.eq(0) && bonus.eq(0)
+  const redeemTooltip = nothingToRedeem ? 'Nothing to redeem' : ''
   return (
     <div style={{ padding: '2%', width: '100%' }}>
       <SectionHeader title="Hodling Detail" />
@@ -75,7 +74,7 @@ export default function HodlingExpanded({ hodling }: { hodling: Hodling }) {
                     }}
                   />
                   <Button onClick={handleQuit} style={{ minWidth: 110 }} mode="negative">
-                    {isQuiting ? <LoadingRing /> : 'Quit'}
+                    {isQuitting ? <LoadingRing /> : 'Quit'}
                   </Button>
                 </Entry>
               </Col>
@@ -108,7 +107,7 @@ export default function HodlingExpanded({ hodling }: { hodling: Hodling }) {
                     onClick={handleRedeem}
                     style={{ minWidth: 110 }}
                     mode="positive"
-                    disabled={isRedeeming || (reward.eq(0) && bonus.eq)}
+                    disabled={isRedeeming || nothingToRedeem}
                   >
                     {isRedeeming ? <LoadingRing /> : 'Redeem'}
                     <ReactTooltip />
