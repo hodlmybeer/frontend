@@ -17,7 +17,7 @@ import { Hodling } from '../../types'
 import { toPoolName } from '../../utils/htoken'
 import { stateBeer } from '../../constants/dataviewState'
 
-function DashBoard() {
+function Dashboard() {
   const { networkId, user } = useConnectedWallet()
 
   const { hodlings, unlockedHodlings, isLoading } = useAccountHodlings(user)
@@ -158,7 +158,7 @@ function DashBoard() {
                 status={isLoading ? 'loading' : 'default'}
                 fields={['Asset', 'Barrel', 'Reward Share', 'Total Reward', '']}
                 renderEntry={renderUnlockedHodlingRow}
-                emptyState={stateBeer(null, null, 'Loading...', "This wont't take too long")}
+                emptyState={stateBeer(null, null, 'Loading...', "This won't take too long")}
                 entries={unlockedHodlings}
               />
             </div>
@@ -171,4 +171,4 @@ function DashBoard() {
   )
 }
 
-export default DashBoard
+export default Dashboard

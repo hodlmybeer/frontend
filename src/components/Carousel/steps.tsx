@@ -11,23 +11,23 @@ export const Steps = () => {
   return [
     <Template
       key="1"
-      title={'Welcome to Hodl My Beer'}
+      title={'Welcome to HODL My Beer'}
       img={hodlTheBeer}
-      description={"Ready to HODL your coin with diamond hands? We're here to help you achieve that in 3 simple steps"}
+      description={"Ready to HODL your coins with diamond hands? We're here to help you achieve that in 3 simple steps"}
     />,
     <Template
       key="2"
       title={'Find your favorite Barrel'}
       img={barrels}
       description={
-        "Browse through barrels and play around the filters, find the barrel with your favorite token and expiry you'd like to HODL until."
+        "Browse through barrels and play around with the filters, find the barrel with your favorite token and expiry you'd like to HODL until."
       }
     />,
     <Template
       key="3"
       title={'Deposit and chill '}
       img={depositBarrel}
-      description={'Deposit into the barrel to start HODLing. You will get some untransferable hToken in return.'}
+      description={'Deposit into the barrel to start HODLing. You will get some untransferable hTokens in return.'}
     />,
     <Template
       key="4"
@@ -39,7 +39,7 @@ export const Steps = () => {
       key="5"
       title={'Create new Barrels and earn some extra'}
       img={barrelUnknown}
-      description={"Can't find anything interesting? Create your own barrel and start earning fee from quitters!"}
+      description={"Can't find anything interesting? Create your own barrel and start earning fees from quitters!"}
     />,
   ]
 }

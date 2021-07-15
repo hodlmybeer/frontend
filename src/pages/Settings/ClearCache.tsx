@@ -14,7 +14,7 @@ function ClearCache() {
   return (
     <>
       <SectionTitle title="System Cache" />
-      <div> This web app use browser storage to cache used accounts, address labels and system preference. </div>
+      <div> This web app uses browser storage to cache used accounts, address labels and system preferences. </div>
       <br />
       <Button label="Clear Cache" onClick={clearCache} />
     </>
