@@ -195,7 +195,7 @@ function getImgIncludingFilters(img: string, verified: boolean, communityFee: bo
 
       <div style={{ display: 'flex', justifySelf: 'end' }}>
         {verified && <IconWithToolTip imgSrc={verifiedIcon} msg="This barrel is created by a trusted creator." />}
-        {communityFee && <IconWithToolTip imgSrc={goldCoin} msg="The fee this barrel collects go to community pool" />}
+        {communityFee && <IconWithToolTip imgSrc={goldCoin} msg="The fees this barrel collects go to community pool" />}
       </div>
     </div>
   )
