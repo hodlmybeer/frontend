@@ -84,8 +84,9 @@ function Home() {
 
 const ContentWrap = styled.div`
   padding-bottom: 2.5rem; /* Footer height */
-  justify-items: center;
-  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 `
 const PageContainer = styled.div`
   position: relative;
