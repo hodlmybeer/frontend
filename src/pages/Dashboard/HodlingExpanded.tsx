@@ -11,7 +11,7 @@ import { usePool } from '../../hooks'
 import BigNumber from 'bignumber.js'
 
 export default function HodlingExpanded({ hodling }: { hodling: Hodling }) {
-  const [isQuiting, setIsQuiting] = useState(false)
+  const [isQuitting, setIsQuitting] = useState(false)
   const [isRedeeming, setIsRedeeming] = useState(false)
 
   const [quitAmount, setQuitAmount] = useState<BigNumber>(new BigNumber(0))
@@ -20,12 +20,12 @@ export default function HodlingExpanded({ hodling }: { hodling: Hodling }) {
   const { quit, redeem } = usePool(hodling.token)
 
   const handleQuit = useCallback(async () => {
-    setIsQuiting(true)
+    setIsQuitting(true)
     try {
       const quitAmountRaw = fromTokenAmount(quitAmount, hodling.token.decimals)
       await quit(quitAmountRaw)
     } finally {
-      setIsQuiting(false)
+      setIsQuitting(false)
     }
   }, [quitAmount, quit, hodling])
 
@@ -71,11 +71,14 @@ export default function HodlingExpanded({ hodling }: { hodling: Hodling }) {
                     type="number"
                     value={quitAmount}
                     onChange={event => {
-                      if (event.target.value) setQuitAmount(event.target.value)
+                      if (parseFloat(event.target.value) > 0) setQuitAmount(event.target.value)
+                      else {
+                        setQuitAmount(new BigNumber(0))
+                      }
                     }}
                   />
                   <Button onClick={handleQuit} style={{ minWidth: 110 }} mode="negative">
-                    {isQuiting ? <LoadingRing /> : 'Quit'}
+                    {isQuitting ? <LoadingRing /> : 'Quit'}
                   </Button>
                 </Entry>
               </Col>
@@ -100,7 +103,10 @@ export default function HodlingExpanded({ hodling }: { hodling: Hodling }) {
                     type="number"
                     value={redeemAmount}
                     onChange={event => {
-                      if (event.target.value) setRedeemAmount(event.target.value)
+                      if (parseFloat(event.target.value) > 0) setRedeemAmount(event.target.value)
+                      else {
+                        setRedeemAmount(new BigNumber(0))
+                      }
                     }}
                   />
                   <Button
