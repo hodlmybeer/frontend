@@ -84,11 +84,9 @@ function TransferForm({
           wide
           type="number"
           onChange={event => {
-            try {
-              onInputChanged(event.target.value)
-            } catch {
-              onInputChanged(0)
-            }
+            const num = parseFloat(event.target.value)
+            if (num > 0) onInputChanged(num)
+            else onInputChanged(0)
           }}
           value={inputAmount}
           disabled={!(enabled ?? true)}
@@ -102,7 +100,7 @@ function TransferForm({
             style={{ minWidth: 150 }}
             mode="positive"
             onClick={onDepositClick}
-            disabled={!hasEnoughBalance || isDepositing || !(enabled ?? true)}
+            disabled={!hasEnoughBalance || isDepositing || !(enabled ?? true) || inputAmount === 0}
           >
             {isDepositing ? <LoadingRing /> : !user ? 'Disconnected' : 'Deposit'}
           </Button>

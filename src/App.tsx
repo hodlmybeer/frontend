@@ -62,7 +62,7 @@ function App() {
                     <Barrels />
                   </Layout>
                 </Route>
-                <Route path="/dashboard">
+                <Route path="/portfolio">
                   <Layout>
                     <Dashboard />
                   </Layout>
