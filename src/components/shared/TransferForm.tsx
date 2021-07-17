@@ -18,6 +18,8 @@ type TransferFormProps = {
   tokenSymbol: string
   tokenAddress: string
   decimals: number
+  inputAmount: number // text input amount
+  transferAmount: BigNumber // scaled amount
   spenderAddress: string
   isDepositing: boolean
   onDepositClick: Function
@@ -37,6 +39,8 @@ function TransferForm({
   isDepositing,
   onDepositClick,
   onInputChanged,
+  transferAmount,
+  inputAmount, // const [inputAmount, setInputAmount] = useState(0)
 }: TransferFormProps) {
   const { user, web3, networkId } = useConnectedWallet()
   const { balance } = useTokenBalance(tokenAddress, user, 20)
@@ -45,25 +49,23 @@ function TransferForm({
   const { notifyCallback } = useNotify()
 
   const [isApproving, setIsApproving] = useState(false)
-  // user input amount
-  const [inputAmount, setInputAmount] = useState<BigNumber>(new BigNumber(0))
-  const depositAmount = useMemo(() => fromTokenAmount(inputAmount, decimals), [decimals, inputAmount])
+
   const { allowance, approve } = useAllowance(tokenAddress, spenderAddress)
 
-  const needApproval = useMemo(() => depositAmount.gt(allowance), [depositAmount, allowance])
+  const needApproval = useMemo(() => transferAmount.gt(allowance), [transferAmount, allowance])
 
   const userTokenBalance = useMemo(() => toTokenAmount(balance, decimals), [balance, decimals])
 
-  const hasEnoughBalance = useMemo(() => balance.gte(depositAmount) && balance.gt(0), [balance, depositAmount])
+  const hasEnoughBalance = useMemo(() => balance.gte(transferAmount) && balance.gt(0), [balance, transferAmount])
 
   const handleApprove = useCallback(async () => {
     setIsApproving(true)
     try {
-      await approve(depositAmount)
+      await approve(transferAmount)
     } finally {
       setIsApproving(false)
     }
-  }, [depositAmount, approve])
+  }, [transferAmount, approve])
 
   // for faucet
   const handleMintTestnetToken = useCallback(async () => {
@@ -82,9 +84,10 @@ function TransferForm({
           wide
           type="number"
           onChange={event => {
-            if (event.target.value) {
-              setInputAmount(new BigNumber(event.target.value))
+            try {
               onInputChanged(event.target.value)
+            } catch {
+              onInputChanged(0)
             }
           }}
           value={inputAmount}
@@ -110,11 +113,11 @@ function TransferForm({
           Balance:{' '}
           <LinkBase
             onClick={() => {
-              setInputAmount(userTokenBalance)
+              onInputChanged(userTokenBalance)
               onInputChanged(userTokenBalance)
             }}
           >
-            {userTokenBalance.toString()} {tokenSymbol}
+            {userTokenBalance.toFixed(4)} {tokenSymbol}
           </LinkBase>
         </span>
         <div>

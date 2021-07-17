@@ -37,6 +37,7 @@ DepositModalProps) {
   const { symbol: underlyingSymbol, decimals: underlyingDecimals } = useTokenBalance(hToken.token, user, 20)
 
   const [inputAmount, setInputAmount] = useState(0)
+
   const depositAmount = useMemo(
     () => fromTokenAmount(inputAmount, underlyingDecimals),
     [underlyingDecimals, inputAmount],
@@ -194,8 +195,10 @@ DepositModalProps) {
 
       <TransferForm
         tokenAddress={hToken.token}
-        tokenSymbol={hToken.symbol}
+        tokenSymbol={underlyingSymbol}
         decimals={hToken.decimals}
+        inputAmount={inputAmount}
+        transferAmount={depositAmount}
         isDepositing={isDepositing}
         spenderAddress={hToken.id}
         onDepositClick={depositToPool}

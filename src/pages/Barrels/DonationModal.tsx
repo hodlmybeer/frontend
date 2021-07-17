@@ -23,6 +23,7 @@ function DonationModal({ token, hToken, bonusTokenDetail, visible, setOpen }: Do
   const { donate } = usePool(hToken)
   const [selectedIdx, setSelectedIdx] = useState(0)
   const [inputAmount, setInputAmount] = useState(0)
+
   const depositAmount = useMemo(() => {
     if (selectedIdx === 0) {
       return fromTokenAmount(inputAmount, token.decimals)
@@ -30,6 +31,7 @@ function DonationModal({ token, hToken, bonusTokenDetail, visible, setOpen }: Do
       return fromTokenAmount(inputAmount, bonusTokenDetail?.decimals ?? 18)
     }
   }, [token.decimals, inputAmount, bonusTokenDetail, selectedIdx])
+
   const mainAmountAfterDonation = useMemo(
     () => depositAmount.plus(hToken.totalReward),
     [hToken.totalReward, depositAmount],
@@ -120,7 +122,9 @@ function DonationModal({ token, hToken, bonusTokenDetail, visible, setOpen }: Do
         isDepositing={isDepositing}
         spenderAddress={hToken.id}
         onDepositClick={donateToPool}
-        onInputChanged={value => setInputAmount(value)}
+        onInputChanged={setInputAmount}
+        inputAmount={inputAmount}
+        transferAmount={depositAmount}
       />
     </Modal>
   )
