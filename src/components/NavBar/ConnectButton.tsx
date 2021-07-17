@@ -6,10 +6,10 @@ import { checkAddressAndAddToStorage } from '../../utils/storage'
 import { isMainnet } from '../../utils/others'
 import { useConnectedWallet } from '../../contexts/wallet'
 import { useBreakpoint } from '../../hooks'
-import { BreakPoints, networkIdToName } from '../../constants'
+import { BreakPoints, networkIdToName, SupportedNetworks } from '../../constants'
 
 function ConnectButton({ setNetworkModalOpen }) {
-  const { connect, disconnect, user, networkId } = useConnectedWallet()
+  const { connect, disconnect, user, currentProviderNetwork } = useConnectedWallet()
 
   const breakpoint = useBreakpoint()
   const connectWeb3 = async () => {
@@ -18,7 +18,7 @@ function ConnectButton({ setNetworkModalOpen }) {
     checkAddressAndAddToStorage(address)
   }
 
-  const networkName = useMemo(() => networkIdToName[networkId], [networkId])
+  const networkName = useMemo(() => networkIdToName(currentProviderNetwork), [currentProviderNetwork])
 
   return user !== '' ? (
     <>
@@ -27,7 +27,13 @@ function ConnectButton({ setNetworkModalOpen }) {
           {breakpoint > BreakPoints.sm && (
             <div style={{ display: 'inline-block' }}>
               <LinkBase onClick={() => setNetworkModalOpen(true)}>
-                <Tag uppercase={false} mode={isMainnet(networkId) ? 'indicator' : 'identifier'}>
+                <Tag
+                  uppercase={false}
+                  mode={isMainnet(currentProviderNetwork) ? 'indicator' : 'identifier'}
+                  // override colors if the current connected wallet is unknown
+                  background={currentProviderNetwork in SupportedNetworks ? undefined : '#d1d0d6'}
+                  color={currentProviderNetwork in SupportedNetworks ? undefined : '#6c6b6f'}
+                >
                   {' '}
                   {networkName}{' '}
                 </Tag>

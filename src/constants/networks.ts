@@ -7,13 +7,14 @@ export const networkIdToExplorer = {
   [SupportedNetworks.Mumbai]: 'https://mumbai.polygonscan.com/',
 }
 
-export const networkIdToName = {
-  // [SupportedNetworks.Mainnet]: 'Mainnet',
-  [SupportedNetworks.Kovan]: 'Kovan',
-  [SupportedNetworks.Ropsten]: 'Ropsten',
-  [SupportedNetworks.Mumbai]: 'Mumbai',
-  // [SupportedNetworks.Polygon]: 'Matic',
-  // [SupportedNetworks.BSC]: 'BSC',
+export const networkIdToName = (network: number) => {
+  // if(network === SupportedNetworks.Mainnet) return 'Mainnet'
+  if (network === SupportedNetworks.Kovan) return 'Kovan'
+  if (network === SupportedNetworks.Ropsten) return 'Ropsten'
+  if (network === SupportedNetworks.Mumbai) return 'Mumbai'
+  // if(network === SupportedNetworks.Polygon) return 'Matic'
+  // if(network === SupportedNetworks.BSC) return 'BSC'
+  return 'Unknown'
 }
 
 export const networkToNativeCurrency = (networkId: SupportedNetworks) => {

@@ -8,17 +8,19 @@ const INFURA_KEY = process.env.REACT_APP_INFURA_KEY
 const BLOCKNATIVE_KEY = process.env.REACT_APP_BLOCKNATIVE_KEY
 const FORTMATIC_KEY = process.env.REACT_APP_FORTMATIC_KEY
 
+const defaultNetworkId = 3
+
 export const useConnection = () => {
   const [user, setUser] = useState<string>('')
 
   // web3 instance associate with the wallet. if the wallet is on a weird network, could be bad.
-  const [web3, setWeb3] = useState<Web3>(new Web3(`https://ropsten.infura.io/v3/${INFURA_KEY}`))
+  const [web3, setWeb3] = useState<Web3>(new Web3(getProvider(defaultNetworkId)))
 
-  // the network id that should be used to retrive data. (always a supported network)
-  const [networkId, setNetworkId] = useState<SupportedNetworks>(3)
+  // the network id that should be used to retrieve data. (always a supported network)
+  const [networkId, setNetworkId] = useState<SupportedNetworks>(defaultNetworkId)
 
   // the network id that the current provider is on.
-  const [currentProviderNetwork, setCurrentProvideNetwork] = useState<number>(3)
+  const [currentProviderNetwork, setCurrentProvideNetwork] = useState<number>(defaultNetworkId)
 
   // function for block native sdk when address is updated
   const setAddressCallback = useCallback((address: string | undefined) => {
@@ -30,10 +32,21 @@ export const useConnection = () => {
   }, [])
 
   // function for block native sdk when wallet is updated
-  const setWalletCallback = useCallback(wallet => {
+  const setWalletCallback = useCallback(async wallet => {
     storePreference('selectedWallet', wallet.name)
+
+    if (!wallet.provider) {
+      // user disconnected, wallet.provider will be undefined, fallback to default
+      setWeb3(new Web3(getProvider(defaultNetworkId)))
+      return
+    }
+
     const web3Instance = new Web3(wallet.provider)
-    setWeb3(web3Instance)
+    const newId = await web3Instance.eth.net.getId()
+    if (newId in SupportedNetworks) {
+      console.log(`set new web3`, newId)
+      setWeb3(web3Instance)
+    }
   }, [])
 
   const onboard = useMemo(() => {
@@ -44,7 +57,7 @@ export const useConnection = () => {
           networkId: _newNetwork,
         })
       }
-      // update curentProviderNetwork no matter what
+      // update currentProviderNetwork no matter what, so we know if user is on the wrong network
       setCurrentProvideNetwork(_newNetwork)
     }
 
@@ -79,6 +92,7 @@ export const useConnection = () => {
   const disconnect = useCallback(async () => {
     onboard.walletReset()
     setUser('')
+    setCurrentProvideNetwork(defaultNetworkId)
   }, [onboard])
 
   return { networkId, user, setUser, web3, connect, disconnect, currentProviderNetwork }

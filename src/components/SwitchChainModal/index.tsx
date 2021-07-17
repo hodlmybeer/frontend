@@ -29,20 +29,23 @@ type SwitchChainModalProps = {
 }
 
 enum SelectionIdx {
-  Ethereum,
-  Polygon,
-  BSC,
+  Unknown = -1,
+  Ethereum = 0,
+  Polygon = 1,
+  BSC = 2,
 }
 
 export const SwitchChainModal = ({ open, setOpen }: SwitchChainModalProps) => {
   const theme = useTheme()
-  const { networkId, web3 } = useConnectedWallet()
+  const { currentProviderNetwork, web3 } = useConnectedWallet()
 
   const selectedIdx = useMemo(() => {
-    if (networkId === SupportedNetworks.Ropsten || networkId === SupportedNetworks.Kovan) return SelectionIdx.Ethereum
-    if (networkId === SupportedNetworks.Mumbai) return SelectionIdx.Polygon
+    if (!(currentProviderNetwork in SupportedNetworks)) return SelectionIdx.Unknown
+    if (currentProviderNetwork === SupportedNetworks.Ropsten || currentProviderNetwork === SupportedNetworks.Kovan)
+      return SelectionIdx.Ethereum
+    if (currentProviderNetwork === SupportedNetworks.Mumbai) return SelectionIdx.Polygon
     else return SelectionIdx.BSC
-  }, [networkId])
+  }, [currentProviderNetwork])
 
   const switchToDefaultNetworkOfPlatform = useCallback(
     (selectedIdx: SelectionIdx) => {
