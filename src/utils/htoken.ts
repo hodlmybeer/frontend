@@ -25,9 +25,6 @@ function getRatingScore(hToken: hToken, officialFR: string) {
   const creatorScore = trustedCreators.includes(hToken.creator) ? 100 : 0
 
   const feeRecipientScore = hToken.feeRecipient === officialFR.toLowerCase() ? 200 : 0
-  console.log(`hToken.feeRecipient`, hToken.feeRecipient)
-
-  console.log(`1feeRecipientScore`, feeRecipientScore)
 
   return creatorScore + depositorScore + feeRecipientScore
 }

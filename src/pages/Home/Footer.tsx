@@ -6,10 +6,10 @@ function Footer() {
   return (
     <div
       style={{
-        position: 'fixed',
-        left: 0,
-        bottom: 20,
+        position: 'absolute',
         width: '100%',
+        height: '2.5rem',
+        bottom: 0,
         textAlign: 'center',
         alignItems: 'center',
       }}

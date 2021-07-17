@@ -70,7 +70,10 @@ export default function HodlingExpanded({ hodling }: { hodling: Hodling }) {
                     type="number"
                     value={quitAmount}
                     onChange={event => {
-                      if (event.target.value) setQuitAmount(event.target.value)
+                      if (parseFloat(event.target.value) > 0) setQuitAmount(event.target.value)
+                      else {
+                        setQuitAmount(new BigNumber(0))
+                      }
                     }}
                   />
                   <Button onClick={handleQuit} style={{ minWidth: 110 }} mode="negative">
@@ -99,7 +102,10 @@ export default function HodlingExpanded({ hodling }: { hodling: Hodling }) {
                     type="number"
                     value={redeemAmount}
                     onChange={event => {
-                      if (event.target.value) setRedeemAmount(event.target.value)
+                      if (parseFloat(event.target.value) > 0) setRedeemAmount(event.target.value)
+                      else {
+                        setRedeemAmount(new BigNumber(0))
+                      }
                     }}
                   />
                   <Button

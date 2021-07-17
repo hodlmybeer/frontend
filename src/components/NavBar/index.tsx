@@ -15,7 +15,7 @@ function MyBar() {
 
   const [networkModalOpen, setNetworkModalOpen] = useState(false)
 
-  const homeButtom = useMemo(() => {
+  const homeIcon = useMemo(() => {
     return (
       <LinkBase
         onClick={() => {
@@ -27,23 +27,36 @@ function MyBar() {
     )
   }, [history])
 
-  const dashboardButtom = useMemo(() => {
+  const homeButton = useMemo(() => {
     return (
       <LinkBase
-        style={{ padding: 5, fontSize: 20, fontFamily: 'Recursive' }}
         onClick={() => {
-          history.push('/dashboard')
+          history.push('/')
         }}
+        style={{ padding: 10, fontSize: 20, fontFamily: 'Recursive' }}
       >
-        Dashboard
+        Home
       </LinkBase>
     )
   }, [history])
 
-  const barrelsButtom = useMemo(() => {
+  const portfolioButton = useMemo(() => {
     return (
       <LinkBase
-        style={{ padding: 5, fontSize: 20, fontFamily: 'Recursive' }}
+        style={{ padding: 10, fontSize: 20, fontFamily: 'Recursive' }}
+        onClick={() => {
+          history.push('/portfolio')
+        }}
+      >
+        Portfolio
+      </LinkBase>
+    )
+  }, [history])
+
+  const barrelsButton = useMemo(() => {
+    return (
+      <LinkBase
+        style={{ padding: 10, fontSize: 20, fontFamily: 'Recursive' }}
         onClick={() => {
           history.push('/barrels')
         }}
@@ -56,8 +69,8 @@ function MyBar() {
   const navBarMenu = useMemo(() => {
     return (
       <ContextMenu>
-        <ContextMenuItem> {dashboardButtom} </ContextMenuItem>
-        <ContextMenuItem> {barrelsButtom} </ContextMenuItem>
+        <ContextMenuItem> {portfolioButton} </ContextMenuItem>
+        <ContextMenuItem> {barrelsButton} </ContextMenuItem>
         <ContextMenuItem>
           {' '}
           <div style={{ paddingLeft: '35%' }}>
@@ -66,7 +79,7 @@ function MyBar() {
         </ContextMenuItem>
       </ContextMenu>
     )
-  }, [dashboardButtom, barrelsButtom])
+  }, [portfolioButton, barrelsButton])
 
   const normalNavBar = useMemo(() => {
     return (
@@ -79,17 +92,18 @@ function MyBar() {
           alignItems: 'center',
         }}
       >
-        {homeButtom}
-        <div style={{ paddingLeft: 10 }}>{dashboardButtom}</div>
-        <div style={{ paddingLeft: 10 }}>{barrelsButtom}</div>
+        {homeIcon}
+        {homeButton}
+        <div style={{ paddingLeft: 15 }}>{barrelsButton}</div>
+        <div style={{ paddingLeft: 15 }}>{portfolioButton}</div>
       </div>
     )
-  }, [homeButtom, dashboardButtom, barrelsButtom])
+  }, [homeButton, portfolioButton, barrelsButton, homeIcon])
 
   return (
     <div>
       <Bar
-        primary={breakPoint > BreakPoints.sm ? normalNavBar : homeButtom}
+        primary={breakPoint > BreakPoints.sm ? normalNavBar : homeIcon}
         secondary={
           breakPoint <= BreakPoints.sm ? (
             <>
