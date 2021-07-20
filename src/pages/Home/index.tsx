@@ -33,7 +33,7 @@ function Home() {
       {/* center everything */}
       <PageContainer>
         <ContentWrap>
-          <Header primary="Hodl My Bear" />
+          <Header primary="Hodl My Beer" />
           <SectionTitle title="The strategy that outperforms 95% of all professional traders" paddingTop={0} />
           <br />
 
