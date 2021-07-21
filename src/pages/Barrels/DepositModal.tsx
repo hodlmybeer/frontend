@@ -8,7 +8,7 @@ import { Entry, EntryTitle } from '../../components/Entry'
 import { hToken } from '../../types'
 import { useConnectedWallet } from '../../contexts/wallet'
 import { useTokenBalance, usePool, useAsyncMemo } from '../../hooks'
-import { fromTokenAmount } from '../../utils/math'
+import { toTokenAmount, fromTokenAmount } from '../../utils/math'
 import TransferForm from '../../components/shared/TransferForm'
 
 type DepositModalProps = {
@@ -76,11 +76,32 @@ DepositModalProps) {
     [hToken],
   )
 
+  let userMaxEstimatedReward = toTokenAmount(hToken.tokenBalance, hToken.decimals).times(
+    (hToken.penalty / 1000) * (1 - hToken.fee / 1000),
+  )
+
   return (
     <Modal padding={'7%'} visible={open} onClose={onClose}>
       <Header primary={`Lock up your ${underlyingSymbol}!`} />
 
       <div style={{ fontSize: 18 }}> Barrel Overview </div>
+      <Entry>
+        <EntryTitle uppercase={false}>
+          <div style={{ display: 'flex' }}>
+            <span style={{ paddingRight: 5 }}>Your estimated max reward</span>
+            <Help hint="How is this estimated?">
+              This is an approximation for the best case scenario when you are the last and only exiting participant,
+              and everyone else quit before the expiry and got penalized. The real reward that you will get depends on
+              your and other participants' behavior and would probably be much lower than this number.
+            </Help>
+          </div>
+        </EntryTitle>
+        <TokenAmountWithoutIcon
+          symbol={underlyingSymbol}
+          amount={fromTokenAmount(userMaxEstimatedReward, hToken.decimals).toString()}
+          decimals={underlyingDecimals}
+        />
+      </Entry>
       <Entry>
         <EntryTitle uppercase={false}>Penalty</EntryTitle>
         <TokenAmountWithoutIcon symbol={'%'} amount={(hToken.penalty / 10).toString()} decimals={0} />
@@ -129,7 +150,7 @@ DepositModalProps) {
       <Entry>
         <EntryTitle uppercase={false}>
           <div style={{ display: 'flex' }}>
-            <span style={{ paddingRight: 5 }}>Early withdraw penalty</span>
+            <span style={{ paddingRight: 5 }}>Early withdrawal penalty</span>
             <Help hint="What is penalty">
               {' '}
               If you withdraw your {underlyingSymbol} before expiry, you will get penalized.

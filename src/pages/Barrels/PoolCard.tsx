@@ -1,6 +1,17 @@
 import React, { useMemo, useState, useRef } from 'react'
 import { useAsyncMemo } from '../../hooks'
-import { Box, Button, ContextMenu, ContextMenuItem, IconHeart, ProgressBar, useTheme, LinkBase, Tag } from '@aragon/ui'
+import {
+  Box,
+  Button,
+  ContextMenu,
+  ContextMenuItem,
+  Help,
+  IconHeart,
+  ProgressBar,
+  useTheme,
+  LinkBase,
+  Tag,
+} from '@aragon/ui'
 import { Contract } from 'web3-eth-contract'
 import DepositModal from './DepositModal'
 import ReactTooltip from 'react-tooltip'
@@ -23,6 +34,7 @@ import {
 } from '../../constants'
 import { hToken, Token } from '../../types'
 import { toPoolName } from '../../utils/htoken'
+import { toTokenAmount, fromTokenAmount } from '../../utils/math'
 
 import TokenAmountWithoutIcon from '../../components/TokenAmountWithoutIcon'
 import { Entry, EntryTitle } from '../../components/Entry'
@@ -87,6 +99,10 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
     [bonusToken],
   )
 
+  let userMaxEstimatedReward = toTokenAmount(hToken.tokenBalance, hToken.decimals).times(
+    (hToken.penalty / 1000) * (1 - hToken.fee / 1000),
+  )
+
   return (
     <Box
       nodeRef={nodeRef}
@@ -148,6 +164,26 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
           <EntryTitle>Total Reward:</EntryTitle>
           <TokenAmountWithoutIcon symbol={token.symbol} amount={hToken.totalReward} decimals={token.decimals} />
         </Entry>
+        {userMaxEstimatedReward.gt(0) && (
+          <Entry>
+            <EntryTitle>
+              <div style={{ display: 'flex' }}>
+                <span style={{ paddingRight: 5 }}>Your Max Reward</span>
+                <Help hint="How is this estimated?">
+                  This is an approximation for the best case scenario when you are the last and only exiting
+                  participant, and everyone else quit before the expiry and got penalized. The real reward that you will
+                  get depends on your and other participants' behavior and would probably be much lower than this
+                  number.
+                </Help>
+              </div>
+            </EntryTitle>
+            <TokenAmountWithoutIcon
+              symbol={token.symbol}
+              amount={fromTokenAmount(userMaxEstimatedReward, hToken.decimals).toString()}
+              decimals={token.decimals}
+            />
+          </Entry>
+        )}
         <Entry>
           <EntryTitle>Total Bonus:</EntryTitle>
           {bonusToken ? (
