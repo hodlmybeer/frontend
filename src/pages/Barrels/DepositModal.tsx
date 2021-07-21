@@ -76,7 +76,7 @@ DepositModalProps) {
     [hToken],
   )
 
-  let userMaxEstimatedReward = toTokenAmount(hToken.tokenBalance, hToken.decimals).times(
+  const userMaxEstimatedReward = toTokenAmount(hToken.tokenBalance, hToken.decimals).times(
     (hToken.penalty / 1000) * (1 - hToken.fee / 1000),
   )
 
