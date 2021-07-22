@@ -1,5 +1,7 @@
+import BigNumber from 'bignumber.js'
 import { SupportedNetworks, tokens, trustedCreators } from '../constants'
 import { hToken } from '../types'
+import { toTokenAmount } from '../utils/math'
 
 export function toPoolName(hToken: any, networkId: SupportedNetworks): string {
   const token = tokens[networkId].find(t => t.id.toLowerCase() === hToken.token)
@@ -27,4 +29,27 @@ function getRatingScore(hToken: hToken, officialFR: string) {
   const feeRecipientScore = hToken.feeRecipient === officialFR.toLowerCase() ? 200 : 0
 
   return creatorScore + depositorScore + feeRecipientScore
+}
+
+/**
+ * @param {hToken} hToken pool hToken
+ * @param {BigNumber} depositAmount new deposit amount to calculate the APY for
+ * @returns {BigNumber} pool APY for given deposit amount
+ */
+export function getPoolApy(hToken: hToken, depositAmount: BigNumber): BigNumber {
+  const poolBalance = toTokenAmount(hToken.tokenBalance, hToken.decimals)
+  const poolDuration = hToken.expiry - hToken.createdAt
+  const yearFraction = poolDuration / (365 * 24 * 60 * 60)
+
+  return new BigNumber(
+    ((hToken.penalty / 1000) *
+      (1 - hToken.fee / 1000) *
+      // *100 to express in %
+      100) /
+      // divide by pool remaining year fraction to get the APY
+      yearFraction,
+  )
+    .times(poolBalance)
+
+    .div(poolBalance.plus(toTokenAmount(depositAmount, hToken.decimals)))
 }

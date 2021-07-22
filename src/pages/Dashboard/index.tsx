@@ -16,6 +16,7 @@ import { useAccountHodlings } from '../../hooks'
 import { Hodling } from '../../types'
 import { toPoolName } from '../../utils/htoken'
 import { stateBeer } from '../../constants/dataviewState'
+import { getPoolApy } from '../../utils/htoken'
 
 function Dashboard() {
   const { networkId, user } = useConnectedWallet()
@@ -78,7 +79,10 @@ function Dashboard() {
         )
       const barrelName = toPoolName(hodling.token, networkId)
       const badge = <IdentityBadge entity={hodling.token.id} customLabel={barrelName} />
-      return [tokenAmount, badge, countDown, percentage, rewardAmount, bonusAmount]
+      console.log(hodling.balance)
+      const userEstimatedApy = getPoolApy(hodling.token, new BigNumber(hodling.balance))
+      const apy = `${userEstimatedApy.toFixed(3)}%`
+      return [tokenAmount, badge, countDown, percentage, rewardAmount, bonusAmount, apy]
     },
     [networkId],
   )
@@ -135,7 +139,7 @@ function Dashboard() {
         <div>
           <DataView
             status={isLoading ? 'loading' : 'default'}
-            fields={['My deposit', 'Barrel id', 'Countdown', 'Reward Share', 'Reward', 'Bonus']}
+            fields={['My deposit', 'Barrel id', 'Countdown', 'Reward Share', 'Reward', 'Bonus', 'APY']}
             renderEntry={renderHodlingRow}
             renderEntryExpansion={hodling => {
               return <HodlingExpanded hodling={hodling} />

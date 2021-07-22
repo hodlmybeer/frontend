@@ -8,8 +8,9 @@ import { Entry, EntryTitle } from '../../components/Entry'
 import { hToken } from '../../types'
 import { useConnectedWallet } from '../../contexts/wallet'
 import { useTokenBalance, usePool, useAsyncMemo } from '../../hooks'
-import { toTokenAmount, fromTokenAmount } from '../../utils/math'
+import { fromTokenAmount } from '../../utils/math'
 import TransferForm from '../../components/shared/TransferForm'
+import { getPoolApy } from '../../utils/htoken'
 
 type DepositModalProps = {
   hToken: hToken
@@ -76,9 +77,9 @@ DepositModalProps) {
     [hToken],
   )
 
-  const userMaxEstimatedReward = toTokenAmount(hToken.tokenBalance, hToken.decimals).times(
-    (hToken.penalty / 1000) * (1 - hToken.fee / 1000),
-  )
+  const apyPerToken = getPoolApy(hToken, fromTokenAmount(1, hToken.decimals))
+
+  const userEstimatedApy = useMemo(() => getPoolApy(hToken, depositAmount), [depositAmount, hToken])
 
   return (
     <Modal padding={'7%'} visible={open} onClose={onClose}>
@@ -88,19 +89,11 @@ DepositModalProps) {
       <Entry>
         <EntryTitle uppercase={false}>
           <div style={{ display: 'flex' }}>
-            <span style={{ paddingRight: 5 }}>Your estimated max reward</span>
-            <Help hint="How is this estimated?">
-              This is an approximation for the best case scenario when you are the last and only exiting participant,
-              and everyone else quit before the expiry and got penalized. The real reward that you will get depends on
-              your and other participants' behavior and would probably be much lower than this number.
-            </Help>
+            <span style={{ paddingRight: 5 }}>{depositAmount.gt(0) ? 'APY' : 'APY / 1 token'}</span>
+            <Help hint="Additional info">This value might change as more participants enter the pool</Help>
           </div>
         </EntryTitle>
-        <TokenAmountWithoutIcon
-          symbol={underlyingSymbol}
-          amount={fromTokenAmount(userMaxEstimatedReward, hToken.decimals).toString()}
-          decimals={underlyingDecimals}
-        />
+        {depositAmount.gt(0) ? `${userEstimatedApy.toFixed(3)}%` : `${apyPerToken.toFixed(3)}%`}
       </Entry>
       <Entry>
         <EntryTitle uppercase={false}>Penalty</EntryTitle>

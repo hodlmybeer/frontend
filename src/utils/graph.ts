@@ -72,6 +72,8 @@ export async function getAccountHodlings(
         createdAt
         lockWindow
         penalty
+        fee
+        tokenBalance
         totalReward
         totalShares
         token

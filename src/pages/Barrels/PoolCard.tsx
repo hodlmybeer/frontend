@@ -33,8 +33,8 @@ import {
   getOfficialFeeRecipient,
 } from '../../constants'
 import { hToken, Token } from '../../types'
-import { toPoolName } from '../../utils/htoken'
-import { toTokenAmount, fromTokenAmount } from '../../utils/math'
+import { toPoolName, getPoolApy } from '../../utils/htoken'
+import { fromTokenAmount } from '../../utils/math'
 
 import TokenAmountWithoutIcon from '../../components/TokenAmountWithoutIcon'
 import { Entry, EntryTitle } from '../../components/Entry'
@@ -99,9 +99,8 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
     [bonusToken],
   )
 
-  const userMaxEstimatedReward = toTokenAmount(hToken.tokenBalance, hToken.decimals).times(
-    (hToken.penalty / 1000) * (1 - hToken.fee / 1000),
-  )
+  const depositAmount = 1
+  const apyPerToken = getPoolApy(hToken, fromTokenAmount(depositAmount, hToken.decimals))
 
   return (
     <Box
@@ -164,26 +163,16 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
           <EntryTitle>Total Reward:</EntryTitle>
           <TokenAmountWithoutIcon symbol={token.symbol} amount={hToken.totalReward} decimals={token.decimals} />
         </Entry>
-        {userMaxEstimatedReward.gt(0) && (
-          <Entry>
-            <EntryTitle>
-              <div style={{ display: 'flex' }}>
-                <span style={{ paddingRight: 5 }}>Your Max Reward</span>
-                <Help hint="How is this estimated?">
-                  This is an approximation for the best case scenario when you are the last and only exiting
-                  participant, and everyone else quit before the expiry and got penalized. The real reward that you will
-                  get depends on your and other participants' behavior and would probably be much lower than this
-                  number.
-                </Help>
-              </div>
-            </EntryTitle>
-            <TokenAmountWithoutIcon
-              symbol={token.symbol}
-              amount={fromTokenAmount(userMaxEstimatedReward, hToken.decimals).toString()}
-              decimals={token.decimals}
-            />
-          </Entry>
-        )}
+
+        <Entry>
+          <EntryTitle>
+            <div style={{ display: 'flex' }}>
+              <span style={{ paddingRight: 5 }}>APY / 1 token</span>
+              <Help hint="Additional info">This value might change as more participants enter the pool</Help>
+            </div>
+          </EntryTitle>
+          {apyPerToken.gt(0) ? `${apyPerToken.toFixed(3)}%` : '-'}
+        </Entry>
         <Entry>
           <EntryTitle>Total Bonus:</EntryTitle>
           {bonusToken ? (
