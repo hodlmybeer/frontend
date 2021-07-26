@@ -102,15 +102,16 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
   )
 
   const oneTokenDeposit = useMemo(() => {
-    return fromTokenAmount(new BigNumber(1), hToken.decimals)
+    return fromTokenAmount(parseFloat('1'), hToken.decimals)
   }, [hToken])
+
   const sharesPerToken = useAsyncMemo(
     async () => {
       const shares = await calculateShares(oneTokenDeposit)
       return new BigNumber(shares)
     },
     new BigNumber(0),
-    [hToken, oneTokenDeposit],
+    [oneTokenDeposit],
   )
 
   const apyPerToken = useMemo(() => {

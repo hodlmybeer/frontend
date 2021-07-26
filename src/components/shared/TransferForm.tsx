@@ -76,7 +76,6 @@ function TransferForm({
     return tokens[networkId].find(t => t.id.toLowerCase() === tokenAddress)
   }, [tokenAddress, networkId])
 
-  BigNumber.config({ DECIMAL_PLACES: 4 })
   return (
     <div>
       <Entry>

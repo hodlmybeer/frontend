@@ -53,7 +53,7 @@ DepositModalProps) {
     [depositAmount],
   )
 
-  const oneTokenDeposit = useMemo(() => fromTokenAmount(new BigNumber(1), underlyingDecimals), [underlyingDecimals])
+  const oneTokenDeposit = useMemo(() => fromTokenAmount(parseFloat('1'), underlyingDecimals), [underlyingDecimals])
 
   const sharesPerToken = useAsyncMemo(
     async () => {
@@ -61,7 +61,7 @@ DepositModalProps) {
       return new BigNumber(shares)
     },
     new BigNumber(0),
-    [underlyingDecimals, oneTokenDeposit],
+    [oneTokenDeposit],
   )
 
   const sharePercentage = useMemo(() => {
