@@ -1,13 +1,12 @@
 import BigNumber from 'bignumber.js'
 import { SupportedNetworks, tokens, trustedCreators } from '../constants'
 import { hToken } from '../types'
-import { toTokenAmount } from '../utils/math'
 
 export function toPoolName(hToken: any, networkId: SupportedNetworks): string {
   const token = tokens[networkId].find(t => t.id.toLowerCase() === hToken.token)
 
-  // dont' know a name if the underlying token is not whitelisted in this fe repo.
-  if (!token) return 'Unkown pool'
+  // don't know a name if the underlying token is not whitelisted in this fe repo.
+  if (!token) return 'Unknown pool'
 
   const penaltyPercentage = hToken.penalty / 10
   const expiry = new Date(hToken.expiry * 1000).toISOString().split('T')[0]
@@ -36,20 +35,27 @@ function getRatingScore(hToken: hToken, officialFR: string) {
  * @param {BigNumber} depositAmount new deposit amount to calculate the APY for
  * @returns {BigNumber} pool APY for given deposit amount
  */
-export function getPoolApy(hToken: hToken, depositAmount: BigNumber): BigNumber {
-  const poolBalance = toTokenAmount(hToken.tokenBalance, hToken.decimals)
-  const poolDuration = hToken.expiry - hToken.createdAt
+export function getPoolApy(hToken: hToken, shares: BigNumber, depositAmount: BigNumber): BigNumber {
+  const poolDuration = hToken.expiry - Date.now() / 1000
   const yearFraction = poolDuration / (365 * 24 * 60 * 60)
-
-  return new BigNumber(
-    ((hToken.penalty / 1000) *
-      (1 - hToken.fee / 1000) *
-      // *100 to express in %
-      100) /
-      // divide by pool remaining year fraction to get the APY
-      yearFraction,
-  )
-    .times(poolBalance)
-
-    .div(poolBalance.plus(toTokenAmount(depositAmount, hToken.decimals)))
+  const share = shares.div(new BigNumber(hToken.totalShares).plus(shares))
+  console.log('poolDuration', poolDuration)
+  console.log('yearFraction', yearFraction)
+  console.log('shares', shares.toString())
+  console.log('hToken.totalShares', hToken.totalShares)
+  console.log('relative share', share.toString())
+  console.log('depositAmount', depositAmount.toString())
+  return new BigNumber(hToken.tokenBalance)
+    .times(
+      new BigNumber(
+        ((hToken.penalty / 1000) *
+          (1 - hToken.fee / 1000) *
+          // *100 to express in %
+          100) /
+          // divide by pool remaining year fraction to get the APY
+          yearFraction,
+      ),
+    )
+    .times(share)
+    .div(depositAmount)
 }

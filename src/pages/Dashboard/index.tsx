@@ -79,8 +79,11 @@ function Dashboard() {
         )
       const barrelName = toPoolName(hodling.token, networkId)
       const badge = <IdentityBadge entity={hodling.token.id} customLabel={barrelName} />
-      console.log(hodling.balance)
-      const userEstimatedApy = getPoolApy(hodling.token, new BigNumber(hodling.balance))
+      const userEstimatedApy = getPoolApy(
+        hodling.token,
+        new BigNumber(hodling.shareBalance),
+        new BigNumber(hodling.balance),
+      )
       const apy = `${userEstimatedApy.toFixed(3)}%`
       return [tokenAmount, badge, countDown, percentage, rewardAmount, bonusAmount, apy]
     },

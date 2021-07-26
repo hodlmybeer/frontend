@@ -53,6 +53,17 @@ DepositModalProps) {
     [depositAmount],
   )
 
+  const oneTokenDeposit = useMemo(() => fromTokenAmount(new BigNumber(1), underlyingDecimals), [underlyingDecimals])
+
+  const sharesPerToken = useAsyncMemo(
+    async () => {
+      const shares = await calculateShares(oneTokenDeposit)
+      return new BigNumber(shares)
+    },
+    new BigNumber(0),
+    [underlyingDecimals, oneTokenDeposit],
+  )
+
   const sharePercentage = useMemo(() => {
     if (hToken.totalShares === '0') return '100'
     else return sharesToGet.div(new BigNumber(hToken.totalShares).plus(sharesToGet)).times(100).toFixed(2)
@@ -77,9 +88,13 @@ DepositModalProps) {
     [hToken],
   )
 
-  const apyPerToken = getPoolApy(hToken, fromTokenAmount(1, hToken.decimals))
-
-  const userEstimatedApy = useMemo(() => getPoolApy(hToken, depositAmount), [depositAmount, hToken])
+  const userEstimatedApy = useMemo(() => {
+    return getPoolApy(
+      hToken,
+      depositAmount.gt(0) ? sharesToGet : sharesPerToken,
+      depositAmount.gt(0) ? depositAmount : oneTokenDeposit,
+    )
+  }, [sharesToGet, hToken, depositAmount, sharesPerToken, oneTokenDeposit])
 
   return (
     <Modal padding={'7%'} visible={open} onClose={onClose}>
@@ -93,7 +108,7 @@ DepositModalProps) {
             <Help hint="Additional info">This value might change as more participants enter the pool</Help>
           </div>
         </EntryTitle>
-        {depositAmount.gt(0) ? `${userEstimatedApy.toFixed(3)}%` : `${apyPerToken.toFixed(3)}%`}
+        {userEstimatedApy.toFixed(3)}%
       </Entry>
       <Entry>
         <EntryTitle uppercase={false}>Penalty</EntryTitle>

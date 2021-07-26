@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useRef } from 'react'
-import { useAsyncMemo } from '../../hooks'
+import BigNumber from 'bignumber.js'
+import { usePool, useAsyncMemo } from '../../hooks'
 import {
   Box,
   Button,
@@ -51,6 +52,7 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
   const nodeRef = useRef(null)
   const [depositModalOpened, setModalOpened] = useState(false)
   const [donateModalOpened, setDonationModalOpened] = useState(false)
+  const { calculateShares } = usePool(hToken)
 
   const theme = useTheme()
 
@@ -99,8 +101,21 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
     [bonusToken],
   )
 
-  const depositAmount = 1
-  const apyPerToken = getPoolApy(hToken, fromTokenAmount(depositAmount, hToken.decimals))
+  const oneTokenDeposit = useMemo(() => {
+    return fromTokenAmount(new BigNumber(1), hToken.decimals)
+  }, [hToken])
+  const sharesPerToken = useAsyncMemo(
+    async () => {
+      const shares = await calculateShares(oneTokenDeposit)
+      return new BigNumber(shares)
+    },
+    new BigNumber(0),
+    [hToken, oneTokenDeposit],
+  )
+
+  const apyPerToken = useMemo(() => {
+    return getPoolApy(hToken, sharesPerToken, oneTokenDeposit)
+  }, [hToken, sharesPerToken, oneTokenDeposit])
 
   return (
     <Box
