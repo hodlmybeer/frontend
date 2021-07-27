@@ -104,8 +104,8 @@ DepositModalProps) {
       <Entry>
         <EntryTitle uppercase={false}>
           <div style={{ display: 'flex' }}>
-            <span style={{ paddingRight: 5 }}>{depositAmount.gt(0) ? 'APY' : 'APY / 1 token'}</span>
-            <Help hint="Additional info">This value might change as more participants enter the pool</Help>
+            <span style={{ paddingRight: 5 }}>{depositAmount.gt(0) ? 'APY' : 'Estimated APY'}</span>
+            <Help hint="Additional info">The APY might change as more participants enter the pool</Help>
           </div>
         </EntryTitle>
         {userEstimatedApy.toFixed(3)}%

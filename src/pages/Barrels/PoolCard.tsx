@@ -183,8 +183,10 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
         <Entry>
           <EntryTitle>
             <div style={{ display: 'flex' }}>
-              <span style={{ paddingRight: 5 }}>APY / 1 token</span>
-              <Help hint="Additional info">This value might change as more participants enter the pool</Help>
+              <span style={{ paddingRight: 5 }}>Estimated APY</span>
+              {apyPerToken.gt(0) && (
+                <Help hint="Additional info">{`The estimate is calculated per a potential deposit of 1 ${token.symbol}. To see the estimation for your desired deposit amount, press Deposit and enter the amount.`}</Help>
+              )}
             </div>
           </EntryTitle>
           {apyPerToken.gt(0) ? `${apyPerToken.toFixed(3)}%` : '-'}

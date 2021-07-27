@@ -39,12 +39,6 @@ export function getPoolApy(hToken: hToken, shares: BigNumber, depositAmount: Big
   const poolDuration = hToken.expiry - Date.now() / 1000
   const yearFraction = poolDuration / (365 * 24 * 60 * 60)
   const share = shares.div(new BigNumber(hToken.totalShares).plus(shares))
-  console.log('poolDuration', poolDuration)
-  console.log('yearFraction', yearFraction)
-  console.log('shares', shares.toString())
-  console.log('hToken.totalShares', hToken.totalShares)
-  console.log('relative share', share.toString())
-  console.log('depositAmount', depositAmount.toString())
   return new BigNumber(hToken.tokenBalance)
     .times(
       new BigNumber(
