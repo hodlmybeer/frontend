@@ -10,6 +10,7 @@ import { useConnectedWallet } from '../../contexts/wallet'
 import { useTokenBalance, usePool, useAsyncMemo } from '../../hooks'
 import { fromTokenAmount } from '../../utils/math'
 import TransferForm from '../../components/shared/TransferForm'
+import { getPoolApy } from '../../utils/htoken'
 
 type DepositModalProps = {
   hToken: hToken
@@ -52,6 +53,17 @@ DepositModalProps) {
     [depositAmount],
   )
 
+  const oneTokenDeposit = useMemo(() => fromTokenAmount(parseFloat('1'), underlyingDecimals), [underlyingDecimals])
+
+  const sharesPerToken = useAsyncMemo(
+    async () => {
+      const shares = await calculateShares(oneTokenDeposit)
+      return new BigNumber(shares)
+    },
+    new BigNumber(0),
+    [oneTokenDeposit],
+  )
+
   const sharePercentage = useMemo(() => {
     if (hToken.totalShares === '0') return '100'
     else return sharesToGet.div(new BigNumber(hToken.totalShares).plus(sharesToGet)).times(100).toFixed(2)
@@ -76,11 +88,28 @@ DepositModalProps) {
     [hToken],
   )
 
+  const userEstimatedApy = useMemo(() => {
+    return getPoolApy(
+      hToken,
+      depositAmount.gt(0) ? sharesToGet : sharesPerToken,
+      depositAmount.gt(0) ? depositAmount : oneTokenDeposit,
+    )
+  }, [sharesToGet, hToken, depositAmount, sharesPerToken, oneTokenDeposit])
+
   return (
     <Modal padding={'7%'} visible={open} onClose={onClose}>
       <Header primary={`Lock up your ${underlyingSymbol}!`} />
 
       <div style={{ fontSize: 18 }}> Barrel Overview </div>
+      <Entry>
+        <EntryTitle uppercase={false}>
+          <div style={{ display: 'flex' }}>
+            <span style={{ paddingRight: 5 }}>{depositAmount.gt(0) ? 'APY' : 'Estimated APY'}</span>
+            <Help hint="Additional info">The APY might change as more participants enter the pool</Help>
+          </div>
+        </EntryTitle>
+        {userEstimatedApy.toFixed(3)}%
+      </Entry>
       <Entry>
         <EntryTitle uppercase={false}>Penalty</EntryTitle>
         <TokenAmountWithoutIcon symbol={'%'} amount={(hToken.penalty / 10).toString()} decimals={0} />
@@ -129,7 +158,7 @@ DepositModalProps) {
       <Entry>
         <EntryTitle uppercase={false}>
           <div style={{ display: 'flex' }}>
-            <span style={{ paddingRight: 5 }}>Early withdraw penalty</span>
+            <span style={{ paddingRight: 5 }}>Early withdrawal penalty</span>
             <Help hint="What is penalty">
               {' '}
               If you withdraw your {underlyingSymbol} before expiry, you will get penalized.

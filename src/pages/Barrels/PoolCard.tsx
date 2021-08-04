@@ -1,6 +1,18 @@
 import React, { useMemo, useState, useRef } from 'react'
-import { useAsyncMemo } from '../../hooks'
-import { Box, Button, ContextMenu, ContextMenuItem, IconHeart, ProgressBar, useTheme, LinkBase, Tag } from '@aragon/ui'
+import BigNumber from 'bignumber.js'
+import { usePool, useAsyncMemo } from '../../hooks'
+import {
+  Box,
+  Button,
+  ContextMenu,
+  ContextMenuItem,
+  Help,
+  IconHeart,
+  ProgressBar,
+  useTheme,
+  LinkBase,
+  Tag,
+} from '@aragon/ui'
 import { Contract } from 'web3-eth-contract'
 import DepositModal from './DepositModal'
 import ReactTooltip from 'react-tooltip'
@@ -22,7 +34,8 @@ import {
   getOfficialFeeRecipient,
 } from '../../constants'
 import { hToken, Token } from '../../types'
-import { toPoolName } from '../../utils/htoken'
+import { toPoolName, getPoolApy } from '../../utils/htoken'
+import { fromTokenAmount } from '../../utils/math'
 
 import TokenAmountWithoutIcon from '../../components/TokenAmountWithoutIcon'
 import { Entry, EntryTitle } from '../../components/Entry'
@@ -39,6 +52,7 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
   const nodeRef = useRef(null)
   const [depositModalOpened, setModalOpened] = useState(false)
   const [donateModalOpened, setDonationModalOpened] = useState(false)
+  const { calculateShares } = usePool(hToken)
 
   const theme = useTheme()
 
@@ -86,6 +100,23 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
     null,
     [bonusToken],
   )
+
+  const oneTokenDeposit = useMemo(() => {
+    return fromTokenAmount(parseFloat('1'), hToken.decimals)
+  }, [hToken])
+
+  const sharesPerToken = useAsyncMemo(
+    async () => {
+      const shares = await calculateShares(oneTokenDeposit)
+      return new BigNumber(shares)
+    },
+    new BigNumber(0),
+    [oneTokenDeposit],
+  )
+
+  const apyPerToken = useMemo(() => {
+    return getPoolApy(hToken, sharesPerToken, oneTokenDeposit)
+  }, [hToken, sharesPerToken, oneTokenDeposit])
 
   return (
     <Box
@@ -136,6 +167,17 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
               </Tag>
             ))}
         </div>
+        <Entry>
+          <EntryTitle>
+            <div style={{ display: 'flex' }}>
+              <span style={{ paddingRight: 5 }}>Estimated APY</span>
+              {apyPerToken.gt(0) && (
+                <Help hint="Additional info">{`The estimate is calculated per a potential deposit of 1 ${token.symbol}. To see the estimation for your desired deposit amount, press Deposit and enter the amount.`}</Help>
+              )}
+            </div>
+          </EntryTitle>
+          {apyPerToken.gt(0) ? `${apyPerToken.toFixed(3)}%` : '-'}
+        </Entry>
         <Entry>
           <EntryTitle>Penalty:</EntryTitle>
           {hToken.penalty / 10}%
