@@ -66,13 +66,13 @@ export const SwitchChainModal = ({ open, setOpen }: SwitchChainModalProps) => {
       switchNetwork(
         web3.currentProvider,
         targetNetwork,
-        networkIdToName[targetNetwork],
-        networkToNativeCurrency[targetNetwork],
+        networkIdToName(targetNetwork),
+        networkToNativeCurrency(targetNetwork),
         [getProvider(targetNetwork)],
         [networkIdToExplorer[targetNetwork]],
       )
     },
-    [web3],
+    [web3.currentProvider],
   )
 
   const items = useMemo(() => {

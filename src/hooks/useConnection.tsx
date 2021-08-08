@@ -46,6 +46,8 @@ export const useConnection = () => {
     if (newId in SupportedNetworks) {
       console.log(`set new web3`, newId)
       setWeb3(web3Instance)
+    } else {
+      console.log(`not setting web3`)
     }
   }, [])
 

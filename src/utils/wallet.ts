@@ -7,7 +7,7 @@
 export async function switchNetwork(
   provider: any,
   chainId: number,
-  name: string,
+  chainName: string,
   nativeCurrency:
     | {
         symbol: string
@@ -35,7 +35,7 @@ export async function switchNetwork(
         params: [
           {
             chainId: `0x${chainId.toString(16)}`,
-            chainName: name,
+            chainName,
             nativeCurrency,
             rpcUrls,
             blockExplorerUrls,
