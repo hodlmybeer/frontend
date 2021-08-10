@@ -6,15 +6,13 @@ import { SupportedNetworks, networkIdToName, networkIdToExplorer, networkToNativ
 import { switchNetwork } from '../../utils/wallet'
 import { getProvider } from '../../hooks'
 
-const TitleNode = (title: string, imgPath: string, theme: any, comingSoon?: boolean) => {
+const TitleNode = (title: string, imgPath: string, theme: any) => {
   return (
     <div style={{ verticalAlign: 'middle', display: 'flex' }}>
       <div style={{ display: 'inline-block', paddingRight: 8 }}>
         <img alt={title} height={25} src={imgPath}></img>
       </div>
-      <div style={{ display: 'inline-block', fontSize: 17 }}>
-        {title} <span style={{ fontSize: 13, color: theme.contentSecondary }}> {comingSoon && '(Coming Soon)'} </span>
-      </div>
+      <div style={{ display: 'inline-block', fontSize: 17 }}>{title}</div>
     </div>
   )
 }
@@ -58,7 +56,6 @@ export const SwitchChainModal = ({ open, setOpen }: SwitchChainModalProps) => {
         // todo: change to matic mainnet
         targetNetwork = SupportedNetworks.Mumbai
       } else if (selectedIdx === SelectionIdx.BSC) {
-        // todo: change to BSC mainnet
         targetNetwork = SupportedNetworks.BSC
       } else {
         return

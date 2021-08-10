@@ -42,10 +42,11 @@ export async function mintTestnetToken(
 }
 
 export function isMainnet(network: SupportedNetworks) {
-  // if (
-  //   network === SupportedNetworks.Mainnet ||
-  //   network === SupportedNetworks.BSC ||
-  //   network === SupportedNetworks.POLYGON
-  // ) return true
+  if (
+    // network === SupportedNetworks.Mainnet ||
+    network === SupportedNetworks.BSC
+    // network === SupportedNetworks.MATIC
+  )
+    return true
   return false
 }
