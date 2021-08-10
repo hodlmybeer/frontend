@@ -21,7 +21,7 @@ export async function switchNetwork(
   // switch network
   try {
     if (!provider.request) {
-      console.log(`provider`, provider)
+      console.log(`provider has not request`, provider)
       throw new Error('Invalid Wallet Provider. provider.request is undefined')
     }
     if ([1, 4, 42].includes(chainId)) {

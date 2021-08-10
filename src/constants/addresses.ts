@@ -9,9 +9,10 @@ export const trustedCreators = [
 export const factories: {
   [key in SupportedNetworks]: string
 } = {
-  [SupportedNetworks.Ropsten]: '0x05c62EeFa1e7c2559a9CE59f149514d5334C799E',
-  [SupportedNetworks.Kovan]: '0x0ecfE8Ed77b7483EC1E4c8ceF98B97BF151B4a4b',
-  [SupportedNetworks.Mumbai]: '0xe3f165855ab12b08aC3ebF225DB62dad99AEb01B',
+  [SupportedNetworks.BSC]: '0x4768F443E56fd080652429323b38Fc9eD0400D39',
+  [SupportedNetworks.Ropsten]: '0x0826ac5359e952Ba73C174722589CB55C1CE1A85',
+  [SupportedNetworks.Kovan]: '0x6fdAdC05Db7E980C9857B5e8A1C5ec1A3061Eb77',
+  [SupportedNetworks.Mumbai]: '0x8d6994b701F480C27757c5FE2bd93d5352160081',
 }
 
 export const getOfficialFeeRecipient = (network: SupportedNetworks) => {

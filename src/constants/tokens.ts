@@ -39,7 +39,26 @@ export const tokens: Tokens = {
   //   decimals: 18,
   // }
   // ],
-
+  [SupportedNetworks.BSC]: [
+    {
+      name: 'Baby Doge',
+      id: '0xc748673057861a797275cd8a068abb95a902e8de',
+      coingeckId: 'baby-doge-coin',
+      symbol: 'BABYDOGE',
+      decimals: 9,
+      img: require('../imgs/coins/babydoge.webp'),
+      tags: [],
+    },
+    {
+      name: 'Wrapped BNB',
+      id: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
+      coingeckId: 'binancecoin',
+      symbol: 'WBNB',
+      decimals: 18,
+      img: require('../imgs/coins/bnb.png'),
+      tags: [],
+    },
+  ],
   [SupportedNetworks.Ropsten]: [
     {
       name: 'Wrapped Ether',
