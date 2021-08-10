@@ -57,9 +57,10 @@ export const SwitchChainModal = ({ open, setOpen }: SwitchChainModalProps) => {
       } else if (selectedIdx === SelectionIdx.Polygon) {
         // todo: change to matic mainnet
         targetNetwork = SupportedNetworks.Mumbai
-      } else {
+      } else if (selectedIdx === SelectionIdx.BSC) {
         // todo: change to BSC mainnet
-        // targetNetwork = SupportedNetworks.BSC
+        targetNetwork = SupportedNetworks.BSC
+      } else {
         return
       }
 
@@ -86,8 +87,8 @@ export const SwitchChainModal = ({ open, setOpen }: SwitchChainModalProps) => {
         description: Description('Switch to Mumbai testnet', theme),
       },
       {
-        title: TitleNode('Binance Smart Chain', require('../../imgs/blockchain/bsc.png'), theme, true),
-        description: Description('No testnet version available now', theme),
+        title: TitleNode('Binance Smart Chain', require('../../imgs/blockchain/bsc.png'), theme),
+        description: Description('Try on BNB Mainnet now!', theme),
       },
     ]
   }, [theme])
