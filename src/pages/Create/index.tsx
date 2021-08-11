@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, useCallback } from 'react'
+import React, { useMemo, useState, useCallback } from 'react'
 import BigNumber from 'bignumber.js'
 import { Button, useTheme, TextInput, Header, DropDown, EthIdenticon, Info, LoadingRing, Help } from '@aragon/ui'
 
@@ -8,7 +8,7 @@ import moment from 'moment'
 import defaultBarrel from '../../imgs/barrels/barrel.png'
 
 import { Entry, EntryTitle } from '../../components/Entry'
-import { tokens, ZERO_ADDR } from '../../constants'
+import { tokens, ZERO_ADDR, getOfficialFeeRecipient } from '../../constants'
 import { useConnectedWallet } from '../../contexts/wallet'
 import { useFactory } from '../../hooks'
 import { Container } from 'react-grid-system'
@@ -16,7 +16,7 @@ import { Container } from 'react-grid-system'
 export function Create() {
   const theme = useTheme()
 
-  const { networkId, user, web3 } = useConnectedWallet()
+  const { networkId, web3 } = useConnectedWallet()
 
   const [isCreating, setIsCreating] = useState(false)
 
@@ -28,17 +28,12 @@ export function Create() {
   const [expiry, setExpiry] = useState<number>(moment().add('years', 1).unix())
   const [lockingPeriodDays, setLockingDays] = useState<number>(30)
 
-  const [feeRecipient, setFeeRecipient] = useState<string>(user)
+  const [feeRecipient, setFeeRecipient] = useState<string>(getOfficialFeeRecipient(networkId))
 
   const [penalty, setPenalty] = useState<number>(20)
   const [fee, setFee] = useState<number>(20)
 
   const [n, setN] = useState<number>(1)
-
-  // set default fee recipient
-  useEffect(() => {
-    if (user !== '') setFeeRecipient(user)
-  }, [user])
 
   const errorMessage = useMemo(() => {
     if (fee > 100 || fee < 0) return 'Invalid fee percentage'
@@ -152,7 +147,10 @@ export function Create() {
             />
           </Entry>
           <Entry>
-            <EntryTitle uppercase={false}>Fee Recipient</EntryTitle>
+            <div style={{ display: 'flex' }}>
+              <EntryTitle uppercase={false}>Fee Recipient</EntryTitle>
+              <Help hint="What is fee Recipient?">Fee recipient is default to the common reward pool.</Help>
+            </div>
             <div>
               <TextInput
                 value={feeRecipient}
