@@ -4,7 +4,6 @@ import { useTrail, animated } from '@react-spring/web'
 import { Row, Col } from 'react-grid-system'
 import { Token, hToken } from '../../types'
 import PoolCard from './PoolCard'
-import Create from './Create'
 import { tokens, ZERO_ADDR, SupportedNetworks, getOfficialFeeRecipient } from '../../constants'
 import { getSortHTokensFunction } from '../../utils/htoken'
 
@@ -37,7 +36,7 @@ function CardRow({
       hToken?: hToken
       token?: Token
     }[]
-    boxes.unshift({ id: 'create' })
+    // boxes.unshift({ id: 'create' })
     return boxes.filter(b => b !== null)
   }, [hTokens, networkId])
 
@@ -57,20 +56,16 @@ function CardRow({
       {trail.map((props, index) => (
         <Col style={{ padding: 5 }} xs={12} sm={6} md={4} key={barrels[index].id}>
           <animated.div className="grid-item" style={props} key={barrels[index].id}>
-            {barrels[index].id === 'create' ? (
-              <Create />
-            ) : (
-              <PoolCard
-                hToken={barrels[index].hToken!}
-                token={barrels[index].token!}
-                bonusToken={
-                  barrels[index].hToken!.bonusToken !== ZERO_ADDR &&
-                  barrels[index].hToken!.bonusToken !== barrels[index].hToken!.token
-                    ? new web3.eth.Contract(erc20, barrels[index].hToken!.bonusToken)
-                    : null
-                }
-              />
-            )}
+            <PoolCard
+              hToken={barrels[index].hToken!}
+              token={barrels[index].token!}
+              bonusToken={
+                barrels[index].hToken!.bonusToken !== ZERO_ADDR &&
+                barrels[index].hToken!.bonusToken !== barrels[index].hToken!.token
+                  ? new web3.eth.Contract(erc20, barrels[index].hToken!.bonusToken)
+                  : null
+              }
+            />
           </animated.div>
         </Col>
       ))}
