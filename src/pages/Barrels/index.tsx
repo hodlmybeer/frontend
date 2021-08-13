@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useRef } from 'react'
 import { Container, Row, Col } from 'react-grid-system'
-import { SyncIndicator, TextInput, IconConfiguration, Popover, Button } from '@aragon/ui'
+import { useHistory } from 'react-router-dom'
+import { SyncIndicator, TextInput, IconConfiguration, Popover, Button, useTheme } from '@aragon/ui'
 import { useAllHTokens, useQuery } from '../../hooks'
 import Header from '../../components/Header'
 import CardRow from './CardRow'
@@ -10,8 +11,12 @@ import CheckBoxWithLabel from '../../components/CheckBoxWithLabel'
 import SectionHeader from '../../components/SectionHeader'
 import { Token } from '../../types'
 
+const erc20 = require('../../constants/abis/erc20.json')
+
 function Barrels() {
-  const erc20 = require('../../constants/abis/erc20.json')
+  const theme = useTheme()
+  const history = useHistory()
+
   const [selectedTags, setSelectedTags] = useState<string[]>([])
 
   const [showAll, setShowAll] = useState<boolean>(true)
@@ -111,9 +116,20 @@ function Barrels() {
           {TagFilterPopOver}
         </Col>
       </Row>
-
       <br />
       <CardRow web3={web3} erc20={erc20} hTokens={filteredHTokens} networkId={networkId} />
+      <br />
+      {!isLoading && (
+        <Row
+          style={{
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <span style={{ color: theme.contentSecondary, padding: 10 }}>Can't find what you're looking for?</span>
+          <Button onClick={() => history.push('/create')}> Create a new Barrel </Button>
+        </Row>
+      )}
       <SyncIndicator visible={isLoading}> Loading... </SyncIndicator>
     </Container>
   )

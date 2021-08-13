@@ -12,6 +12,7 @@ import Settings from './pages/Settings'
 import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
 import Barrels from './pages/Barrels'
+import Create from './pages/Create'
 
 import { useConnection } from './hooks/useConnection'
 
@@ -65,6 +66,11 @@ function App() {
                 <Route path="/portfolio">
                   <Layout>
                     <Dashboard />
+                  </Layout>
+                </Route>
+                <Route path="/create">
+                  <Layout>
+                    <Create />
                   </Layout>
                 </Route>
                 <Route path="/">
