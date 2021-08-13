@@ -90,7 +90,7 @@ export function Create() {
       >
         <Header primary={`Brew a new Barrel`} />
         <div style={{ color: theme.contentSecondary, paddingBottom: '2%' }}>
-          Can't find what you're looking for? Brew your own barrel with your favorite ingredients!
+          Brew your own barrel with your favorite ingredients!
         </div>
         <div
           style={{
