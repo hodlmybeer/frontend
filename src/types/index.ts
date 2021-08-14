@@ -5,7 +5,7 @@ export type Token = {
   decimals: number
   img?: string
   mintable?: boolean
-  coingeckId?: string
+  coinGeckoId?: string
   tags: string[]
 }
 
