@@ -1,5 +1,7 @@
 import React, { useMemo, useState, useCallback } from 'react'
 import BigNumber from 'bignumber.js'
+import { Container } from 'react-grid-system'
+import { useHistory } from 'react-router-dom'
 import { Button, useTheme, TextInput, Header, DropDown, EthIdenticon, Info, LoadingRing, Help } from '@aragon/ui'
 
 import { Row, Col } from 'react-grid-system'
@@ -8,17 +10,24 @@ import moment from 'moment'
 import defaultBarrel from '../../imgs/barrels/barrel.png'
 
 import { Entry, EntryTitle } from '../../components/Entry'
-import { tokens, ZERO_ADDR, getOfficialFeeRecipient } from '../../constants'
+import { tokens as tokensInConfig, ZERO_ADDR, getOfficialFeeRecipient } from '../../constants'
 import { useConnectedWallet } from '../../contexts/wallet'
-import { useFactory } from '../../hooks'
-import { Container } from 'react-grid-system'
+import { useFactory, useWhitelistedAssets } from '../../hooks'
 
 export function Create() {
   const theme = useTheme()
 
+  const history = useHistory()
+
   const { networkId, web3 } = useConnectedWallet()
 
   const [isCreating, setIsCreating] = useState(false)
+
+  const { assets: whitelistedTokens } = useWhitelistedAssets()
+
+  const tokens = useMemo(() => {
+    return tokensInConfig[networkId].filter(t => whitelistedTokens.includes(t.id.toLowerCase()))
+  }, [whitelistedTokens, networkId])
 
   const { create } = useFactory()
 
@@ -44,17 +53,17 @@ export function Create() {
   }, [fee, penalty, web3, feeRecipient, expiry, lockingPeriodDays])
 
   const bonusTokenOptions = useMemo(() => {
-    const copy = [...tokens[networkId]]
+    const copy = [...tokens]
     copy.splice(selectedIdx, 1)
     return copy
-  }, [networkId, selectedIdx])
+  }, [tokens, selectedIdx])
 
   const handleCreate = useCallback(async () => {
     setIsCreating(true)
     const bonusTokenAddress = selectedBonusIdx === -1 ? ZERO_ADDR : bonusTokenOptions[selectedBonusIdx].id
     try {
       await create(
-        tokens[networkId][selectedIdx].id,
+        tokens[selectedIdx].id,
         new BigNumber(penalty * 10).integerValue().toString(),
         new BigNumber(lockingPeriodDays * 86400).integerValue().toString(),
         new BigNumber(expiry).integerValue().toString(),
@@ -63,10 +72,13 @@ export function Create() {
         feeRecipient,
         bonusTokenAddress,
       )
+      // go to barrel page after done
+      history.push('/barrels')
     } finally {
       setIsCreating(false)
     }
   }, [
+    tokens,
     create,
     selectedIdx,
     penalty,
@@ -75,9 +87,9 @@ export function Create() {
     fee,
     n,
     feeRecipient,
-    networkId,
     selectedBonusIdx,
     bonusTokenOptions,
+    history,
   ])
 
   return (
@@ -110,7 +122,7 @@ export function Create() {
             <EntryTitle uppercase={false}>Token</EntryTitle>
             <DropDown
               style={{ minWidth: 189 }}
-              items={tokens[networkId].map(t => t.symbol)}
+              items={tokens.map(t => t.symbol)}
               selected={selectedIdx}
               onChange={idx => {
                 setSelectedIdx(idx)
