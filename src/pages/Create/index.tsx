@@ -1,7 +1,6 @@
 import React, { useMemo, useState, useCallback } from 'react'
 import BigNumber from 'bignumber.js'
 import { Container } from 'react-grid-system'
-import { useHistory } from 'react-router-dom'
 import { Button, useTheme, TextInput, Header, DropDown, EthIdenticon, Info, LoadingRing, Help } from '@aragon/ui'
 
 import { Row, Col } from 'react-grid-system'
@@ -13,11 +12,13 @@ import { Entry, EntryTitle } from '../../components/Entry'
 import { tokens as tokensInConfig, ZERO_ADDR, getOfficialFeeRecipient } from '../../constants'
 import { useConnectedWallet } from '../../contexts/wallet'
 import { useFactory, useWhitelistedAssets } from '../../hooks'
+import { ConfirmModal } from '../../components/ConfirmModal'
 
 export function Create() {
-  const theme = useTheme()
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
+  const [txHash, setHash] = useState<undefined | string>(undefined)
 
-  const history = useHistory()
+  const theme = useTheme()
 
   const { networkId, web3 } = useConnectedWallet()
 
@@ -62,7 +63,7 @@ export function Create() {
     setIsCreating(true)
     const bonusTokenAddress = selectedBonusIdx === -1 ? ZERO_ADDR : bonusTokenOptions[selectedBonusIdx].id
     try {
-      await create(
+      const tx = await create(
         tokens[selectedIdx].id,
         new BigNumber(penalty * 10).integerValue().toString(),
         new BigNumber(lockingPeriodDays * 86400).integerValue().toString(),
@@ -72,8 +73,8 @@ export function Create() {
         feeRecipient,
         bonusTokenAddress,
       )
-      // go to barrel page after done
-      history.push('/barrels')
+      setIsSuccessModalOpen(true)
+      setHash(tx.transactionHash)
     } finally {
       setIsCreating(false)
     }
@@ -89,7 +90,6 @@ export function Create() {
     feeRecipient,
     selectedBonusIdx,
     bonusTokenOptions,
-    history,
   ])
 
   return (
@@ -238,6 +238,14 @@ export function Create() {
           </div>
         </Col>
       </Row>
+      <ConfirmModal
+        open={isSuccessModalOpen}
+        setOpen={setIsSuccessModalOpen}
+        message={`Successfully created a new barrel!`}
+        nextStep={'See my barrels'}
+        txHash={txHash}
+        nextStepUrl={'/barrels'}
+      />
     </Container>
   )
 }
