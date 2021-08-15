@@ -43,7 +43,7 @@ export const tokens: Tokens = {
     {
       name: 'Baby Doge',
       id: '0xc748673057861a797275cd8a068abb95a902e8de',
-      coingeckId: 'baby-doge-coin',
+      coinGeckoId: 'baby-doge-coin',
       symbol: 'BABYDOGE',
       decimals: 9,
       img: require('../imgs/coins/babydoge.webp'),
@@ -52,7 +52,7 @@ export const tokens: Tokens = {
     {
       name: 'Wrapped BNB',
       id: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
-      coingeckId: 'binancecoin',
+      coinGeckoId: 'binancecoin',
       symbol: 'WBNB',
       decimals: 18,
       img: require('../imgs/coins/bnb.png'),
@@ -63,7 +63,7 @@ export const tokens: Tokens = {
     {
       name: 'Wrapped Ether',
       id: '0xc778417e063141139fce010982780140aa0cd5ab',
-      coingeckId: 'ethereum',
+      coinGeckoId: 'ethereum',
       symbol: 'WETH',
       decimals: 18,
       img: require('../imgs/coins/weth.png'),
@@ -72,7 +72,7 @@ export const tokens: Tokens = {
     {
       name: 'Wrapped Lido ETH',
       id: '0x44bbfad7743b4c50fFD639949F69B4C0e49438d4',
-      coingeckId: '',
+      coinGeckoId: '',
       symbol: 'wstETH',
       decimals: 18,
       img: require('../imgs/coins/steth.svg'),
@@ -82,7 +82,7 @@ export const tokens: Tokens = {
     {
       name: 'Mock UNI',
       id: '0x042d140Bc1e281eb4477a12B979f297633f20B46',
-      coingeckId: 'uniswap',
+      coinGeckoId: 'uniswap',
       symbol: 'UNI',
       decimals: 18,
       img: require('../imgs/coins/uni.png'),
@@ -93,7 +93,7 @@ export const tokens: Tokens = {
       name: 'Mock USDC',
       id: '0xdAD5De585BC4AB7C7A3D4e00d95b9BdbC105d277',
       symbol: 'USDC',
-      coingeckId: '',
+      coinGeckoId: '',
       decimals: 6,
       img: require('../imgs/coins/usdc.png'),
       mintable: true,
@@ -102,7 +102,7 @@ export const tokens: Tokens = {
     {
       name: 'Mock BTC',
       id: '0xbE10c00C6A0395a27ede213Bc4247887292B76B9',
-      coingeckId: 'bitcoin',
+      coinGeckoId: 'bitcoin',
       symbol: 'WBTC',
       decimals: 8,
       img: require('../imgs/coins/wbtc.png'),
@@ -112,7 +112,7 @@ export const tokens: Tokens = {
     {
       name: 'Mock Chainlink',
       id: '0xDC33784882E1Cd2CF46E583ca0C0905545D6759b',
-      coingeckId: 'chainlink',
+      coinGeckoId: 'chainlink',
       symbol: 'LINK',
       decimals: 18,
       img: require('../imgs/coins/link.png'),
@@ -122,7 +122,7 @@ export const tokens: Tokens = {
     {
       name: 'Mock ANT',
       id: '0x9a58Ea5960660f916A1566c4F666121cD6e56f4E',
-      coingeckId: 'aragon',
+      coinGeckoId: 'aragon',
       symbol: 'ANT',
       decimals: 18,
       img: require('../imgs/coins/ant.png'),
@@ -132,7 +132,7 @@ export const tokens: Tokens = {
     {
       name: 'Mock COMP',
       id: '0xa40DFdb9969EB28e9B2dB5EC5407bE18889a1B18',
-      coingeckId: 'compound',
+      coinGeckoId: 'compound',
       symbol: 'COMP',
       decimals: 18,
       img: require('../imgs/coins/comp.png'),
@@ -142,7 +142,7 @@ export const tokens: Tokens = {
     {
       name: 'Mock DPI',
       id: '0xb5a56ff31D1bfaB5c6992386f334Af60843a096D',
-      coingeckId: 'defipulse-index',
+      coinGeckoId: 'defipulse-index',
       symbol: 'DPI',
       decimals: 18,
       img: require('../imgs/coins/dpi.png'),
@@ -152,7 +152,7 @@ export const tokens: Tokens = {
     {
       name: 'Mock MKR',
       id: '0xBb749D57533F44755b0c4049db8B5cEa64055200',
-      coingeckId: 'maker',
+      coinGeckoId: 'maker',
       symbol: 'MKR',
       decimals: 18,
       img: require('../imgs/coins/mkr.png'),
@@ -174,7 +174,7 @@ export const tokens: Tokens = {
       name: 'Wrapped Ether',
       id: '0xd0a1e359811322d97991e03f863a0c30c2cf029c',
       symbol: 'WETH',
-      coingeckId: 'ethereum',
+      coinGeckoId: 'ethereum',
       decimals: 18,
       img: require('../imgs/coins/weth.png'),
       tags: [CoinTags.LongETH],
@@ -182,7 +182,7 @@ export const tokens: Tokens = {
     {
       name: 'Mock UNI',
       id: '0xf9d300C776F452B1219f69d5e14c46f5AC0C19DE',
-      coingeckId: 'uniswap',
+      coinGeckoId: 'uniswap',
       symbol: 'UNI',
       decimals: 18,
       img: require('../imgs/coins/uni.png'),
@@ -192,7 +192,7 @@ export const tokens: Tokens = {
     {
       name: 'Mock BTC',
       id: '0x23faDac905feCDe8Fb5d788f6947536fDCd8516d',
-      coingeckId: 'bitcoin',
+      coinGeckoId: 'bitcoin',
       symbol: 'WBTC',
       decimals: 8,
       img: require('../imgs/coins/wbtc.png'),
@@ -202,7 +202,7 @@ export const tokens: Tokens = {
     {
       name: 'Mock Chainlink',
       id: '0xCEE8A49b267b1f692B44b9889494Acbc74753218',
-      coingeckId: 'chainlink',
+      coinGeckoId: 'chainlink',
       symbol: 'LINK',
       decimals: 18,
       img: require('../imgs/coins/link.png'),
@@ -212,7 +212,7 @@ export const tokens: Tokens = {
     {
       name: 'Mock ANT',
       id: '0x5819814c2dc7c339423f18785b20563eF6667aA8',
-      coingeckId: 'aragon',
+      coinGeckoId: 'aragon',
       symbol: 'ANT',
       decimals: 18,
       img: require('../imgs/coins/ant.png'),
@@ -222,7 +222,7 @@ export const tokens: Tokens = {
     {
       name: 'Mock COMP',
       id: '0xC2d864154d5BCA67E9C34A66cE3dbFaCE87dc372',
-      coingeckId: 'compound',
+      coinGeckoId: 'compound',
       symbol: 'COMP',
       decimals: 18,
       img: require('../imgs/coins/comp.png'),
@@ -232,7 +232,7 @@ export const tokens: Tokens = {
     {
       name: 'Mock DPI',
       id: '0xaE53D328dB1ff0e626a276F350997b7b09f5622f',
-      coingeckId: 'defipulse-index',
+      coinGeckoId: 'defipulse-index',
       symbol: 'DPI',
       decimals: 18,
       img: require('../imgs/coins/dpi.png'),
@@ -242,7 +242,7 @@ export const tokens: Tokens = {
     {
       name: 'Mock MKR',
       id: '0x3afba74869fEb1BCD800851BF7699fC48cCe0F81',
-      coingeckId: 'maker',
+      coinGeckoId: 'maker',
       symbol: 'MKR',
       decimals: 18,
       img: require('../imgs/coins/mkr.png'),
@@ -252,7 +252,7 @@ export const tokens: Tokens = {
     {
       name: 'Wrapped Lido ETH',
       id: '0x66471ee9CA6844534ea709F320e5095360cCf8f1',
-      coingeckId: '',
+      coinGeckoId: '',
       symbol: 'stETH',
       decimals: 18,
       img: require('../imgs/coins/steth.svg'),
@@ -272,7 +272,7 @@ export const tokens: Tokens = {
   [SupportedNetworks.Mumbai]: [
     {
       name: 'Wrapped Ether',
-      coingeckId: 'ethereum',
+      coinGeckoId: 'ethereum',
       id: '0xA6FA4fB5f76172d178d61B04b0ecd319C5d1C0aa',
       symbol: 'WETH',
       decimals: 18,
@@ -281,7 +281,7 @@ export const tokens: Tokens = {
     },
     {
       name: 'Quickswap',
-      coingeckId: 'quick',
+      coinGeckoId: 'quick',
       id: '0x7630e7dE53E3d1f298f653d27fcF3710c602331C',
       symbol: 'QUICK',
       decimals: 18,
@@ -292,7 +292,7 @@ export const tokens: Tokens = {
     {
       name: 'Mock BTC',
       id: '0x970f2a5dB82200ee82eE58fB2464a02D0Df32dD3',
-      coingeckId: 'bitcoin',
+      coinGeckoId: 'bitcoin',
       symbol: 'WBTC',
       decimals: 8,
       img: require('../imgs/coins/wbtc.png'),

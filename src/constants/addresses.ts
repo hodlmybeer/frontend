@@ -16,6 +16,8 @@ export const factories: {
 }
 
 export const getOfficialFeeRecipient = (network: SupportedNetworks) => {
+  if (network === SupportedNetworks.BSC) return '0xd757026D2554Df22c3F740a921B628266024502D'
+
   const feeRecipient = '0x556076279Edd24c614b4E1AeF8215fc963d18E97' // testnet fee recipient
 
   return feeRecipient.toLowerCase()

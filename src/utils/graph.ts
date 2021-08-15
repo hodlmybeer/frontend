@@ -45,6 +45,24 @@ export async function getHTokens(networkId: SupportedNetworks, errorCallback: Fu
   }
 }
 
+export async function getWhitelistedTokens(networkId: SupportedNetworks, errorCallback: Function): Promise<string[]> {
+  const query = `
+  {
+    assets (where:{whitelisted:true}){
+      id
+    }
+  }  
+  `
+  try {
+    const response = await postQuery(endpoints[networkId], query)
+    return response.data.assets.map(t => t.id)
+  } catch (error) {
+    console.log(`error`, error)
+    errorCallback(error.toString())
+    return []
+  }
+}
+
 /**
  * Get account info
  */

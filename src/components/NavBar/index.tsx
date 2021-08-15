@@ -19,13 +19,13 @@ function MyBar() {
     return (
       <LinkBase
         onClick={() => {
-          history.push('/')
+          window.open('https://hodlmybeer.co/', '_blank')
         }}
       >
         <img src={logo} alt="logo" height="50" />
       </LinkBase>
     )
-  }, [history])
+  }, [])
 
   const homeButton = useMemo(() => {
     return (

@@ -20,7 +20,7 @@ function Home() {
   const { networkId } = useConnectedWallet()
 
   const randomCoins = useMemo(() => {
-    const shuffled = tokens[networkId].filter(t => t.coingeckId).sort(() => 0.5 - Math.random())
+    const shuffled = tokens[networkId].filter(t => t.coinGeckoId) //.sort(() => 0.5 - Math.random())
 
     // Get sub-array of first n elements after shuffled
     const n = shuffled.length > 3 ? 3 : shuffled.length

@@ -16,7 +16,7 @@ export default function Card({ token }: CardProps) {
   const history = useHistory()
   const { oneMonth, sixMonths, oneYear, current } = useAsyncMemo(
     async () => {
-      return await getHistoricalPrice(token.coingeckId as string)
+      return await getHistoricalPrice(token.coinGeckoId as string)
     },
     {
       oneMonth: 0,

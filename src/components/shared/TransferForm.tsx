@@ -118,8 +118,7 @@ function TransferForm({
       </Entry>
       {faucetToken && faucetToken.mintable && (
         <Button size="small" onClick={handleMintTestnetToken}>
-          {' '}
-          Faucet{' '}
+          Get Testnet {tokenSymbol}
         </Button>
       )}
     </div>

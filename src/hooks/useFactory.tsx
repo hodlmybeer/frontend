@@ -26,10 +26,11 @@ export function useFactory() {
       feeRecipient: string,
       bonusToken: string,
     ) => {
-      await factory.methods
+      const tx = await factory.methods
         .createHodlERC20(token, penalty, lockWindow, expiry, fee, n, feeRecipient, bonusToken)
         .send({ from: user })
         .on('transactionHash', notifyCallback)
+      return tx
     },
     [factory, notifyCallback, user],
   )

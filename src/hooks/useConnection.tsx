@@ -16,6 +16,10 @@ export const useConnection = () => {
   // web3 instance associate with the wallet. if the wallet is on a weird network, could be bad.
   const [web3, setWeb3] = useState<Web3>(new Web3(getProvider(defaultNetworkId)))
 
+  useEffect(() => {
+    console.log(`web3 changes`, web3)
+  }, [web3])
+
   // the network id that should be used to retrieve data. (always a supported network)
   const [networkId, setNetworkId] = useState<SupportedNetworks>(defaultNetworkId)
 
@@ -37,12 +41,14 @@ export const useConnection = () => {
 
     if (!wallet.provider) {
       // user disconnected, wallet.provider will be undefined, fallback to default
+      console.log(`wallet no provider`)
       setWeb3(new Web3(getProvider(defaultNetworkId)))
       return
     }
 
     const web3Instance = new Web3(wallet.provider)
     const newId = await web3Instance.eth.net.getId()
+    console.log(`newId`, newId)
     if (newId in SupportedNetworks) {
       console.log(`set new web3`, newId)
       setWeb3(web3Instance)

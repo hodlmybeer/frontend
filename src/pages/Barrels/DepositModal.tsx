@@ -10,6 +10,7 @@ import { useConnectedWallet } from '../../contexts/wallet'
 import { useTokenBalance, usePool, useAsyncMemo } from '../../hooks'
 import { fromTokenAmount } from '../../utils/math'
 import TransferForm from '../../components/shared/TransferForm'
+import { ConfirmModal } from '../../components/ConfirmModal'
 import { getPoolApy } from '../../utils/htoken'
 
 type DepositModalProps = {
@@ -24,6 +25,9 @@ function DepositModal({
   hToken,
 }: // totalDepositors,
 DepositModalProps) {
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
+  const [txHash, setHash] = useState<undefined | string>(undefined)
+
   const [isDepositing, setIsDepositing] = useState(false)
 
   const { user } = useConnectedWallet()
@@ -72,7 +76,9 @@ DepositModalProps) {
   const depositToPool = useCallback(async () => {
     setIsDepositing(true)
     try {
-      await deposit(depositAmount, recipient)
+      const tx = await deposit(depositAmount, recipient)
+      setHash(tx.transactionHash)
+      setIsSuccessModalOpen(true)
     } finally {
       setIsDepositing(false)
     }
@@ -232,6 +238,15 @@ DepositModalProps) {
         spenderAddress={hToken.id}
         onDepositClick={depositToPool}
         onInputChanged={value => setInputAmount(value)}
+      />
+
+      <ConfirmModal
+        open={isSuccessModalOpen}
+        setOpen={setIsSuccessModalOpen}
+        message={`Successfully deposited ${inputAmount} ${underlyingSymbol}.`}
+        nextStep={'See my holdings'}
+        txHash={txHash}
+        nextStepUrl={'/portfolio'}
       />
     </Modal>
   )
