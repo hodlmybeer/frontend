@@ -242,7 +242,7 @@ export function Create() {
         open={isSuccessModalOpen}
         setOpen={setIsSuccessModalOpen}
         message={`Successfully created a new barrel!`}
-        nextStep={'See my barrels'}
+        nextStep={'See barrels'}
         txHash={txHash}
         nextStepUrl={'/barrels'}
       />
