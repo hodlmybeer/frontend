@@ -1,7 +1,7 @@
 import { SupportedNetworks } from './enums'
 
 export const networkIdToExplorer = {
-  // [SupportedNetworks.Mainnet]: 'https://etherscan.io/',
+  [SupportedNetworks.Mainnet]: 'https://etherscan.io/',
   [SupportedNetworks.BSC]: 'https://bscscan.com/',
   [SupportedNetworks.Ropsten]: 'https://ropsten.etherscan.io',
   [SupportedNetworks.Kovan]: 'https://kovan.etherscan.io',
@@ -10,7 +10,7 @@ export const networkIdToExplorer = {
 }
 
 export const networkIdToName = (network: number) => {
-  // if(network === SupportedNetworks.Mainnet) return 'Mainnet'
+  if (network === SupportedNetworks.Mainnet) return 'Mainnet'
   if (network === SupportedNetworks.Kovan) return 'Kovan'
   if (network === SupportedNetworks.Ropsten) return 'Ropsten'
   if (network === SupportedNetworks.Mumbai) return 'Mumbai'

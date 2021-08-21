@@ -5,7 +5,7 @@ type graphEndPointType = {
 }
 
 export const subgraph: graphEndPointType = {
-  // [SupportedNetworks.Mainnet]: 'https://api.thegraph.com/subgraphs/name/hodlmybeer/hodl-mainnet',
+  [SupportedNetworks.Mainnet]: 'https://api.thegraph.com/subgraphs/name/hodlmybeer/hodl-mainnet',
   [SupportedNetworks.BSC]: 'https://api.thegraph.com/subgraphs/name/hodlmybeer/hodl-bsc',
   [SupportedNetworks.Ropsten]: 'https://api.thegraph.com/subgraphs/name/hodlmybeer/hodl-ropsten',
   [SupportedNetworks.Matic]: 'https://api.thegraph.com/subgraphs/name/hodlmybeer/hodl-matic',

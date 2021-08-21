@@ -6,39 +6,45 @@ type Tokens = {
 }
 
 export const tokens: Tokens = {
-  // [SupportedNetworks.Mainnet]: [
-  //   eth,
-  //   {
-  //     name: 'USDC',
-  //     id: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-  //     symbol: 'USDC',
-  //     decimals: 6,
-  //   },
-  //   {
-  //     name: 'Wrapped Ether',
-  //     id: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-  //     symbol: 'WETH',
-  //     decimals: 18,
-  //   },
-  //   {
-  //     name: 'Wrapped Bitcoin',
-  //     id: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
-  //     symbol: 'WBTC',
-  //     decimals: 8,
-  //   },
-  //   {
-  //     name: 'Uniswap Token',
-  //     id: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
-  //     symbol: 'UNI',
-  //     decimals: 18,
-  //   },
-  // {
-  //   name: 'Chainlink',
-  //   id: '0x514910771af9ca656af840dff83e8264ecf986ca',
-  //   symbol: 'LINK',
-  //   decimals: 18,
-  // }
-  // ],
+  [SupportedNetworks.Mainnet]: [
+    {
+      name: 'Wrapped Ether',
+      id: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+      symbol: 'WETH',
+      coinGeckoId: 'ethereum',
+      decimals: 18,
+      img: require('../imgs/coins/weth.png'),
+      tags: [CoinTags.LongETH],
+    },
+    {
+      name: 'Wrapped Bitcoin',
+      id: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
+      symbol: 'WBTC',
+      decimals: 8,
+      coinGeckoId: 'bitcoin',
+      img: require('../imgs/coins/wbtc.png'),
+      tags: [],
+    },
+    {
+      name: 'Uniswap Token',
+      id: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
+      symbol: 'UNI',
+      decimals: 18,
+      coinGeckoId: 'uniswap',
+      img: require('../imgs/coins/uni.png'),
+      tags: [CoinTags.DeFi],
+    },
+    {
+      name: 'Chainlink',
+      id: '0x514910771af9ca656af840dff83e8264ecf986ca',
+      symbol: 'LINK',
+      decimals: 18,
+      coinGeckoId: 'chainlink',
+      img: require('../imgs/coins/link.png'),
+      mintable: true,
+      tags: [],
+    },
+  ],
   [SupportedNetworks.BSC]: [
     {
       name: 'Baby Doge',

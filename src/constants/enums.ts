@@ -1,5 +1,5 @@
 export enum SupportedNetworks {
-  // Mainnet = 1,
+  Mainnet = 1,
   Ropsten = 3,
   Kovan = 42,
   BSC = 56,
