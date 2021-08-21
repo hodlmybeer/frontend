@@ -59,6 +59,17 @@ export const tokens: Tokens = {
       tags: [],
     },
   ],
+  [SupportedNetworks.Matic]: [
+    {
+      name: 'Wrapped Matic',
+      id: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
+      coinGeckoId: 'matic-network',
+      symbol: 'MATIC',
+      decimals: 18,
+      img: require('../imgs/coins/matic.webp'),
+      tags: [],
+    },
+  ],
   [SupportedNetworks.Ropsten]: [
     {
       name: 'Wrapped Ether',

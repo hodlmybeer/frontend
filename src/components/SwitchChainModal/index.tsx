@@ -41,7 +41,7 @@ export const SwitchChainModal = ({ open, setOpen }: SwitchChainModalProps) => {
     if (!(currentProviderNetwork in SupportedNetworks)) return SelectionIdx.Unknown
     if (currentProviderNetwork === SupportedNetworks.Ropsten || currentProviderNetwork === SupportedNetworks.Kovan)
       return SelectionIdx.Ethereum
-    if (currentProviderNetwork === SupportedNetworks.Mumbai) return SelectionIdx.Polygon
+    if (currentProviderNetwork === SupportedNetworks.Matic) return SelectionIdx.Polygon
     else return SelectionIdx.BSC
   }, [currentProviderNetwork])
 
@@ -53,8 +53,7 @@ export const SwitchChainModal = ({ open, setOpen }: SwitchChainModalProps) => {
         // todo: change to ethereum mainet
         targetNetwork = SupportedNetworks.Kovan
       } else if (selectedIdx === SelectionIdx.Polygon) {
-        // todo: change to matic mainnet
-        targetNetwork = SupportedNetworks.Mumbai
+        targetNetwork = SupportedNetworks.Matic
       } else if (selectedIdx === SelectionIdx.BSC) {
         targetNetwork = SupportedNetworks.BSC
       } else {
@@ -81,7 +80,7 @@ export const SwitchChainModal = ({ open, setOpen }: SwitchChainModalProps) => {
       },
       {
         title: TitleNode('Polygon', require('../../imgs/blockchain/polygon.png'), theme),
-        description: Description('Switch to Mumbai testnet', theme),
+        description: Description('Switch to Matic mainnet', theme),
       },
       {
         title: TitleNode('Binance Smart Chain', require('../../imgs/blockchain/bsc.png'), theme),

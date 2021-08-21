@@ -3,6 +3,7 @@ export enum SupportedNetworks {
   Ropsten = 3,
   Kovan = 42,
   BSC = 56,
+  Matic = 137,
   Mumbai = 80001,
 }
 // use number so we can compare breakpoints. (xs < sm)
