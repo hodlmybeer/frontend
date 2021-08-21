@@ -51,10 +51,9 @@ export const SwitchChainModal = ({ open, setOpen }: SwitchChainModalProps) => {
 
   const switchToDefaultNetworkOfPlatform = useCallback(
     (selectedIdx: SelectionIdx) => {
-      let targetNetwork = SupportedNetworks.Kovan
+      let targetNetwork = SupportedNetworks.Mainnet
 
       if (selectedIdx === SelectionIdx.Ethereum) {
-        // todo: change to ethereum mainet
         targetNetwork = SupportedNetworks.Mainnet
       } else if (selectedIdx === SelectionIdx.Polygon) {
         targetNetwork = SupportedNetworks.Matic
