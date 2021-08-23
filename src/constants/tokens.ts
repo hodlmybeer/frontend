@@ -50,7 +50,7 @@ export const tokens: Tokens = {
       name: 'Baby Doge',
       id: '0xc748673057861a797275cd8a068abb95a902e8de',
       coinGeckoId: 'baby-doge-coin',
-      symbol: 'BABYDOGE',
+      symbol: 'BabyDoge',
       decimals: 9,
       img: require('../imgs/coins/babydoge.webp'),
       tags: [],

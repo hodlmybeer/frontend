@@ -34,7 +34,6 @@ function Dashboard() {
         hodling.shareBalance === '0'
           ? new BigNumber(0)
           : new BigNumber(hodling.shareBalance).div(hodling.token.totalShares)
-      const percentage = `${shareRatio.times(100).toFixed(2)}%`
 
       const reward = new BigNumber(hodling.token.totalReward).times(shareRatio)
       const bonus = new BigNumber(hodling.token.bonusTokenBalance).times(shareRatio)
@@ -85,7 +84,7 @@ function Dashboard() {
         new BigNumber(hodling.balance),
       )
       const apy = `${userEstimatedApy.toFixed(3)}%`
-      return [tokenAmount, badge, countDown, percentage, rewardAmount, bonusAmount, apy]
+      return [tokenAmount, badge, countDown, rewardAmount, bonusAmount, apy]
     },
     [networkId],
   )
@@ -127,9 +126,9 @@ function Dashboard() {
       )
       const barrelName = toPoolName(hodling.token, networkId)
       const badge = <IdentityBadge entity={hodling.token.id} customLabel={barrelName} />
-      const withdrawButtom = <WithdrawButton token={hodling.token} />
+      const withdrawButton = <WithdrawButton token={hodling.token} />
 
-      return [tokenAmount, badge, percentage, rewardAmount, withdrawButtom]
+      return [tokenAmount, badge, percentage, rewardAmount, withdrawButton]
     },
     [networkId],
   )
@@ -142,7 +141,7 @@ function Dashboard() {
         <div>
           <DataView
             status={isLoading ? 'loading' : 'default'}
-            fields={['My deposit', 'Barrel id', 'Countdown', 'Reward Share', 'Reward', 'Bonus', 'APY']}
+            fields={['My deposit', 'Barrel id', 'Countdown', 'Reward', 'Bonus', 'APY']}
             renderEntry={renderHodlingRow}
             renderEntryExpansion={hodling => {
               return <HodlingExpanded hodling={hodling} />
