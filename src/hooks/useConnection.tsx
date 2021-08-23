@@ -8,7 +8,7 @@ const INFURA_KEY = process.env.REACT_APP_INFURA_KEY
 const BLOCKNATIVE_KEY = process.env.REACT_APP_BLOCKNATIVE_KEY
 const FORTMATIC_KEY = process.env.REACT_APP_FORTMATIC_KEY
 
-const defaultNetworkId = 3
+const defaultNetworkId = 1
 
 export const useConnection = () => {
   const [user, setUser] = useState<string>('')
@@ -111,8 +111,7 @@ export const initOnboard = (addressChangeCallback, walletChangeCallback, network
   const onboard = Onboard({
     darkMode: getPreference('theme', 'light') === 'dark',
     dappId: BLOCKNATIVE_KEY, // [String] The API key created by step one above
-    networkId: 3, // todo: change this
-    // networkId: networkId, // [Integer] The Ethereum network ID your Dapp uses.
+    networkId: networkId,
     subscriptions: {
       address: addressChangeCallback,
       wallet: walletChangeCallback,
