@@ -59,7 +59,10 @@ function PoolCard({ token, hToken, bonusToken }: PoolCardProps) {
   const { networkId } = useConnectedWallet()
 
   const verifiedCreator = useMemo(() => trustedCreators.includes(hToken.creator), [hToken])
-  const usePublicPool = useMemo(() => hToken.feeRecipient === getOfficialFeeRecipient(networkId), [hToken, networkId])
+  const usePublicPool = useMemo(
+    () => hToken.feeRecipient === getOfficialFeeRecipient(networkId).toLowerCase(),
+    [hToken, networkId],
+  )
 
   const barrelImg = useMemo(() => {
     if (!token) return <img src={defaultBarrel} alt={'img'} height={130}></img>
